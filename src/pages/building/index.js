@@ -1,109 +1,23 @@
 // ** React Imports
-import { useState, useEffect, forwardRef } from 'react'
+import { useState, useEffect } from 'react'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
-import Tooltip from '@mui/material/Tooltip'
-import { styled } from '@mui/material/styles'
-import MenuItem from '@mui/material/MenuItem'
-import TextField from '@mui/material/TextField'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import { DataGrid, GridToolbar } from '@mui/x-data-grid'
-import MuiTabList from '@mui/lab/TabList'
-
-// ** Icon Imports
-import Icon from 'src/@core/components/icon'
-
-// ** Third Party Imports
-import toast from 'react-hot-toast'
 
 // ** Custom Components Imports
-import CustomAvatar from 'src/@core/components/mui/avatar'
-import TableHeader from 'src/views/apps/invoice/list/TableHeader'
-import { buildingList, itemTemplates, extraBarracks, azuCalcConf } from 'src/data/building'
+import { buildingList } from 'src/data/building'
 
 // ** Styled Components
 import CustomHeader from 'src/@core/components/Header'
-import {
-  Autocomplete,
-  Button,
-  CircularProgress,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  Divider,
-  Fade,
-  InputBase,
-  Paper,
-  Switch,
-  Tab,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableRow,
-  Toolbar,
-  useMediaQuery
-} from '@mui/material'
+import { Button, Divider, Fade, InputBase, Paper } from '@mui/material'
 import { green, indigo } from '@mui/material/colors'
 import { nFormatter } from 'src/@core/utils/numberFormatter'
-import { TabContext, TabPanel } from '@mui/lab'
-import nRound from 'src/@core/utils/numberRound'
-import moment from 'moment'
 import { ClearAll, Search } from '@mui/icons-material'
-
-// ** Styled component for the link in the dataTable
-const BlueButton = styled(Button)(({ theme }) => ({
-  backgroundColor: indigo[500],
-  color: theme.palette.getContrastText(indigo[500]),
-  '&:hover': {
-    backgroundColor: indigo[700]
-  }
-}))
-
-const GreenButton = styled(Button)(({ theme }) => ({
-  backgroundColor: green[500],
-  color: theme.palette.getContrastText(green[500]),
-  '&:hover': {
-    backgroundColor: green[700]
-  }
-}))
-
-const Transition = forwardRef(function Transition(props, ref) {
-  return <Fade ref={ref} {...props} />
-})
-
-const TabList = styled(MuiTabList)(({ theme }) => ({
-  '& .MuiTabs-indicator': {
-    display: 'none'
-  },
-  '& .Mui-selected': {
-    backgroundColor: theme.palette.primary.main,
-    color: `${theme.palette.common.white} !important`
-  },
-  '& .MuiTab-root': {
-    minWidth: 65,
-    minHeight: 38,
-    paddingTop: theme.spacing(2.5),
-    paddingBottom: theme.spacing(2.5),
-    borderRadius: theme.shape.borderRadius,
-    [theme.breakpoints.up('sm')]: {
-      minWidth: 130
-    }
-  }
-}))
-
-const CustomBox = styled(Box)(({ theme }) => ({
-  marginTop: '4px',
-  display: 'flex',
-  justifyContent: 'flex-start',
-  alignItems: 'center',
-  flexDirection: 'row'
-}))
 
 // ** Variables
 const defaultColumns = [
@@ -246,41 +160,6 @@ const defaultColumns = [
   //   }
   // }
 ]
-
-const defaultInfo = {
-  itemList: [],
-  totalAzurite: [],
-  movementsList: [],
-  preset: '',
-  presetB: '',
-  selectedList: [],
-  totalGot: { a: 0, w: 0, f: 0, s: 0, i: 0 },
-  azuCalculator: { mineHour: 0, rcLevel: 0, card: 0, packs: 0, chests: 0, owned: 0, needed: 0, total: 0 }
-}
-
-// ** Custom Functions
-function getTotalAzurite(template) {
-  let newArray = []
-
-  const arr = itemTemplates?.find(i => i.template === template)
-
-  if (!arr) return 0
-
-  arr.buildings.forEach(t => {
-    const buildingObj = buildingList?.find(b => b.building === t.building && b.level === t.level)
-    if (buildingObj) {
-      newArray.push(buildingObj)
-    }
-  })
-
-  if (newArray?.length > 0) {
-    const totalAzurite = newArray.reduce((accumulator, currentValue) => accumulator + currentValue?.rss?.a, 0)
-
-    return totalAzurite
-  }
-
-  return 0
-}
 
 /* eslint-enable */
 const Building = () => {

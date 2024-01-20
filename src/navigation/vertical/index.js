@@ -49,9 +49,19 @@ const navigation = () => {
       path: '/mystic'
     },
     {
+      title: 'Realms',
+      icon: 'bi:globe',
+      path: '/realms'
+    },
+    {
       title: 'Speeds',
       icon: 'material-symbols:speed-outline',
       path: '/speeds'
+    },
+    {
+      title: 'Totems',
+      icon: 'game-icons:totem',
+      path: '/totem'
     },
     {
       title: 'Troops',

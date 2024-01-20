@@ -54,6 +54,7 @@
     "i18next-http-backend": "2.2.0",
     "jsonwebtoken": "^9.0.2",
     "keen-slider": "6.8.5",
+    "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "next": "^14.0.4",
     "nprogress": "0.2.0",

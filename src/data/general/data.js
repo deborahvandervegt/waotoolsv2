@@ -189,7 +189,7 @@ export const infoData = [
   },
   {
     slot: 5,
-    key: 'scrolls',
+    key: 'XP',
     desc: 'Beast Passive Skill',
     info: [
       { level: 2, quantity: 150 },
