@@ -1,33 +1,36 @@
 // ** React Imports
-import { useState, useEffect, forwardRef } from 'react'
+import { forwardRef, useEffect, useState } from 'react';
+
+// ** Next Import
 
 // ** MUI Imports
-import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
-import Card from '@mui/material/Card'
-import Tooltip from '@mui/material/Tooltip'
-import { styled } from '@mui/material/styles'
-import MenuItem from '@mui/material/MenuItem'
-import TextField from '@mui/material/TextField'
-import IconButton from '@mui/material/IconButton'
-import Typography from '@mui/material/Typography'
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
-import { DataGrid, GridToolbar } from '@mui/x-data-grid'
-import MuiTabList from '@mui/lab/TabList'
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import MuiTabList from '@mui/lab/TabList';
+import Alert from '@mui/material/Alert';
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import Grid from '@mui/material/Grid';
+import IconButton from '@mui/material/IconButton';
+import MenuItem from '@mui/material/MenuItem';
+import TextField from '@mui/material/TextField';
+import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
+import { styled } from '@mui/material/styles';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 
 // ** Icon Imports
-import Icon from 'src/@core/components/icon'
+import Icon from 'src/@core/components/icon';
 
 // ** Third Party Imports
-import toast from 'react-hot-toast'
+import toast from 'react-hot-toast';
 
 // ** Custom Components Imports
-import CustomAvatar from 'src/@core/components/mui/avatar'
-import TableHeader from 'src/views/apps/invoice/list/TableHeader'
-import { buildingList, itemTemplates, extraBarracks, azuCalcConf } from 'src/data/building'
+import CustomAvatar from 'src/@core/components/mui/avatar';
+import { azuCalcConf, buildingList, extraBarracks, itemTemplates } from 'src/data/building';
+import TableHeader from 'src/views/apps/invoice/list/TableHeader';
 
 // ** Styled Components
-import CustomHeader from 'src/@core/components/Header'
+import { TabContext, TabPanel } from '@mui/lab';
 import {
   Autocomplete,
   Button,
@@ -47,27 +50,27 @@ import {
   TableRow,
   Toolbar,
   useMediaQuery
-} from '@mui/material'
-import { green, indigo } from '@mui/material/colors'
-import { nFormatter } from 'src/@core/utils/numberFormatter'
-import { TabContext, TabPanel } from '@mui/lab'
-import nRound from 'src/@core/utils/numberRound'
-import moment from 'moment'
+} from '@mui/material';
+import moment from 'moment';
+import CustomHeader from 'src/@core/components/Header';
+import { nFormatter } from 'src/@core/utils/numberFormatter';
+import nRound from 'src/@core/utils/numberRound';
 
 // ** Styled component for the link in the dataTable
 const BlueButton = styled(Button)(({ theme }) => ({
-  backgroundColor: indigo[500],
-  color: theme.palette.getContrastText(indigo[500]),
+  backgroundColor: theme.palette.customColors.skyPaletteSecondary,
+  color: theme.palette.customColors.skyPaletteTitle,
   '&:hover': {
-    backgroundColor: indigo[700]
-  }
+    backgroundColor: theme.palette.customColors.skyPaletteSecondary,
+    filter: 'brightness(0.85)'  }
 }))
 
 const GreenButton = styled(Button)(({ theme }) => ({
-  backgroundColor: green[500],
-  color: theme.palette.getContrastText(green[500]),
+  backgroundColor: theme.palette.customColors.skyPaletteTertiary,
+  color: theme.palette.customColors.skyPaletteTitle,
   '&:hover': {
-    backgroundColor: green[700]
+    backgroundColor: theme.palette.customColors.skyPaletteTertiary,
+    filter: 'brightness(0.85)'
   }
 }))
 
@@ -105,50 +108,6 @@ const CustomBox = styled(Box)(({ theme }) => ({
 
 // ** Variables
 const defaultColumns = [
-  // {
-  //   flex: 0.1,
-  //   field: 'id',
-  //   minWidth: 80,
-  //   headerName: '#',
-  //   renderCell: ({ row }) => <LinkStyled href={`/apps/invoice/preview/${row.id}`}>{`#${row.id}`}</LinkStyled>
-  // },
-
-  // {
-  //   flex: 0.1,
-  //   minWidth: 80,
-  //   field: 'invoiceStatus',
-  //   renderHeader: () => <Icon icon='mdi:trending-up' fontSize={20} />,
-  //   renderCell: ({ row }) => {
-  //     const { dueDate, balance, invoiceStatus } = row
-  //     const color = invoiceStatusObj[invoiceStatus] ? invoiceStatusObj[invoiceStatus].color : 'primary'
-
-  //     return (
-  //       <Tooltip
-  //         title={
-  //           <div>
-  //             <Typography variant='caption' sx={{ color: 'common.white', fontWeight: 600 }}>
-  //               {invoiceStatus}
-  //             </Typography>
-  //             <br />
-  //             <Typography variant='caption' sx={{ color: 'common.white', fontWeight: 600 }}>
-  //               Balance:
-  //             </Typography>{' '}
-  //             {balance}
-  //             <br />
-  //             <Typography variant='caption' sx={{ color: 'common.white', fontWeight: 600 }}>
-  //               Due Date:
-  //             </Typography>{' '}
-  //             {dueDate}
-  //           </div>
-  //         }
-  //       >
-  //         <CustomAvatar skin='light' color={color} sx={{ width: '1.875rem', height: '1.875rem' }}>
-  //           <Icon icon={invoiceStatusObj[invoiceStatus].icon} fontSize='1rem' />
-  //         </CustomAvatar>
-  //       </Tooltip>
-  //     )
-  //   }
-  // },
   {
     flex: 0.1,
     field: 'item',
@@ -220,29 +179,6 @@ const defaultColumns = [
     valueGetter: params => params.row?.rss?.i,
     renderCell: ({ row }) => <Typography variant='body2'>{`${nFormatter(row.rss.i).toLocaleString() || 0}`}</Typography>
   }
-
-  // {
-  //   flex: 0.15,
-  //   minWidth: 125,
-  //   field: 'issuedDate',
-  //   headerName: 'Issued Date',
-  //   renderCell: ({ row }) => <Typography variant='body2'>{row.issuedDate}</Typography>
-  // },
-  // {
-  //   flex: 0.1,
-  //   minWidth: 90,
-  //   field: 'balance',
-  //   headerName: 'Balance',
-  //   renderCell: ({ row }) => {
-  //     return row.balance !== 0 ? (
-  //       <Typography variant='body2' sx={{ color: 'text.primary' }}>
-  //         {row.balance}
-  //       </Typography>
-  //     ) : (
-  //       <CustomChip size='small' skin='light' color='success' label='Paid' />
-  //     )
-  //   }
-  // }
 ]
 
 const defaultInfo = {
@@ -552,48 +488,6 @@ const Planner = () => {
 
   const columns = [
     ...defaultColumns
-
-    // {
-    //   flex: 0.1,
-    //   minWidth: 130,
-    //   sortable: false,
-    //   field: 'actions',
-    //   headerName: 'Actions',
-    //   renderCell: ({ row }) => (
-    //     <Box sx={{ display: 'flex', alignItems: 'center' }}>
-    //       <Tooltip title='Delete Invoice'>
-    //         <IconButton size='small' onClick={() => dispatch(deleteInvoice(row.id))}>
-    //           <Icon icon='mdi:delete-outline' fontSize={20} />
-    //         </IconButton>
-    //       </Tooltip>
-    //       <Tooltip title='View'>
-    //         <IconButton size='small' component={Link} href={`/apps/invoice/preview/${row.id}`}>
-    //           <Icon icon='mdi:eye-outline' fontSize={20} />
-    //         </IconButton>
-    //       </Tooltip>
-    //       <OptionsMenu
-    //         iconProps={{ fontSize: 20 }}
-    //         iconButtonProps={{ size: 'small' }}
-    //         menuProps={{ sx: { '& .MuiMenuItem-root svg': { mr: 2 } } }}
-    //         options={[
-    //           {
-    //             text: 'Download',
-    //             icon: <Icon icon='mdi:download' fontSize={20} />
-    //           },
-    //           {
-    //             text: 'Edit',
-    //             href: `/apps/invoice/edit/${row.id}`,
-    //             icon: <Icon icon='mdi:pencil-outline' fontSize={20} />
-    //           },
-    //           {
-    //             text: 'Duplicate',
-    //             icon: <Icon icon='mdi:content-copy' fontSize={20} />
-    //           }
-    //         ]}
-    //       />
-    //     </Box>
-    //   )
-    // }
   ]
 
   const tabContentList = {
@@ -949,7 +843,7 @@ const Planner = () => {
                         ) < planInfo?.totalGot.a && (
                           <TableCell align='center'>
                             {
-                              <Button style={{ color: '#50a308' }} startIcon={<Icon icon='mingcute:check-2-line' />}>
+                              <Button style={{ color: '#4DDDB2' }} startIcon={<Icon icon='mingcute:check-2-line' />}>
                                 {' '}
                                 +
                                 {(
@@ -1334,6 +1228,15 @@ const Planner = () => {
             <Divider />
             <Grid container spacing={6} sx={{ padding: '1rem' }}>
               <Grid item xs={12} sm={6}>
+              <Alert severity="warning">
+              {`After each modification (add, edit or delete) please, use the `}
+                {
+                  <span role='img' aria-labelledby='floppy-disk'>
+                    {`💾`}
+                  </span>
+                }{' '}
+              {`button before refreshing or leaving the page.`}
+            </Alert>
                 <Box sx={{ marginTop: '10px', display: 'flex', flexDirection: 'row' }}>
                   <BlueButton
                     variant='contained'
@@ -1361,19 +1264,6 @@ const Planner = () => {
                   >
                     ADD ITEM/S
                   </Button>
-                </Box>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <Box sx={{ marginTop: '10px', display: 'flex', flexDirection: 'row' }}>
-                  <Typography variant='caption' color='primary'>
-                    {`After each modification (add, edit or delete) please, use the `}
-                    {
-                      <span role='img' aria-labelledby='floppy-disk'>
-                        {`💾`}
-                      </span>
-                    }{' '}
-                    {`button before refreshing or leaving the page.`}
-                  </Typography>
                 </Box>
               </Grid>
             </Grid>
