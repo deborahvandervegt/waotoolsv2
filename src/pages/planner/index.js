@@ -40,7 +40,6 @@ import {
   DialogContent,
   Divider,
   Fade,
-  Paper,
   Switch,
   Tab,
   Table,
@@ -56,7 +55,7 @@ import CustomHeader from 'src/@core/components/Header';
 import { nFormatter } from 'src/@core/utils/numberFormatter';
 import nRound from 'src/@core/utils/numberRound';
 
-// ** Styled component for the link in the dataTable
+// ** Styled component for the link in the dataTable (Add from template button)
 const BlueButton = styled(Button)(({ theme }) => ({
   backgroundColor: theme.palette.customColors.skyPaletteSecondary,
   color: theme.palette.customColors.skyPaletteTitle,
@@ -65,6 +64,7 @@ const BlueButton = styled(Button)(({ theme }) => ({
     filter: 'brightness(0.85)'  }
 }))
 
+// ** Save button
 const GreenButton = styled(Button)(({ theme }) => ({
   backgroundColor: theme.palette.customColors.skyPaletteTertiary,
   color: theme.palette.customColors.skyPaletteTitle,
@@ -519,157 +519,155 @@ const Planner = () => {
         <Card>
           <Grid container spacing={3} style={{ minWidth: '320px', padding: '1rem' }}>
             <Grid item xs={12} md={6} lg={8}>
-              <Paper elevation={12} sx={{ padding: '1rem' }}>
-                <CustomBox>
-                  <div style={{ minWidth: '200px', marginRight: '5px' }}>
-                    <Typography variant='body2' color='primary' align='right'>
-                      Azurite Mine per Hour:
-                    </Typography>
-                  </div>
-                  <TextField
-                    id='mine-per-hour'
-                    size='small'
-                    variant='outlined'
-                    type='number'
-                    value={planInfo?.azuCalculator?.mineHour}
-                    inputProps={{
-                      min: 0,
-                      max: 20000
-                    }}
-                    onChange={e => {
-                      handleCalculatorChange(e, 'mineHour')
-                    }}
-                  />
-                </CustomBox>
-                <CustomBox>
-                  <div style={{ minWidth: '200px', marginRight: '5px' }}>
-                    <Typography variant='body2' color='primary' align='right'>
-                      Royal Challenge Wave(s):
-                    </Typography>
-                  </div>
-                  <TextField
-                    align='left'
-                    id='rc-select'
-                    size='small'
-                    variant='outlined'
-                    select
-                    value={planInfo?.azuCalculator?.rcLevel}
-                    inputProps={{
-                      min: 1,
-                      max: 10
-                    }}
-                    onChange={e => {
-                      handleCalculatorChange(e, 'rcLevel')
-                    }}
-                  >
-                    {azuCalcConf?.royalChallenge?.map(option => (
-                      <MenuItem key={option.level} value={option.level}>
-                        {option.level}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </CustomBox>
-                <CustomBox>
-                  <div style={{ minWidth: '200px', marginRight: '5px' }}>
-                    <Typography variant='body2' color='primary' align='right'>
-                      Monthly Azurite Card:
-                    </Typography>
-                  </div>
-                  <Switch
-                    checked={planInfo?.azuCalculator?.card ? true : false}
-                    onChange={e => {
-                      handleCalculatorChange(e, 'card')
-                    }}
-                    name='monthly-card-checked'
-                    color='primary'
-                  />
-                </CustomBox>
-                <CustomBox>
-                  <div style={{ minWidth: '200px', marginRight: '5px' }}>
-                    <Typography variant='body2' color='primary' align='right'>
-                      Azurite from packs (daily):
-                    </Typography>
-                  </div>
-                  <TextField
-                    id='azurite-from-packs'
-                    size='small'
-                    variant='outlined'
-                    type='number'
-                    value={planInfo?.azuCalculator?.packs}
-                    inputProps={{
-                      min: 0,
-                      max: 20000
-                    }}
-                    onChange={e => {
-                      handleCalculatorChange(e, 'packs')
-                    }}
-                  />
-                </CustomBox>
-                <CustomBox>
-                  <div style={{ minWidth: '200px', marginRight: '5px' }}>
-                    <Typography variant='body2' color='primary' align='right'>
-                      Azurite Daily Chests:
-                    </Typography>
-                  </div>
-                  <TextField
-                    align='left'
-                    id='chests-select'
-                    size='small'
-                    variant='outlined'
-                    type='number'
-                    select
-                    value={planInfo?.azuCalculator?.chests}
-                    inputProps={{
-                      min: 1,
-                      max: 5
-                    }}
-                    onChange={e => {
-                      handleCalculatorChange(e, 'chests')
-                    }}
-                  >
-                    {azuCalcConf?.chests?.map(option => (
-                      <MenuItem key={option.level} value={option.level}>
-                        {option.level}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </CustomBox>
-
-                <Divider sx={{ marginTop: '10px', marginBottom: '10px' }} />
-
-                <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                  <div>
-                    <div style={{ minWidth: '200px' }}>
-                      <Typography variant='body2' color='primary' align='center'>
-                        Azurite Daily:
-                      </Typography>
-                    </div>
-                    <Typography variant='h6' color='textPrimary' align='center' style={{ marginLeft: '10px' }}>
-                      {planInfo?.azuCalculator?.total.toLocaleString()}
-                    </Typography>
-                  </div>
-                  <div>
-                    <div style={{ minWidth: '200px' }}>
-                      <Typography variant='body2' color='primary' align='center' style={{ marginLeft: '10px' }}>
-                        Azurite Weekly:
-                      </Typography>
-                    </div>
-                    <Typography variant='h6' color='textPrimary' align='center' style={{ marginLeft: '10px' }}>
-                      {(planInfo?.azuCalculator?.total * 7).toLocaleString()}
-                    </Typography>
-                  </div>
-                  <div>
-                    <div style={{ minWidth: '200px' }}>
-                      <Typography variant='body2' color='primary' align='center' style={{ marginLeft: '10px' }}>
-                        Azurite Monthly (30d):
-                      </Typography>
-                    </div>
-                    <Typography variant='h6' color='textPrimary' align='center' style={{ marginLeft: '10px' }}>
-                      {(planInfo?.azuCalculator?.total * 30).toLocaleString()}
-                    </Typography>
-                  </div>
+              <CustomBox>
+                <div style={{ minWidth: '200px', marginRight: '5px' }}>
+                  <Typography variant='body2' color='primary' align='right'>
+                    Azurite Mine per Hour:
+                  </Typography>
                 </div>
-              </Paper>
+                <TextField
+                  id='mine-per-hour'
+                  size='small'
+                  variant='outlined'
+                  type='number'
+                  value={planInfo?.azuCalculator?.mineHour}
+                  inputProps={{
+                    min: 0,
+                    max: 20000
+                  }}
+                  onChange={e => {
+                    handleCalculatorChange(e, 'mineHour')
+                  }}
+                />
+              </CustomBox>
+              <CustomBox>
+                <div style={{ minWidth: '200px', marginRight: '5px' }}>
+                  <Typography variant='body2' color='primary' align='right'>
+                    Royal Challenge Wave(s):
+                  </Typography>
+                </div>
+                <TextField
+                  align='left'
+                  id='rc-select'
+                  size='small'
+                  variant='outlined'
+                  select
+                  value={planInfo?.azuCalculator?.rcLevel}
+                  inputProps={{
+                    min: 1,
+                    max: 10
+                  }}
+                  onChange={e => {
+                    handleCalculatorChange(e, 'rcLevel')
+                  }}
+                >
+                  {azuCalcConf?.royalChallenge?.map(option => (
+                    <MenuItem key={option.level} value={option.level}>
+                      {option.level}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </CustomBox>
+              <CustomBox>
+                <div style={{ minWidth: '200px', marginRight: '5px' }}>
+                  <Typography variant='body2' color='primary' align='right'>
+                    Monthly Azurite Card:
+                  </Typography>
+                </div>
+                <Switch
+                  checked={planInfo?.azuCalculator?.card ? true : false}
+                  onChange={e => {
+                    handleCalculatorChange(e, 'card')
+                  }}
+                  name='monthly-card-checked'
+                  color='primary'
+                />
+              </CustomBox>
+              <CustomBox>
+                <div style={{ minWidth: '200px', marginRight: '5px' }}>
+                  <Typography variant='body2' color='primary' align='right'>
+                    Azurite from packs (daily):
+                  </Typography>
+                </div>
+                <TextField
+                  id='azurite-from-packs'
+                  size='small'
+                  variant='outlined'
+                  type='number'
+                  value={planInfo?.azuCalculator?.packs}
+                  inputProps={{
+                    min: 0,
+                    max: 20000
+                  }}
+                  onChange={e => {
+                    handleCalculatorChange(e, 'packs')
+                  }}
+                />
+              </CustomBox>
+              <CustomBox>
+                <div style={{ minWidth: '200px', marginRight: '5px' }}>
+                  <Typography variant='body2' color='primary' align='right'>
+                    Azurite Daily Chests:
+                  </Typography>
+                </div>
+                <TextField
+                  align='left'
+                  id='chests-select'
+                  size='small'
+                  variant='outlined'
+                  type='number'
+                  select
+                  value={planInfo?.azuCalculator?.chests}
+                  inputProps={{
+                    min: 1,
+                    max: 5
+                  }}
+                  onChange={e => {
+                    handleCalculatorChange(e, 'chests')
+                  }}
+                >
+                  {azuCalcConf?.chests?.map(option => (
+                    <MenuItem key={option.level} value={option.level}>
+                      {option.level}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </CustomBox>
+
+              <Divider sx={{ marginTop: '10px', marginBottom: '10px' }} />
+
+              <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                <div>
+                  <div style={{ minWidth: '200px' }}>
+                    <Typography variant='body2' color='primary' align='center'>
+                      Azurite Daily:
+                    </Typography>
+                  </div>
+                  <Typography variant='h6' color='textPrimary' align='center' style={{ marginLeft: '10px' }}>
+                    {planInfo?.azuCalculator?.total.toLocaleString()}
+                  </Typography>
+                </div>
+                <div>
+                  <div style={{ minWidth: '200px' }}>
+                    <Typography variant='body2' color='primary' align='center' style={{ marginLeft: '10px' }}>
+                      Azurite Weekly:
+                    </Typography>
+                  </div>
+                  <Typography variant='h6' color='textPrimary' align='center' style={{ marginLeft: '10px' }}>
+                    {(planInfo?.azuCalculator?.total * 7).toLocaleString()}
+                  </Typography>
+                </div>
+                <div>
+                  <div style={{ minWidth: '200px' }}>
+                    <Typography variant='body2' color='primary' align='center' style={{ marginLeft: '10px' }}>
+                      Azurite Monthly (30d):
+                    </Typography>
+                  </div>
+                  <Typography variant='h6' color='textPrimary' align='center' style={{ marginLeft: '10px' }}>
+                    {(planInfo?.azuCalculator?.total * 30).toLocaleString()}
+                  </Typography>
+                </div>
+              </div>
             </Grid>
           </Grid>
         </Card>
@@ -699,74 +697,61 @@ const Planner = () => {
 
           {/* AZURITE CALCULATOR DATA */}
           <Grid container spacing={6} sx={{ padding: '2rem', width: '100%' }}>
-            <Paper
-              elevation={12}
-              sx={{
-                padding: '1rem',
-                display: 'flex',
-                overflow: 'auto',
-                flexDirection: 'column',
-                minHeight: '145px',
-                minWidth: '165px',
-                height: '100%',
-                justifyContent: 'center'
-              }}
-            >
-              <Grid item xs={12} sx={{ pt: theme => `${theme.spacing(4)} !important` }}>
-                <TableContainer>
-                  <Table aria-labelledby='tableTitle' size={'small'} aria-label='enhanced table'>
-                    <TableBody>
-                      <TableRow>
-                        <TableCell align='center'>{'Daily Azurite Output'}</TableCell>
-                        <TableCell align='center'>{'Days to Get Azurite Needed'}</TableCell>
-                        <TableCell align='center'>{'Date to Get Azurite Needed'}</TableCell>
-                      </TableRow>
-                    </TableBody>
-                    <TableBody>
-                      <TableRow>
-                        <TableCell align='center'>
-                          <Typography color='primary' variant='h5'>
-                            {planInfo?.azuCalculator.total.toLocaleString()}
-                          </Typography>
-                        </TableCell>
-                        <TableCell align='center'>
-                          <Typography color='primary' variant='body1'>
-                            {planInfo?.azuCalculator.total === 0
-                              ? '0 days'
-                              : `${Math.ceil(
-                                  (planInfo?.itemList?.reduce(
-                                    (accumulator, currentValue) => accumulator + currentValue.rss.a,
-                                    0
-                                  ) -
-                                    planInfo?.totalGot.a) /
-                                    planInfo?.azuCalculator.total
-                                ).toLocaleString()} day/s.`}
-                          </Typography>
-                        </TableCell>
-                        <TableCell align='center'>
-                          <Typography color='primary' variant='body1'>
-                            {planInfo?.azuCalculator.total === 0
-                              ? '-'
-                              : `${moment()
-                                  .add(
-                                    Math.ceil(
-                                      (planInfo?.itemList?.reduce(
-                                        (accumulator, currentValue) => accumulator + currentValue.rss.a,
-                                        0
-                                      ) -
-                                        planInfo?.totalGot.a) /
-                                        planInfo?.azuCalculator.total
-                                    ),
-                                    'days'
-                                  )
-                                  .format('MMMM Do, YYYY')}`}
-                          </Typography>
-                        </TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              </Grid>
+            <Grid item xs={12} sx={{ pt: theme => `${theme.spacing(4)} !important` }}>
+              <TableContainer>
+                <Table aria-labelledby='tableTitle' size={'small'} aria-label='enhanced table'>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell align='center'>{'Daily Azurite Output'}</TableCell>
+                      <TableCell align='center'>{'Days to Get Azurite Needed'}</TableCell>
+                      <TableCell align='center'>{'Date to Get Azurite Needed'}</TableCell>
+                    </TableRow>
+                  </TableBody>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell align='center'>
+                        <Typography color='primary' variant='h5'>
+                          {planInfo?.azuCalculator.total.toLocaleString()}
+                        </Typography>
+                      </TableCell>
+                      <TableCell align='center'>
+                        <Typography color='primary' variant='body1'>
+                          {planInfo?.azuCalculator.total === 0
+                            ? '0 days'
+                            : `${Math.ceil(
+                                (planInfo?.itemList?.reduce(
+                                  (accumulator, currentValue) => accumulator + currentValue.rss.a,
+                                  0
+                                ) -
+                                  planInfo?.totalGot.a) /
+                                  planInfo?.azuCalculator.total
+                              ).toLocaleString()} day/s.`}
+                        </Typography>
+                      </TableCell>
+                      <TableCell align='center'>
+                        <Typography color='primary' variant='body1'>
+                          {planInfo?.azuCalculator.total === 0
+                            ? '-'
+                            : `${moment()
+                                .add(
+                                  Math.ceil(
+                                    (planInfo?.itemList?.reduce(
+                                      (accumulator, currentValue) => accumulator + currentValue.rss.a,
+                                      0
+                                    ) -
+                                      planInfo?.totalGot.a) /
+                                      planInfo?.azuCalculator.total
+                                  ),
+                                  'days'
+                                )
+                                .format('MMMM Do, YYYY')}`}
+                        </Typography>
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Grid>
 
               {/* RESOURCES DATA  */}
               <Grid item xs={12} sx={{ pt: theme => `${theme.spacing(4)} !important` }}>
@@ -1212,7 +1197,6 @@ const Planner = () => {
                   </Table>
                 </TableContainer>
               </Grid>
-            </Paper>
           </Grid>
         </Card>
       </>
