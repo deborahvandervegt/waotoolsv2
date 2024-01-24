@@ -23,10 +23,10 @@ export const menuList = [
   },
   {
     text: 'troops',
-    desc: 'Troops',
+    desc: 'Troops Setup',
     src: '/images/cards/pose_f9.png',
     icon: 'game-icons:rally-the-troops',
-    subModule: [{ name: '- Troops setup' }, { name: '- Troops Layouts' }]
+    subModule: [{ name: '- Troops Templates' }, { name: '- Troops Configuration' }]
   },
   {
     text: 'artifact',
@@ -127,12 +127,5 @@ export const menuList = [
     src: '/images/cards/pose_f9.png',
     icon: 'mdi:help-outline',
     subModule: [{ name: '- Creator' }, { name: '- Contributors' }, { name: '- Supporters' }]
-  },
-  {
-    text: 'troops',
-    desc: 'Troops Setup',
-    src: '/images/cards/pose_f9.png',
-    icon: 'game-icons:rally-the-troops',
-    subModule: [{ name: '- Troops Templates' }, { name: '- Troops Configuration' }]
   }
 ]
