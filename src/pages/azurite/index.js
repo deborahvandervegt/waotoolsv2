@@ -3,20 +3,20 @@ import { useState } from 'react'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
-import { styled } from '@mui/material/styles'
+import FormControl from '@mui/material/FormControl'
+import Grid from '@mui/material/Grid'
+import IconButton from '@mui/material/IconButton'
 import MenuItem from '@mui/material/MenuItem'
 import TextField from '@mui/material/TextField'
-import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
-import FormControl from '@mui/material/FormControl'
+import { styled } from '@mui/material/styles'
 
 // ** Custom Components Imports
 import { azuCalcConf } from 'src/data/building'
 
 // ** Styled Components
-import CustomHeader from 'src/@core/components/Header'
+import { InfoOutlined } from '@mui/icons-material'
 import {
   Button,
   CardMedia,
@@ -25,11 +25,10 @@ import {
   DialogContent,
   DialogTitle,
   Divider,
-  Paper,
   Switch
 } from '@mui/material'
+import CustomHeader from 'src/@core/components/Header'
 import nRound from 'src/@core/utils/numberRound'
-import { InfoOutlined } from '@mui/icons-material'
 
 const CustomBox = styled(Box)(({ theme }) => ({
   marginTop: '4px',
@@ -115,277 +114,269 @@ const AzuriteCalculator = props => {
 
   return (
     <>
-      <Grid container spacing={6}>
-        <Grid item xs={12}>
-          <Card>
-            <CustomHeader icon='azurite' title='AZURITE CALCULATOR' />
-            <Divider />
-          </Card>
-        </Grid>
-      </Grid>
       <>
         <Card>
+          <CustomHeader icon='azurite' title='AZURITE CALCULATOR' />
+          <Divider />
           <Grid container spacing={3} style={{ minWidth: '320px', padding: '1rem' }}>
             <Grid item xs={12} md={6} lg={8}>
-              <Paper elevation={12} sx={{ padding: '1rem' }}>
-                <CustomBox>
-                  <div style={{ minWidth: '200px', marginRight: '5px' }}>
-                    <Typography variant='body2' color='primary' align='right'>
-                      Azurite Mine per Hour:
-                    </Typography>
-                  </div>
-                  <TextField
-                    id='mine-per-hour'
-                    size='small'
-                    variant='outlined'
-                    type='number'
-                    value={azuCalculator.mineHour > 0 ? azuCalculator.mineHour : ''}
-                    inputProps={{
-                      min: 0,
-                      max: 20000
-                    }}
-                    onChange={e => {
-                      handleCalculatorChange(e, 'mineHour')
-                    }}
-                  />
-                  <IconButton
-                    aria-label='mine-info-button'
-                    onClick={e => {
-                      handleDialogOpen(e, 'azuriteMine')
-                    }}
-                  >
-                    <InfoOutlined color='primary' />
-                  </IconButton>
-                </CustomBox>
-                <CustomBox>
-                  <div style={{ minWidth: '200px', marginRight: '5px' }}>
-                    <Typography variant='body2' color='primary' align='right'>
-                      Royal Challenge Wave(s):
-                    </Typography>
-                  </div>
-                  <TextField
-                    align='left'
-                    id='rc-select'
-                    size='small'
-                    variant='outlined'
-                    select
-                    value={azuCalculator.rcLevel}
-                    inputProps={{
-                      min: 1,
-                      max: 10
-                    }}
-                    onChange={e => {
-                      handleCalculatorChange(e, 'rcLevel')
-                    }}
-                  >
-                    {azuCalcConf?.royalChallenge?.map(option => (
-                      <MenuItem key={option.level} value={option.level}>
-                        {option.level}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                  <IconButton
-                    aria-label='rc-info-button'
-                    onClick={e => {
-                      handleDialogOpen(e, 'royalChallenge')
-                    }}
-                  >
-                    <InfoOutlined color='primary' />
-                  </IconButton>
-                </CustomBox>
-                <CustomBox>
-                  <div style={{ minWidth: '200px', marginRight: '5px' }}>
-                    <Typography variant='body2' color='primary' align='right'>
-                      Monthly Azurite Card:
-                    </Typography>
-                  </div>
-                  <Switch
-                    checked={azuCalculator?.card ? true : false}
-                    onChange={e => {
-                      handleCalculatorChange(e, 'card')
-                    }}
-                    name='monthly-card-checked'
-                    color='primary'
-                  />
-                  <IconButton
-                    aria-label='card-info-button'
-                    onClick={e => {
-                      handleDialogOpen(e, 'azuriteCard')
-                    }}
-                  >
-                    <InfoOutlined color='primary' />
-                  </IconButton>
-                </CustomBox>
-                <CustomBox>
-                  <div style={{ minWidth: '200px', marginRight: '5px' }}>
-                    <Typography variant='body2' color='primary' align='right'>
-                      Azurite from packs (daily):
-                    </Typography>
-                  </div>
-                  <TextField
-                    id='azurite-from-packs'
-                    size='small'
-                    variant='outlined'
-                    type='number'
-                    value={azuCalculator.packs > 0 ? azuCalculator.packs : ''}
-                    inputProps={{
-                      min: 0,
-                      max: 20000
-                    }}
-                    onChange={e => {
-                      handleCalculatorChange(e, 'packs')
-                    }}
-                  />
-                </CustomBox>
-                <CustomBox>
-                  <div style={{ minWidth: '200px', marginRight: '5px' }}>
-                    <Typography variant='body2' color='primary' align='right'>
-                      Azurite Daily Chests:
-                    </Typography>
-                  </div>
-                  <TextField
-                    align='left'
-                    id='chests-select'
-                    size='small'
-                    variant='outlined'
-                    type='number'
-                    select
-                    value={azuCalculator.chests}
-                    inputProps={{
-                      min: 1,
-                      max: 5
-                    }}
-                    onChange={e => {
-                      handleCalculatorChange(e, 'chests')
-                    }}
-                  >
-                    {azuCalcConf?.chests?.map(option => (
-                      <MenuItem key={option.level} value={option.level}>
-                        {option.level}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                  <IconButton
-                    aria-label='chest-info-button'
-                    onClick={e => {
-                      handleDialogOpen(e, 'azuriteChest')
-                    }}
-                  >
-                    <InfoOutlined color='primary' />
-                  </IconButton>
-                </CustomBox>
+              <CustomBox>
+                <div style={{ minWidth: '200px', marginRight: '5px' }}>
+                  <Typography variant='body2' color='primary' align='right'>
+                    Azurite Mine per Hour:
+                  </Typography>
+                </div>
+                <TextField
+                  id='mine-per-hour'
+                  size='small'
+                  variant='outlined'
+                  type='number'
+                  value={azuCalculator.mineHour > 0 ? azuCalculator.mineHour : ''}
+                  inputProps={{
+                    min: 0,
+                    max: 20000
+                  }}
+                  onChange={e => {
+                    handleCalculatorChange(e, 'mineHour')
+                  }}
+                />
+                <IconButton
+                  aria-label='mine-info-button'
+                  onClick={e => {
+                    handleDialogOpen(e, 'azuriteMine')
+                  }}
+                >
+                  <InfoOutlined color='primary' />
+                </IconButton>
+              </CustomBox>
+              <CustomBox>
+                <div style={{ minWidth: '200px', marginRight: '5px' }}>
+                  <Typography variant='body2' color='primary' align='right'>
+                    Royal Challenge Wave(s):
+                  </Typography>
+                </div>
+                <TextField
+                  align='left'
+                  id='rc-select'
+                  size='small'
+                  variant='outlined'
+                  select
+                  value={azuCalculator.rcLevel}
+                  inputProps={{
+                    min: 1,
+                    max: 10
+                  }}
+                  onChange={e => {
+                    handleCalculatorChange(e, 'rcLevel')
+                  }}
+                >
+                  {azuCalcConf?.royalChallenge?.map(option => (
+                    <MenuItem key={option.level} value={option.level}>
+                      {option.level}
+                    </MenuItem>
+                  ))}
+                </TextField>
+                <IconButton
+                  aria-label='rc-info-button'
+                  onClick={e => {
+                    handleDialogOpen(e, 'royalChallenge')
+                  }}
+                >
+                  <InfoOutlined color='primary' />
+                </IconButton>
+              </CustomBox>
+              <CustomBox>
+                <div style={{ minWidth: '200px', marginRight: '5px' }}>
+                  <Typography variant='body2' color='primary' align='right'>
+                    Monthly Azurite Card:
+                  </Typography>
+                </div>
+                <Switch
+                  checked={azuCalculator?.card ? true : false}
+                  onChange={e => {
+                    handleCalculatorChange(e, 'card')
+                  }}
+                  name='monthly-card-checked'
+                  color='primary'
+                />
+                <IconButton
+                  aria-label='card-info-button'
+                  onClick={e => {
+                    handleDialogOpen(e, 'azuriteCard')
+                  }}
+                >
+                  <InfoOutlined color='primary' />
+                </IconButton>
+              </CustomBox>
+              <CustomBox>
+                <div style={{ minWidth: '200px', marginRight: '5px' }}>
+                  <Typography variant='body2' color='primary' align='right'>
+                    Azurite from packs (daily):
+                  </Typography>
+                </div>
+                <TextField
+                  id='azurite-from-packs'
+                  size='small'
+                  variant='outlined'
+                  type='number'
+                  value={azuCalculator.packs > 0 ? azuCalculator.packs : ''}
+                  inputProps={{
+                    min: 0,
+                    max: 20000
+                  }}
+                  onChange={e => {
+                    handleCalculatorChange(e, 'packs')
+                  }}
+                />
+              </CustomBox>
+              <CustomBox>
+                <div style={{ minWidth: '200px', marginRight: '5px' }}>
+                  <Typography variant='body2' color='primary' align='right'>
+                    Azurite Daily Chests:
+                  </Typography>
+                </div>
+                <TextField
+                  align='left'
+                  id='chests-select'
+                  size='small'
+                  variant='outlined'
+                  type='number'
+                  select
+                  value={azuCalculator.chests}
+                  inputProps={{
+                    min: 1,
+                    max: 5
+                  }}
+                  onChange={e => {
+                    handleCalculatorChange(e, 'chests')
+                  }}
+                >
+                  {azuCalcConf?.chests?.map(option => (
+                    <MenuItem key={option.level} value={option.level}>
+                      {option.level}
+                    </MenuItem>
+                  ))}
+                </TextField>
+                <IconButton
+                  aria-label='chest-info-button'
+                  onClick={e => {
+                    handleDialogOpen(e, 'azuriteChest')
+                  }}
+                >
+                  <InfoOutlined color='primary' />
+                </IconButton>
+              </CustomBox>
 
-                <CustomBox>
-                  <div style={{ minWidth: '200px', marginRight: '5px' }}>
-                    <Typography variant='body2' color='primary' align='right'>
-                      Azurite Owned:
-                    </Typography>
-                  </div>
-                  <TextField
-                    id='azurite-owned'
-                    size='small'
-                    variant='outlined'
-                    type='number'
-                    value={azuCalculator.owned > 0 ? azuCalculator.owned : ''}
-                    inputProps={{
-                      min: 0,
-                      max: 999999
-                    }}
-                    onChange={e => {
-                      handleCalculatorChange(e, 'owned')
-                    }}
-                  />
-                </CustomBox>
+              <CustomBox>
+                <div style={{ minWidth: '200px', marginRight: '5px' }}>
+                  <Typography variant='body2' color='primary' align='right'>
+                    Azurite Owned:
+                  </Typography>
+                </div>
+                <TextField
+                  id='azurite-owned'
+                  size='small'
+                  variant='outlined'
+                  type='number'
+                  value={azuCalculator.owned > 0 ? azuCalculator.owned : ''}
+                  inputProps={{
+                    min: 0,
+                    max: 999999
+                  }}
+                  onChange={e => {
+                    handleCalculatorChange(e, 'owned')
+                  }}
+                />
+              </CustomBox>
 
+              <CustomBox>
+                <div style={{ width: '200px', marginRight: '5px' }}>
+                  <Typography variant='body2' color='primary' align='right'>
+                    Azurite Needed:
+                  </Typography>
+                </div>
+                <TextField
+                  id='azurite-needed'
+                  size='small'
+                  variant='outlined'
+                  type='number'
+                  value={azuCalculator.needed > 0 ? azuCalculator.needed : ''}
+                  inputProps={{
+                    min: 0,
+                    max: 999999
+                  }}
+                  onChange={e => {
+                    handleCalculatorChange(e, 'needed')
+                  }}
+                />
+              </CustomBox>
+              {azuCalculator.owned > 0 && azuCalculator.needed > 0 && (
                 <CustomBox>
                   <div style={{ width: '200px', marginRight: '5px' }}>
                     <Typography variant='body2' color='primary' align='right'>
-                      Azurite Needed:
+                      Missing Azurite (Needed - Owned):
                     </Typography>
                   </div>
-                  <TextField
-                    id='azurite-needed'
-                    size='small'
-                    variant='outlined'
-                    type='number'
-                    value={azuCalculator.needed > 0 ? azuCalculator.needed : ''}
-                    inputProps={{
-                      min: 0,
-                      max: 999999
-                    }}
-                    onChange={e => {
-                      handleCalculatorChange(e, 'needed')
-                    }}
-                  />
+                  <Typography variant='h5' sx={{ marginLeft: '5px' }}>
+                    {(azuCalculator.needed - azuCalculator.owned > 0
+                      ? azuCalculator.needed - azuCalculator.owned
+                      : 'None'
+                    ).toLocaleString()}
+                  </Typography>
                 </CustomBox>
-                {azuCalculator.owned > 0 && azuCalculator.needed > 0 && (
-                  <CustomBox>
-                    <div style={{ width: '200px', marginRight: '5px' }}>
-                      <Typography variant='body2' color='primary' align='right'>
-                        Missing Azurite (Needed - Owned):
-                      </Typography>
-                    </div>
-                    <Typography variant='h5' sx={{ marginLeft: '5px' }}>
-                      {(azuCalculator.needed - azuCalculator.owned > 0
-                        ? azuCalculator.needed - azuCalculator.owned
-                        : 'None'
-                      ).toLocaleString()}
-                    </Typography>
-                  </CustomBox>
-                )}
+              )}
 
-                <Divider sx={{ marginTop: '10px', marginBottom: '10px' }} />
+              <Divider sx={{ marginTop: '10px', marginBottom: '10px' }} />
 
-                <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                  <div>
-                    <div style={{ minWidth: '200px' }}>
-                      <Typography variant='body2' color='primary' align='center'>
-                        Azurite Daily:
-                      </Typography>
-                    </div>
-                    <Typography variant='h6' color='textPrimary' align='center' style={{ marginLeft: '10px' }}>
-                      {azuCalculator.total.toLocaleString()}
+              <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                <div>
+                  <div style={{ minWidth: '200px' }}>
+                    <Typography variant='body2' color='primary' align='center'>
+                      Azurite Daily:
                     </Typography>
                   </div>
-                  <div>
-                    <div style={{ minWidth: '200px' }}>
-                      <Typography variant='body2' color='primary' align='center' style={{ marginLeft: '10px' }}>
-                        Azurite Weekly:
-                      </Typography>
-                    </div>
-                    <Typography variant='h6' color='textPrimary' align='center' style={{ marginLeft: '10px' }}>
-                      {(azuCalculator.total * 7).toLocaleString()}
+                  <Typography variant='h6' color='textPrimary' align='center' style={{ marginLeft: '10px' }}>
+                    {azuCalculator.total.toLocaleString()}
+                  </Typography>
+                </div>
+                <div>
+                  <div style={{ minWidth: '200px' }}>
+                    <Typography variant='body2' color='primary' align='center' style={{ marginLeft: '10px' }}>
+                      Azurite Weekly:
                     </Typography>
                   </div>
-                  <div>
-                    <div style={{ minWidth: '200px' }}>
-                      <Typography variant='body2' color='primary' align='center' style={{ marginLeft: '10px' }}>
-                        Azurite Monthly (30d):
-                      </Typography>
-                    </div>
-                    <Typography variant='h6' color='textPrimary' align='center' style={{ marginLeft: '10px' }}>
-                      {(azuCalculator.total * 30).toLocaleString()}
+                  <Typography variant='h6' color='textPrimary' align='center' style={{ marginLeft: '10px' }}>
+                    {(azuCalculator.total * 7).toLocaleString()}
+                  </Typography>
+                </div>
+                <div>
+                  <div style={{ minWidth: '200px' }}>
+                    <Typography variant='body2' color='primary' align='center' style={{ marginLeft: '10px' }}>
+                      Azurite Monthly (30d):
                     </Typography>
                   </div>
-                  {azuCalculator.needed > 0 &&
-                    azuCalculator.needed > azuCalculator.owned &&
-                    azuCalculator.total > 0 && (
-                      <div>
-                        <div style={{ minWidth: '200px' }}>
-                          <Typography variant='body2' color='primary' align='center' style={{ marginLeft: '10px' }}>
-                            Days needed to complete missing azurite (Needed - owned)/Daily output:
-                          </Typography>
-                        </div>
-                        <Typography variant='body2' color='textPrimary' align='center' style={{ marginLeft: '10px' }}>
-                          {Math.round(
-                            (azuCalculator.needed - azuCalculator.owned) / azuCalculator.total
-                          ).toLocaleString()}
-                          d to get {(azuCalculator.needed - azuCalculator.owned).toLocaleString()} azurite.
+                  <Typography variant='h6' color='textPrimary' align='center' style={{ marginLeft: '10px' }}>
+                    {(azuCalculator.total * 30).toLocaleString()}
+                  </Typography>
+                </div>
+                {azuCalculator.needed > 0 &&
+                  azuCalculator.needed > azuCalculator.owned &&
+                  azuCalculator.total > 0 && (
+                    <div>
+                      <div style={{ minWidth: '200px' }}>
+                        <Typography variant='body2' color='primary' align='center' style={{ marginLeft: '10px' }}>
+                          Days needed to complete missing azurite (Needed - owned)/Daily output:
                         </Typography>
                       </div>
-                    )}
-                </div>
-              </Paper>
+                      <Typography variant='body2' color='textPrimary' align='center' style={{ marginLeft: '10px' }}>
+                        {Math.round(
+                          (azuCalculator.needed - azuCalculator.owned) / azuCalculator.total
+                        ).toLocaleString()}
+                        d to get {(azuCalculator.needed - azuCalculator.owned).toLocaleString()} azurite.
+                      </Typography>
+                    </div>
+                  )}
+              </div>
             </Grid>
           </Grid>
         </Card>
