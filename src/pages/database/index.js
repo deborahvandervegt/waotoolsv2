@@ -1,16 +1,16 @@
 // ** React Imports
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 // ** MUI Imports
-import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
+import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 
 // ** Custom Components Imports
 import { infoData } from 'src/data/general/data'
 
 // ** Styled Components
-import CustomHeader from 'src/@core/components/Header'
+import { ClearAll, ExpandMore, Search } from '@mui/icons-material'
 import {
   Accordion,
   AccordionDetails,
@@ -26,7 +26,7 @@ import {
   TableRow,
   createTheme
 } from '@mui/material'
-import { ClearAll, ExpandMore, Search } from '@mui/icons-material'
+import CustomHeader from 'src/@core/components/Header'
 
 const theme = createTheme()
 
@@ -73,178 +73,157 @@ const DatabaseList = props => {
 
   return (
     <>
-      <Grid container spacing={6}>
-        <Grid item xs={12}>
-          <Card>
-            <CustomHeader icon='database' title='DATABASE' />
-            <Divider />
-          </Card>
-        </Grid>
-      </Grid>
       <>
         <Card>
+        <CustomHeader icon='database' title='DATABASE' />
+            <Divider />
           <Grid container spacing={3} style={{ minWidth: '320px', padding: '1rem' }}>
             <Grid item xs={12} md={6} lg={8}>
-              <Paper elevation={6} sx={{ padding: '1rem' }}>
-                <Paper
-                  elevation={12}
-                  component='form'
+              <Paper
+                elevation={12}
+                component='form'
+                sx={{
+                  padding: '2px 4px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  width: '250px',
+                  marginBottom: '10px',
+                  border: '1px solid rgb(49 113 235 / 39%)',
+                  boxShadow: 'none'
+                }}
+              >
+                <InputBase
                   sx={{
-                    padding: '2px 4px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    width: '250px',
-                    marginBottom: '10px',
-                    border: '1px solid rgb(49 113 235 / 39%)'
+                    marginLeft: theme.spacing(1),
+                    flex: 1,
+                    width: '75px'
+                  }}
+                  placeholder='Data Filter'
+                  inputProps={{ 'aria-label': 'filter information' }}
+                  onChange={handleFilterSearch}
+                  value={search.search}
+                />
+                <Divider orientation='vertical' />
+                <IconButton
+                  aria-label='clear'
+                  onClick={e => {
+                    setChartData([...infoData])
+                    setSearch({ found: true, search: '' })
                   }}
                 >
-                  <InputBase
-                    sx={{
-                      marginLeft: theme.spacing(1),
-                      flex: 1,
-                      width: '75px'
-                    }}
-                    placeholder='Data Filter'
-                    inputProps={{ 'aria-label': 'filter information' }}
-                    onChange={handleFilterSearch}
-                    value={search.search}
-                  />
-                  <Divider orientation='vertical' />
-                  <IconButton
-                    aria-label='clear'
-                    onClick={e => {
-                      setChartData([...infoData])
-                      setSearch({ found: true, search: '' })
-                    }}
-                  >
-                    <ClearAll />
-                  </IconButton>
-                  <IconButton disabled aria-label='search'>
-                    <Search />
-                  </IconButton>
-                </Paper>
-                {!search.found && (
-                  <>
-                    <Divider />
-                    <div style={{ marginBottom: '10px' }}></div>
-
-                    <Typography variant='body2' align='center'>
-                      {`There are not results for "${search.search}"`}
-                    </Typography>
-                  </>
-                )}
+                  <ClearAll />
+                </IconButton>
+                <IconButton disabled aria-label='search'>
+                  <Search />
+                </IconButton>
               </Paper>
+              {!search.found && (
+                <>
+                  <Divider />
+                  <div style={{ marginBottom: '10px' }}></div>
+
+                  <Typography variant='body2' align='center'>
+                    {`There are not results for "${search.search}"`}
+                  </Typography>
+                </>
+              )}
             </Grid>
           </Grid>
           {chartData.length > 0 && (
             <Grid container spacing={3} style={{ minWidth: '240px' }}>
-              <Grid item key='header-accordions' xs={12} md={7} lg={8}>
-                <Paper
-                  key='sub-header-accordions'
-                  sx={{
-                    padding: theme.spacing(2),
-                    display: 'flex',
-                    overflow: 'auto',
-                    flexDirection: 'column',
-                    minHeight: '145px',
-                    minWidth: '115px',
-                    height: '100%',
-                    justifyContent: 'center'
-                  }}
-                >
-                  {chartData.map(chart => {
-                    let totalQuantity = 0
-                    const chartName = chart.desc
-                    const info = chart.info
+              <Grid item key='header-accordions' xs={12} md={12} lg={12}>
+                {chartData.map(chart => {
+                  let totalQuantity = 0
+                  const chartName = chart.desc
+                  const info = chart.info
 
-                    return (
-                      <>
-                        <Accordion square style={{ minWidth: '240px' }}>
-                          <AccordionSummary
-                            expandIcon={<ExpandMore color='primary' />}
-                            aria-controls='normal-content'
-                            id={`normal-header-${chart.slot}`}
-                            style={{ minWidth: '240px' }}
-                          >
-                            <Typography color='primary'>{chartName}</Typography>
-                            <Divider />
-                          </AccordionSummary>
-                          <AccordionDetails style={{ minWidth: '240px' }}>
-                            {
-                              <div style={{ minWidth: '240px' }}>
-                                <TableContainer>
-                                  <Table
-                                    key={`${chart.slot}-${chart.key}`}
-                                    aria-labelledby='tableTitle'
-                                    size={'small'}
-                                    aria-label='enhanced table'
-                                  >
-                                    <TableBody style={{ minWidth: '240px' }}>
-                                      {/* HEADER */}
-                                      <TableRow>
-                                        <TableCell align='center'>{`Level`}</TableCell>
-                                        <TableCell align='center'>{`${chart.key} needed`}</TableCell>
-                                        <TableCell align='center'>{`Total Needed From Lv0`}</TableCell>
-                                        <TableCell align='center'>{`Extra Info`}</TableCell>
-                                      </TableRow>
+                  return (
+                    <>
+                      <Accordion square style={{ minWidth: '240px' }}>
+                        <AccordionSummary
+                          expandIcon={<ExpandMore color='primary' />}
+                          aria-controls='normal-content'
+                          id={`normal-header-${chart.slot}`}
+                          style={{ minWidth: '240px' }}
+                        >
+                          <Typography color='primary'>{chartName}</Typography>
+                          <Divider />
+                        </AccordionSummary>
+                        <AccordionDetails style={{ minWidth: '240px' }}>
+                          {
+                            <div style={{ minWidth: '240px' }}>
+                              <TableContainer>
+                                <Table
+                                  key={`${chart.slot}-${chart.key}`}
+                                  aria-labelledby='tableTitle'
+                                  size={'small'}
+                                  aria-label='enhanced table'
+                                >
+                                  <TableBody style={{ minWidth: '240px' }}>
+                                    {/* HEADER */}
+                                    <TableRow>
+                                      <TableCell align='center'>{`Level`}</TableCell>
+                                      <TableCell align='center'>{`${chart.key} needed`}</TableCell>
+                                      <TableCell align='center'>{`Total Needed From Lv0`}</TableCell>
+                                      <TableCell align='center'>{`Extra Info`}</TableCell>
+                                    </TableRow>
 
-                                      {/* DETAILS */}
-                                      {info.map(row => {
-                                        totalQuantity =
-                                          totalQuantity +
-                                          (typeof row.quantity === 'number' ? row.quantity : row.extraQuantity)
+                                    {/* DETAILS */}
+                                    {info.map(row => {
+                                      totalQuantity =
+                                        totalQuantity +
+                                        (typeof row.quantity === 'number' ? row.quantity : row.extraQuantity)
 
-                                        return (
-                                          <>
-                                            <TableRow>
+                                      return (
+                                        <>
+                                          <TableRow>
+                                            <TableCell align='center'>
+                                              {
+                                                <Typography variant='body2' color='textPrimary'>
+                                                  {row.level}
+                                                </Typography>
+                                              }
+                                            </TableCell>
+                                            <TableCell align='center'>
+                                              {
+                                                <Typography variant='body2' color='textPrimary'>
+                                                  {row.quantity.toLocaleString()}
+                                                </Typography>
+                                              }
+                                            </TableCell>
+                                            <TableCell align='center'>
+                                              {
+                                                <Typography variant='body2' color='textPrimary'>
+                                                  {typeof totalQuantity === 'number'
+                                                    ? totalQuantity.toLocaleString()
+                                                    : ''}
+                                                </Typography>
+                                              }
+                                            </TableCell>
+
+                                            {row?.info && (
                                               <TableCell align='center'>
                                                 {
                                                   <Typography variant='body2' color='textPrimary'>
-                                                    {row.level}
+                                                    {row.info}
                                                   </Typography>
                                                 }
                                               </TableCell>
-                                              <TableCell align='center'>
-                                                {
-                                                  <Typography variant='body2' color='textPrimary'>
-                                                    {row.quantity.toLocaleString()}
-                                                  </Typography>
-                                                }
-                                              </TableCell>
-                                              <TableCell align='center'>
-                                                {
-                                                  <Typography variant='body2' color='textPrimary'>
-                                                    {typeof totalQuantity === 'number'
-                                                      ? totalQuantity.toLocaleString()
-                                                      : ''}
-                                                  </Typography>
-                                                }
-                                              </TableCell>
-
-                                              {row?.info && (
-                                                <TableCell align='center'>
-                                                  {
-                                                    <Typography variant='body2' color='textPrimary'>
-                                                      {row.info}
-                                                    </Typography>
-                                                  }
-                                                </TableCell>
-                                              )}
-                                            </TableRow>
-                                          </>
-                                        )
-                                      })}
-                                    </TableBody>
-                                  </Table>
-                                </TableContainer>
-                              </div>
-                            }
-                          </AccordionDetails>
-                        </Accordion>
-                      </>
-                    )
-                  })}
-                </Paper>
+                                            )}
+                                          </TableRow>
+                                        </>
+                                      )
+                                    })}
+                                  </TableBody>
+                                </Table>
+                              </TableContainer>
+                            </div>
+                          }
+                        </AccordionDetails>
+                      </Accordion>
+                    </>
+                  )
+                })}
               </Grid>
             </Grid>
           )}
