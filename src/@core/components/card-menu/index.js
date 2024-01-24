@@ -16,13 +16,14 @@ const CardMenu = props => {
   const { desc, icon, color, src, subModule, text } = props.data
 
   return (
-    <Card 
-        sx={{ 
-          overflow: 'hidden', 
-          position: 'relative' 
-        }}
-      >
-      <Box className='cardHeader'
+    <Card
+      sx={{
+        overflow: 'hidden',
+        position: 'relative'
+      }}
+    >
+      <Box
+        className='cardHeader'
         sx={{
           display: 'flex',
           flexDirection: 'row',
@@ -35,29 +36,31 @@ const CardMenu = props => {
           backgroundColor: 'customColors.skyPalettePrimary',
           height: '60px',
           fontWeight: '600',
-          '&:hover *': { color: '#F9FDFD' } ,
+          '&:hover *': { color: '#e7e3fcde' }
         }}
       >
         <Typography
           variant='h7'
           component={Link}
           href={`/${text}`}
-          className='cardHeaderTitle' 
-          color="customColors.skyPaletteTitle" 
-          sx={{ 
-            fontWeight: 600, 
-            textDecoration: 'none', 
+          className='cardHeaderTitle'
+          color='customColors.skyPaletteTitle'
+          sx={{
+            fontWeight: 600,
+            textDecoration: 'none',
             textAlign: 'center',
             width: 'auto',
             display: 'inline',
             textTransform: 'uppercase'
           }}
         >
-          <CustomAvatar skin='light' variant='rounded' 
-            sx={{ 
-              mr: 3, 
-              height: 34, 
-              width: 34, 
+          <CustomAvatar
+            skin='light'
+            variant='rounded'
+            sx={{
+              mr: 3,
+              height: 34,
+              width: 34,
               color: 'customColors.skyPaletteTitle',
               backgroundColor: 'transparent',
               display: 'inline',

@@ -39,6 +39,11 @@ const navigation = () => {
       path: '/colossus'
     },
     {
+      title: 'Contributors',
+      icon: 'mdi:help-outline',
+      path: '/contributors'
+    },
+    {
       title: 'High College',
       icon: 'la:school',
       path: '/college'
