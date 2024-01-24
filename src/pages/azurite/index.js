@@ -121,11 +121,13 @@ const AzuriteCalculator = props => {
           <Grid container spacing={3} style={{ minWidth: '320px', padding: '1rem' }}>
             <Grid item xs={12} md={6} lg={8}>
               <CustomBox>
-                <div style={{ minWidth: '200px', marginRight: '5px' }}>
-                  <Typography variant='body2' color='primary' align='right'>
+                <Box sx={{
+                  minWidth: '200px'
+                }}>
+                  <Typography variant='body2' color='primary' align='left'>
                     Azurite Mine per Hour:
                   </Typography>
-                </div>
+                </Box>
                 <TextField
                   id='mine-per-hour'
                   size='small'
@@ -150,15 +152,18 @@ const AzuriteCalculator = props => {
                 </IconButton>
               </CustomBox>
               <CustomBox>
-                <div style={{ minWidth: '200px', marginRight: '5px' }}>
-                  <Typography variant='body2' color='primary' align='right'>
+                <Box sx={{
+                  minWidth: '200px'
+                }}>
+                  <Typography variant='body2' color='primary' align='left'>
                     Royal Challenge Wave(s):
                   </Typography>
-                </div>
+                </Box>
                 <TextField
                   align='left'
                   id='rc-select'
                   size='small'
+                  sx={{ width: '95px' }}
                   variant='outlined'
                   select
                   value={azuCalculator.rcLevel}
@@ -186,11 +191,13 @@ const AzuriteCalculator = props => {
                 </IconButton>
               </CustomBox>
               <CustomBox>
-                <div style={{ minWidth: '200px', marginRight: '5px' }}>
-                  <Typography variant='body2' color='primary' align='right'>
+                <Box sx={{
+                  minWidth: '200px'
+                }}>
+                  <Typography variant='body2' color='primary' align='left'>
                     Monthly Azurite Card:
                   </Typography>
-                </div>
+                </Box>
                 <Switch
                   checked={azuCalculator?.card ? true : false}
                   onChange={e => {
@@ -209,11 +216,13 @@ const AzuriteCalculator = props => {
                 </IconButton>
               </CustomBox>
               <CustomBox>
-                <div style={{ minWidth: '200px', marginRight: '5px' }}>
-                  <Typography variant='body2' color='primary' align='right'>
+                <Box sx={{
+                  minWidth: '200px'
+                }}>
+                  <Typography variant='body2' color='primary' align='left'>
                     Azurite from packs (daily):
                   </Typography>
-                </div>
+                </Box>
                 <TextField
                   id='azurite-from-packs'
                   size='small'
@@ -230,15 +239,18 @@ const AzuriteCalculator = props => {
                 />
               </CustomBox>
               <CustomBox>
-                <div style={{ minWidth: '200px', marginRight: '5px' }}>
-                  <Typography variant='body2' color='primary' align='right'>
+                <Box sx={{
+                  minWidth: '200px'
+                }}>
+                  <Typography variant='body2' color='primary' align='left'>
                     Azurite Daily Chests:
                   </Typography>
-                </div>
+                </Box>
                 <TextField
                   align='left'
                   id='chests-select'
                   size='small'
+                  sx={{ width: '95px' }}
                   variant='outlined'
                   type='number'
                   select
@@ -268,14 +280,17 @@ const AzuriteCalculator = props => {
               </CustomBox>
 
               <CustomBox>
-                <div style={{ minWidth: '200px', marginRight: '5px' }}>
-                  <Typography variant='body2' color='primary' align='right'>
+                <Box sx={{
+                  minWidth: '200px'
+                }}>
+                  <Typography variant='body2' color='primary' align='left'>
                     Azurite Owned:
                   </Typography>
-                </div>
+                </Box>
                 <TextField
                   id='azurite-owned'
                   size='small'
+                  sx={{ width: '95px' }}
                   variant='outlined'
                   type='number'
                   value={azuCalculator.owned > 0 ? azuCalculator.owned : ''}
@@ -290,14 +305,17 @@ const AzuriteCalculator = props => {
               </CustomBox>
 
               <CustomBox>
-                <div style={{ width: '200px', marginRight: '5px' }}>
-                  <Typography variant='body2' color='primary' align='right'>
+                <Box sx={{
+                  minWidth: '200px'
+                }}>
+                  <Typography variant='body2' color='primary' align='left'>
                     Azurite Needed:
                   </Typography>
-                </div>
+                </Box>
                 <TextField
                   id='azurite-needed'
                   size='small'
+                  sx={{ width: '95px' }}
                   variant='outlined'
                   type='number'
                   value={azuCalculator.needed > 0 ? azuCalculator.needed : ''}
@@ -313,7 +331,7 @@ const AzuriteCalculator = props => {
               {azuCalculator.owned > 0 && azuCalculator.needed > 0 && (
                 <CustomBox>
                   <div style={{ width: '200px', marginRight: '5px' }}>
-                    <Typography variant='body2' color='primary' align='right'>
+                    <Typography variant='body2' color='primary' align='left'>
                       Missing Azurite (Needed - Owned):
                     </Typography>
                   </div>

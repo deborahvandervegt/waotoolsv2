@@ -77,7 +77,7 @@ const VerticalNavHeader = props => {
         userNavMenuBranding(props)
       ) : (
         <LinkStyled href='/'>
-        <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" width="250" zoomAndPan="magnify" viewBox="0 0 708.75 198.749996" height="180" preserveAspectRatio="xMidYMid meet" version="1.0">
+        <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" width="250" zoomAndPan="magnify" viewBox="0 0 708.75 198.749996" height="105" preserveAspectRatio="xMidYMid meet" version="1.0">
           <defs>
             <g />
           </defs>
