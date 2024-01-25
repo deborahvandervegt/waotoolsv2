@@ -126,13 +126,6 @@ export const menuList = [
     desc: 'Contributors',
     src: '/images/cards/pose_f9.png',
     icon: 'mdi:help-outline',
-    subModule: [{ name: '- Creator' }, { name: '- Developers' }, { name: '- Contributors' }, { name: '- Supporters' }]
-  },
-  {
-    text: 'troops',
-    desc: 'Troops Setup',
-    src: '/images/cards/pose_f9.png',
-    icon: 'game-icons:rally-the-troops',
-    subModule: [{ name: '- Troops Templates' }, { name: '- Troops Configuration' }]
+    subModule: [{ name: '- Developers' }, { name: '- Contributors' }, { name: '- Supporters' }]
   }
 ]
