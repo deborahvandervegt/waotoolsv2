@@ -48,10 +48,10 @@ const ContributorsDetails = props => {
         >
           {props.data?.map(ct => {
             return (
-              <Grid key={ct.name} item xs={3} lg={3} md={4} sm={6}>
+              <Grid key={ct.name} item xs={6} lg={3} md={4}>
                 <Box sx={{ marginRight: '3px', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                  <Typography variant='body1'>{ct.name}</Typography>
-                  <Typography variant='body2' sx={{ ml: '6px', mr: '6px' }}>
+                  <Typography variant='body2'>{ct.name}</Typography>
+                  <Typography variant='caption' sx={{ ml: '6px', mr: '6px' }}>
                     {ct.realm}
                   </Typography>
                   {ct.type === 'VIP supporter' || ct.type === 'VIP contributor' ? (
