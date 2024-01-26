@@ -84,14 +84,6 @@ const GreenButton = styled(Button)(({ theme }) => ({
   }
 }))
 
-const RedButton = styled(Button)(({ theme }) => ({
-  color: theme.palette.getContrastText(red[500]),
-  backgroundColor: red[500],
-  '&:hover': {
-    backgroundColor: red[700]
-  }
-}))
-
 const BlueButton = styled(Button)(({ theme }) => ({
   color: theme.palette.getContrastText(blue[600]),
   backgroundColor: blue[600],

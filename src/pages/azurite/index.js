@@ -17,16 +17,7 @@ import { azuCalcConf } from 'src/data/building'
 
 // ** Styled Components
 import { InfoOutlined } from '@mui/icons-material'
-import {
-  Button,
-  CardMedia,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Divider,
-  Switch
-} from '@mui/material'
+import { Button, CardMedia, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Switch } from '@mui/material'
 import CustomHeader from 'src/@core/components/Header'
 import nRound from 'src/@core/utils/numberRound'
 
@@ -118,12 +109,14 @@ const AzuriteCalculator = props => {
         <Card>
           <CustomHeader icon='azurite' title='AZURITE CALCULATOR' />
           <Divider />
-          <Grid container spacing={3} style={{ minWidth: '320px', padding: '1rem' }}>
+          <Grid container spacing={3} sx={{ minWidth: '320px', padding: '1rem' }}>
             <Grid item xs={12} md={6} lg={8}>
               <CustomBox>
-                <Box sx={{
-                  minWidth: '200px'
-                }}>
+                <Box
+                  sx={{
+                    minWidth: '200px'
+                  }}
+                >
                   <Typography variant='body2' color='primary' align='left'>
                     Azurite Mine per Hour:
                   </Typography>
@@ -152,9 +145,11 @@ const AzuriteCalculator = props => {
                 </IconButton>
               </CustomBox>
               <CustomBox>
-                <Box sx={{
-                  minWidth: '200px'
-                }}>
+                <Box
+                  sx={{
+                    minWidth: '200px'
+                  }}
+                >
                   <Typography variant='body2' color='primary' align='left'>
                     Royal Challenge Wave(s):
                   </Typography>
@@ -191,9 +186,11 @@ const AzuriteCalculator = props => {
                 </IconButton>
               </CustomBox>
               <CustomBox>
-                <Box sx={{
-                  minWidth: '200px'
-                }}>
+                <Box
+                  sx={{
+                    minWidth: '200px'
+                  }}
+                >
                   <Typography variant='body2' color='primary' align='left'>
                     Monthly Azurite Card:
                   </Typography>
@@ -216,9 +213,11 @@ const AzuriteCalculator = props => {
                 </IconButton>
               </CustomBox>
               <CustomBox>
-                <Box sx={{
-                  minWidth: '200px'
-                }}>
+                <Box
+                  sx={{
+                    minWidth: '200px'
+                  }}
+                >
                   <Typography variant='body2' color='primary' align='left'>
                     Azurite from packs (daily):
                   </Typography>
@@ -239,9 +238,11 @@ const AzuriteCalculator = props => {
                 />
               </CustomBox>
               <CustomBox>
-                <Box sx={{
-                  minWidth: '200px'
-                }}>
+                <Box
+                  sx={{
+                    minWidth: '200px'
+                  }}
+                >
                   <Typography variant='body2' color='primary' align='left'>
                     Azurite Daily Chests:
                   </Typography>
@@ -280,9 +281,11 @@ const AzuriteCalculator = props => {
               </CustomBox>
 
               <CustomBox>
-                <Box sx={{
-                  minWidth: '200px'
-                }}>
+                <Box
+                  sx={{
+                    minWidth: '200px'
+                  }}
+                >
                   <Typography variant='body2' color='primary' align='left'>
                     Azurite Owned:
                   </Typography>
@@ -305,9 +308,11 @@ const AzuriteCalculator = props => {
               </CustomBox>
 
               <CustomBox>
-                <Box sx={{
-                  minWidth: '200px'
-                }}>
+                <Box
+                  sx={{
+                    minWidth: '200px'
+                  }}
+                >
                   <Typography variant='body2' color='primary' align='left'>
                     Azurite Needed:
                   </Typography>
@@ -377,23 +382,19 @@ const AzuriteCalculator = props => {
                     {(azuCalculator.total * 30).toLocaleString()}
                   </Typography>
                 </div>
-                {azuCalculator.needed > 0 &&
-                  azuCalculator.needed > azuCalculator.owned &&
-                  azuCalculator.total > 0 && (
-                    <div>
-                      <div style={{ minWidth: '200px' }}>
-                        <Typography variant='body2' color='primary' align='center' style={{ marginLeft: '10px' }}>
-                          Days needed to complete missing azurite (Needed - owned)/Daily output:
-                        </Typography>
-                      </div>
-                      <Typography variant='body2' color='textPrimary' align='center' style={{ marginLeft: '10px' }}>
-                        {Math.round(
-                          (azuCalculator.needed - azuCalculator.owned) / azuCalculator.total
-                        ).toLocaleString()}
-                        d to get {(azuCalculator.needed - azuCalculator.owned).toLocaleString()} azurite.
+                {azuCalculator.needed > 0 && azuCalculator.needed > azuCalculator.owned && azuCalculator.total > 0 && (
+                  <div>
+                    <div style={{ minWidth: '200px' }}>
+                      <Typography variant='body2' color='primary' align='center' style={{ marginLeft: '10px' }}>
+                        Days needed to complete missing azurite (Needed - owned)/Daily output:
                       </Typography>
                     </div>
-                  )}
+                    <Typography variant='body2' color='textPrimary' align='center' style={{ marginLeft: '10px' }}>
+                      {Math.round((azuCalculator.needed - azuCalculator.owned) / azuCalculator.total).toLocaleString()}d
+                      to get {(azuCalculator.needed - azuCalculator.owned).toLocaleString()} azurite.
+                    </Typography>
+                  </div>
+                )}
               </div>
             </Grid>
           </Grid>

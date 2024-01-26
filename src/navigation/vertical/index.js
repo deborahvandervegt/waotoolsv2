@@ -49,6 +49,11 @@ const navigation = () => {
       path: '/college'
     },
     {
+      title: 'Minitools',
+      icon: 'et:tools-2',
+      path: '/minitools'
+    },
+    {
       title: 'Mystic',
       icon: 'basil:university-outline',
       path: '/mystic'

@@ -73,13 +73,6 @@ const VerticalNavHeader = props => {
 
   return (
     <MenuHeaderWrapper className='nav-header' sx={{ pl: menuHeaderPaddingLeft() }}>
-      {/* {!navHover ? (
-        <LinkStyled href='/'>
-          <HeaderTitle variant='h6' color='primary' sx={{ ml: 3 }}>
-            WT
-          </HeaderTitle>
-        </LinkStyled>
-      ) : ( */}
       <LinkStyled href='/'>
         <svg
           xmlns='http://www.w3.org/2000/svg'
@@ -170,7 +163,6 @@ const VerticalNavHeader = props => {
           sx={{ ...menuCollapsedStyles, ...(navCollapsed && !navHover ? {} : { ml: 3 }) }}
         ></HeaderTitle>
       </LinkStyled>
-      {/* )} */}
 
       {hidden ? (
         <IconButton
