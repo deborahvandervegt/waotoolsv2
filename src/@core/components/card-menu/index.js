@@ -25,7 +25,7 @@ const StatusChip = props => {
     <Chip
       label={`${statusProps[status].desc}`}
       variant='filled'
-      sx={{ marginLeft: '5px', backgroundColor: statusProps[status].color }}
+      sx={{ marginLeft: '5px', backgroundColor: statusProps[status].color, color: '#e7e3fcde' }}
     />
   )
 }
