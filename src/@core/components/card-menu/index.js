@@ -1,5 +1,5 @@
 // ** MUI Imports
-import { CardActions, Divider } from '@mui/material'
+import { CardActions, Chip, Divider } from '@mui/material'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Card from '@mui/material/Card'
@@ -11,9 +11,28 @@ import CustomAvatar from 'src/@core/components/mui/avatar'
 import Link from 'next/link'
 import Icon from 'src/@core/components/icon'
 
+// ** Custom Var and Components
+const statusProps = {
+  finished: { desc: 'Finished', color: '', show: true },
+  development: { desc: 'Under development', color: '#6d2ebf', show: false },
+  comingsoon: { desc: 'Coming soon', color: '#14623bb0', show: false }
+}
+
+const StatusChip = props => {
+  const { status } = props
+
+  return (
+    <Chip
+      label={`${statusProps[status].desc}`}
+      variant='filled'
+      sx={{ marginLeft: '5px', backgroundColor: statusProps[status].color }}
+    />
+  )
+}
+
 const CardMenu = props => {
   // ** Vars
-  const { desc, icon, color, src, subModule, text } = props.data
+  const { desc, icon, color, src, subModule, text, status } = props.data
 
   return (
     <Card
@@ -36,13 +55,13 @@ const CardMenu = props => {
           backgroundColor: 'customColors.skyPalettePrimary',
           height: '60px',
           fontWeight: '600',
-          '&:hover *': { color: '#e7e3fcde' }
+          '&:hover *': { color: `${statusProps[status].show ? '#e7e3fcde' : ''}` }
         }}
       >
         <Typography
           variant='h7'
-          component={Link}
-          href={`/${text}`}
+          component={statusProps[status].show ? Link : null}
+          href={statusProps[status].show ? `/${text}` : '#'}
           className='cardHeaderTitle'
           color='customColors.skyPaletteTitle'
           sx={{
@@ -72,7 +91,8 @@ const CardMenu = props => {
           </CustomAvatar>
           {desc}
         </Typography>
-      </Box>{' '}
+        {status !== 'finished' ? <StatusChip status={status} /> : null}
+      </Box>
       <Divider />
       <CardContent sx={{ display: 'flex', flexDirection: 'column', minHeight: '155px' }}>
         <Box
@@ -92,7 +112,7 @@ const CardMenu = props => {
         </Box>
       </CardContent>
       <CardActions>
-        <Button size='small' component={Link} href={`/${text}`}>
+        <Button disabled={!statusProps[status].show} size='small' component={Link} href={`/${text}`}>
           CHECK TOOL
         </Button>
       </CardActions>
