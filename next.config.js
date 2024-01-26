@@ -16,5 +16,14 @@ module.exports = {
     }
 
     return config
-  }
+  },
+  async redirects () {
+    return [
+      {
+        source: '/home',
+        destination: '/',
+        permanent: true,
+      },
+    ]
+  },
 }
