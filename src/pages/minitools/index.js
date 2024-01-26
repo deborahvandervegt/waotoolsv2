@@ -395,6 +395,8 @@ const Minitools = () => {
                           : 0
                         ).toLocaleString()}
                       </Typography>
+                    </CustomBox>
+                    <Box sx={{ display: 'flex', justifyContent: 'flex-start' }}>
                       <Button
                         variant='contained'
                         startIcon={<Refresh />}
@@ -414,7 +416,7 @@ const Minitools = () => {
                       >
                         REFRESH
                       </Button>
-                    </CustomBox>
+                    </Box>
                   </Box>
                 </Box>
               </Grid>
