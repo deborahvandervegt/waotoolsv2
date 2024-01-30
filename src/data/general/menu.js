@@ -9,40 +9,12 @@ export const menuList = [
     color: 'primary'
   },
   {
-    status: 'development',
-    text: 'packs',
-    desc: 'Packs',
-    src: '/images/cards/pose_f9.png',
-    icon: 'emojione-monotone:money-with-wings',
-    subModule: [{ name: '- Pack List' }]
-  },
-  {
-    status: 'finished',
-    text: 'minitools',
-    desc: 'Minitools',
-    src: '/images/cards/pose_f9.png',
-    icon: 'et:tools-2',
-    subModule: [{ name: '- Angel Dust Calculator' }]
-  },
-  {
-    status: 'finished',
+    status: 'new',
     text: 'troops',
     desc: 'Troops Setup',
     src: '/images/cards/pose_f9.png',
     icon: 'game-icons:rally-the-troops',
     subModule: [{ name: '- Troops Templates' }, { name: '- Troops Configuration' }]
-  },
-  {
-    status: 'development',
-    text: 'artifact',
-    desc: 'Artifacts',
-    src: '/images/cards/pose_f9.png',
-    icon: 'game-icons:glowing-artifact',
-    subModule: [
-      { name: '- Artifact Simulator' },
-      { name: '- Experience and Shards calculator' },
-      { name: '- Artifact List' }
-    ]
   },
   {
     status: 'finished',
@@ -51,6 +23,22 @@ export const menuList = [
     src: '/images/cards/pose_f9.png',
     icon: 'game-icons:crystal-growth',
     subModule: [{ name: '- Azurite Calculator' }]
+  },
+  {
+    status: 'finished',
+    text: 'building',
+    desc: 'Building',
+    src: '/images/cards/pose_f9.png',
+    icon: 'emojione-monotone:construction',
+    subModule: [{ name: '- Building List' }, { name: '- Building Path Recommendation' }]
+  },
+  {
+    status: 'finished',
+    text: 'speeds',
+    desc: 'Speeds',
+    src: '/images/cards/pose_f9.png',
+    icon: 'material-symbols:speed-outline',
+    subModule: [{ name: '- Recruitment Calculator' }]
   },
   {
     status: 'finished',
@@ -66,11 +54,11 @@ export const menuList = [
   },
   {
     status: 'finished',
-    text: 'building',
-    desc: 'Building',
+    text: 'totem',
+    desc: 'Totem',
     src: '/images/cards/pose_f9.png',
-    icon: 'emojione-monotone:construction',
-    subModule: [{ name: '- Building List' }, { name: '- Building Path Recommendation' }]
+    icon: 'game-icons:totem',
+    subModule: [{ name: '- Stats Comparator' }, { name: '- Stones and Scrolls Calculator' }]
   },
   {
     status: 'finished',
@@ -79,22 +67,6 @@ export const menuList = [
     src: '/images/cards/pose_f9.png',
     icon: 'game-icons:giant',
     subModule: [{ name: '- Colossus Simulator' }]
-  },
-  {
-    status: 'development',
-    text: 'equipment',
-    desc: 'Equipment',
-    src: '/images/cards/pose_f9.png',
-    icon: 'game-icons:shoulder-armor',
-    subModule: [{ name: '- Equipment Simulator' }, { name: '- Enhancement Simulator' }, { name: '- Equipment List' }]
-  },
-  {
-    status: 'finished',
-    text: 'database',
-    desc: 'Database List',
-    src: '/images/cards/pose_f9.png',
-    icon: 'carbon:data-volume',
-    subModule: [{ name: '- Enhancement Lvls (Obsidian)' }, { name: '- VIP/SVIP Levels' }, { name: '- More Levels...' }]
   },
   {
     status: 'finished',
@@ -115,19 +87,55 @@ export const menuList = [
   },
   {
     status: 'finished',
-    text: 'speeds',
-    desc: 'Speeds',
+    text: 'minitools',
+    desc: 'Minitools',
     src: '/images/cards/pose_f9.png',
-    icon: 'material-symbols:speed-outline',
-    subModule: [{ name: '- Recruitment Calculator' }]
+    icon: 'et:tools-2',
+    subModule: [{ name: '- Angel Dust Calculator' }]
   },
   {
     status: 'finished',
-    text: 'totem',
-    desc: 'Totem',
+    text: 'database',
+    desc: 'Database List',
     src: '/images/cards/pose_f9.png',
-    icon: 'game-icons:totem',
-    subModule: [{ name: '- Stats Comparator' }, { name: '- Stones and Scrolls Calculator' }]
+    icon: 'carbon:data-volume',
+    subModule: [{ name: '- Enhancement Lvls (Obsidian)' }, { name: '- VIP/SVIP Levels' }, { name: '- More Levels...' }]
+  },
+  {
+    status: 'development',
+    text: 'packs',
+    desc: 'Packs',
+    src: '/images/cards/pose_f9.png',
+    icon: 'emojione-monotone:money-with-wings',
+    subModule: [{ name: '- Pack List' }]
+  },
+  {
+    status: 'development',
+    text: 'artifact',
+    desc: 'Artifacts',
+    src: '/images/cards/pose_f9.png',
+    icon: 'game-icons:glowing-artifact',
+    subModule: [
+      { name: '- Artifact Simulator' },
+      { name: '- Experience and Shards calculator' },
+      { name: '- Artifact List' }
+    ]
+  },
+  {
+    status: 'development',
+    text: 'equipment',
+    desc: 'Equipment',
+    src: '/images/cards/pose_f9.png',
+    icon: 'game-icons:shoulder-armor',
+    subModule: [{ name: '- Equipment Simulator' }, { name: '- Enhancement Simulator' }, { name: '- Equipment List' }]
+  },
+  {
+    status: 'comingsoon',
+    text: 'tipsandtricks',
+    desc: 'Tips N Tricks',
+    src: '/images/cards/pose_f9.png',
+    icon: 'game-icons:magick-trick',
+    subModule: [{ name: '- Tips' }, { name: '- Tricks' }]
   },
   {
     status: 'finished',
@@ -144,13 +152,5 @@ export const menuList = [
     src: '/images/cards/pose_f9.png',
     icon: 'mdi:help-outline',
     subModule: [{ name: '- Developers' }, { name: '- Contributors' }, { name: '- Supporters' }]
-  },
-  {
-    status: 'comingsoon',
-    text: 'tipsandtricks',
-    desc: 'Tips N Tricks',
-    src: '/images/cards/pose_f9.png',
-    icon: 'game-icons:magick-trick',
-    subModule: [{ name: '- Tips' }, { name: '- Tricks' }]
   }
 ]

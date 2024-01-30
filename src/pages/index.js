@@ -6,17 +6,17 @@ import CardMenu from 'src/@core/components/card-menu/index'
 import { menuList } from '../data/general/menu'
 
 // ** Styled Component Import
-import ApexChartWrapper from 'src/@core/styles/libs/react-apexcharts'
 import { Box, Button, Paper, Typography } from '@mui/material'
 import { styled, useTheme } from '@mui/system'
 import { useRouter } from 'next/router'
+import ApexChartWrapper from 'src/@core/styles/libs/react-apexcharts'
 
-const PurpleButton = styled(Button)(({ theme }) => ({
+const BlueButton = styled(Button)(({ theme }) => ({
   color: theme.palette.getContrastText('#0278AE'),
   marginTop: '8px',
-  background: 'linear-gradient(to right, #265faf, #1c5db9,#10499b, #043987)!important;',
+  background: 'linear-gradient(to right, #4eaacc, #2883a8, #006390)!important;',
   '&:hover': {
-    background: 'linear-gradient(to right, #8852ff, #632ecb, #4e19c1, #381683)!important'
+    background: 'linear-gradient(to right, #469ab9, #237495, #005379)!important'
   }
 }))
 
@@ -38,9 +38,6 @@ const Home = () => {
                 alignItems: 'center'
               }}
             >
-              <Typography variant='body2' sx={{ marginRight: '2px' }}>
-                Welcome to,
-              </Typography>
               <Typography variant='h5' color='primary'>
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
@@ -132,14 +129,14 @@ const Home = () => {
                 and information to know what you need to get or do in order to grow your castle stronger. If you want to
                 continue supporting this website and project, go and buy us some coffees here:
               </Typography>
-              <PurpleButton
+              <BlueButton
                 variant='contained'
                 onClick={e => {
                   router.push('/contributors')
                 }}
               >
                 Contribute
-              </PurpleButton>
+              </BlueButton>
             </Box>
           </Paper>
         </Grid>
