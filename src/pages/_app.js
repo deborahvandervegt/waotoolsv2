@@ -19,7 +19,7 @@ import { CacheProvider } from '@emotion/react'
 import { defaultACLObj } from 'src/configs/acl'
 import 'src/configs/i18n'
 import themeConfig from 'src/configs/themeConfig'
-import { app, analytics, db } from 'src/utils/firebaseInit'
+import { analytics } from 'src/utils/firebaseInit'
 
 // ** Fake-DB Import
 import 'src/@fake-db'
@@ -54,7 +54,7 @@ import 'react-perfect-scrollbar/dist/css/styles.css'
 import 'src/iconify-bundle/icons-bundle-react'
 
 // ** Global css styles
-import '../../styles/globals.css'
+import '../../styles/globals.scss'
 
 const clientSideEmotionCache = createEmotionCache()
 

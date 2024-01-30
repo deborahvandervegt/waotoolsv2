@@ -14,8 +14,9 @@ import Icon from 'src/@core/components/icon'
 // ** Custom Var and Components
 const statusProps = {
   finished: { desc: 'Finished', color: '', show: true },
-  development: { desc: 'Under development', color: '#6d2ebf', show: false },
-  comingsoon: { desc: 'Coming soon', color: '#14623bb0', show: false }
+  development: { desc: 'Under development', color: '#cb4a4e', textColor: 'white', show: false, icon: 'mdi:cog', iconColor: 'white'  },
+  comingsoon: { desc: 'Coming soon', color: '#e4b80d', textColor: 'white', show: false, icon: 'mdi:clock', iconColor: 'white' },
+  new: { desc: 'NEW', color: '#e4b80d', textColor: 'white', show: false, icon: 'mdi:star', iconColor: 'white' }
 }
 
 const StatusChip = props => {
@@ -25,7 +26,9 @@ const StatusChip = props => {
     <Chip
       label={`${statusProps[status].desc}`}
       variant='filled'
-      sx={{ marginLeft: '5px', backgroundColor: statusProps[status].color, color: '#e7e3fcde' }}
+      size='small'
+      icon={<Icon icon={`${statusProps[status].icon}`} color={`${statusProps[status].iconColor}`}/>}
+      sx={{ marginLeft: '5px', backgroundColor: statusProps[status].color, color: statusProps[status].textColor }}
     />
   )
 }
