@@ -14,9 +14,9 @@ const navigation = () => {
       path: '/planner'
     },
     {
-      title: 'Database',
-      icon: 'carbon:data-volume',
-      path: '/database'
+      title: 'Troops',
+      icon: 'game-icons:rally-the-troops',
+      path: '/troops'
     },
     {
       title: 'Azurite',
@@ -24,14 +24,24 @@ const navigation = () => {
       path: '/azurite'
     },
     {
+      title: 'Buildings',
+      icon: 'emojione-monotone:construction',
+      path: '/building'
+    },
+    {
+      title: 'Speeds',
+      icon: 'material-symbols:speed-outline',
+      path: '/speeds'
+    },
+    {
       title: 'Beast',
       icon: 'game-icons:beast-eye',
       path: '/beast'
     },
     {
-      title: 'Buildings',
-      icon: 'emojione-monotone:construction',
-      path: '/building'
+      title: 'Totems',
+      icon: 'game-icons:totem',
+      path: '/totem'
     },
     {
       title: 'Colossus',
@@ -39,9 +49,9 @@ const navigation = () => {
       path: '/colossus'
     },
     {
-      title: 'Contributors',
-      icon: 'mdi:help-outline',
-      path: '/contributors'
+      title: 'Mystic',
+      icon: 'basil:university-outline',
+      path: '/mystic'
     },
     {
       title: 'High College',
@@ -54,9 +64,9 @@ const navigation = () => {
       path: '/minitools'
     },
     {
-      title: 'Mystic',
-      icon: 'basil:university-outline',
-      path: '/mystic'
+      title: 'Database',
+      icon: 'carbon:data-volume',
+      path: '/database'
     },
     {
       title: 'Realms',
@@ -64,19 +74,9 @@ const navigation = () => {
       path: '/realms'
     },
     {
-      title: 'Speeds',
-      icon: 'material-symbols:speed-outline',
-      path: '/speeds'
-    },
-    {
-      title: 'Totems',
-      icon: 'game-icons:totem',
-      path: '/totem'
-    },
-    {
-      title: 'Troops',
-      icon: 'game-icons:rally-the-troops',
-      path: '/troops'
+      title: 'Contributors',
+      icon: 'mdi:help-outline',
+      path: '/contributors'
     }
   ]
 }
