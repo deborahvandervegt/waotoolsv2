@@ -6,5 +6,9 @@ body {
         overflow: hidden;
         box-shadow: 0px 2px 10px 0px rgba(58, 53, 65, 0.1);
       }
+      .MuiAvatar-root {
+        background-color: transparent !important;
+        color: #0278AE !important;
+      }
   }
 }
