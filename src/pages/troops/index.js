@@ -1,32 +1,33 @@
 // ** React Imports
-import { useState, useEffect, forwardRef } from 'react'
+import { forwardRef, useEffect, useState } from 'react';
 
 // ** Next Import
-import Link from 'next/link'
 
 // ** MUI Imports
-import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
-import Card from '@mui/material/Card'
-import Tooltip from '@mui/material/Tooltip'
-import { styled, createTheme } from '@mui/material/styles'
-import MenuItem from '@mui/material/MenuItem'
-import TextField from '@mui/material/TextField'
-import IconButton from '@mui/material/IconButton'
-import Typography from '@mui/material/Typography'
-import MuiTabList from '@mui/lab/TabList'
+import MuiTabList from '@mui/lab/TabList';
+import Alert from '@mui/material/Alert';
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import Grid from '@mui/material/Grid';
+import IconButton from '@mui/material/IconButton';
+import MenuItem from '@mui/material/MenuItem';
+import TextField from '@mui/material/TextField';
+import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
+import { createTheme, styled } from '@mui/material/styles';
 
 // ** Icon Imports
-import Icon from 'src/@core/components/icon'
+import Icon from 'src/@core/components/icon';
 
 // ** Third Party Imports
-import toast from 'react-hot-toast'
+import toast from 'react-hot-toast';
 
 // ** Custom Components Imports
-import { troopsTemplates } from 'src/data/troops'
+import { troopsTemplates } from 'src/data/troops';
 
 // ** Styled Components
-import CustomHeader from 'src/@core/components/Header'
+import { InfoOutlined } from '@mui/icons-material';
+import { TabContext, TabPanel } from '@mui/lab';
 import {
   Avatar,
   Badge,
@@ -40,19 +41,18 @@ import {
   Paper,
   Tab,
   useMediaQuery
-} from '@mui/material'
-import { green } from '@mui/material/colors'
-import { TabContext, TabPanel } from '@mui/lab'
-import { InfoOutlined } from '@mui/icons-material'
+} from '@mui/material';
+import CustomHeader from 'src/@core/components/Header';
 
 // ** Styled component for the link in the dataTable
 const theme = createTheme()
 
 const GreenButton = styled(Button)(({ theme }) => ({
-  backgroundColor: green[500],
-  color: theme.palette.getContrastText(green[500]),
+  backgroundColor: theme.palette.customColors.skyPaletteTertiary,
+  color: theme.palette.customColors.skyPaletteTitle,
   '&:hover': {
-    backgroundColor: green[700]
+    backgroundColor: theme.palette.customColors.skyPaletteTertiary,
+    filter: 'brightness(0.85)'
   }
 }))
 
@@ -531,12 +531,52 @@ const Troops = () => {
           <Box sx={{ flexGrow: 1 }}>
             <Grid container spacing={2} sx={{ padding: '0.5em' }}>
               <Grid item xs={12}>
-                <Paper elevation={24}>
-                  <Typography align='center' variant='h6' color='primary' sx={{ paddingTop: '0.5em' }}>
-                    TROOPS SETUP
-                  </Typography>
+                <Typography align='center' variant='h6' color='primary' sx={{ paddingTop: '0.5em' }}>
+                  TROOPS SETUP
+                </Typography>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    flexWrap: 'wrap',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                  }}
+                >
+                  <TextField
+                    align='center'
+                    id='army-size-limit'
+                    size='small'
+                    variant='outlined'
+                    label='Set Army Size Limit'
+                    sx={{ minWidth: '200px', mt: 3 }}
+                    value={troopsInfo?.armySizeLimit > 0 ? troopsInfo?.armySizeLimit : ''}
+                    onChange={e => {
+                      const armyLimit = +e.target.value > 999999 ? 999999 : +e.target.value
+                      setTroopsInfo({ ...troopsInfo, armySizeLimit: armyLimit })
+                    }}
+                  />
+                  <Box sx={{ m: 3 }}>
+                    <Typography align='center' color='primary' variant='body2'>
+                      Troops Used:
+                    </Typography>
+                    <Typography align='center' variant='h5'>
+                      {usedTroops?.toLocaleString()}
+                    </Typography>
+                  </Box>
+                </Box>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    padding: '0.5rem',
+                    flexWrap: 'wrap'
+                  }}
+                >
+                  {/* EVEN TIERS */}
                   <Paper
-                    elevation={4}
+                    elevation={12}
                     sx={{
                       display: 'flex',
                       flexDirection: 'column',
@@ -544,594 +584,541 @@ const Troops = () => {
                       padding: '0.5em'
                     }}
                   >
-                    <Box
-                      sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        flexWrap: 'wrap',
-                        justifyContent: 'center',
-                        alignItems: 'center'
-                      }}
-                    >
-                      <TextField
-                        align='center'
-                        id='army-size-limit'
-                        size='small'
-                        variant='outlined'
-                        label='Set Army Size Limit'
-                        sx={{ minWidth: '200px', mt: 3 }}
-                        value={troopsInfo?.armySizeLimit > 0 ? troopsInfo?.armySizeLimit : ''}
-                        onChange={e => {
-                          const armyLimit = +e.target.value > 999999 ? 999999 : +e.target.value
-                          setTroopsInfo({ ...troopsInfo, armySizeLimit: armyLimit })
-                        }}
-                      />
-                      <Box sx={{ m: 3 }}>
-                        <Typography align='center' color='primary' variant='body2'>
-                          Troops Used:
-                        </Typography>
-                        <Typography align='center' variant='h5'>
-                          {usedTroops?.toLocaleString()}
-                        </Typography>
+                    <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                      {/* FRONTLINE TROOPS */}
+                      <Typography align='center' color='primary' variant='h6'>
+                        EVEN TIERS
+                      </Typography>
+                      <div>
+                        <Divider>
+                          <Typography variant='caption'>FRONTLINE</Typography>
+                        </Divider>
+                      </div>
+                      <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+                        <Box sx={{ padding: '0.3em' }}>
+                          <TextField
+                            align='left'
+                            id='evenCavTier'
+                            size='small'
+                            variant='outlined'
+                            label='Tier'
+                            select
+                            sx={{ maxWidth: '60px' }}
+                            value={troopsInfo.setup['evenCavTier']}
+                            onChange={e => {
+                              handleCalculatorChange(e, 'evenCavTier')
+                            }}
+                          >
+                            {tierList.even?.map(option => (
+                              <MenuItem key={option.t} value={option.t}>
+                                {option.desc}
+                              </MenuItem>
+                            ))}
+                          </TextField>
+                          <TextField
+                            id='evenCav'
+                            size='small'
+                            variant='outlined'
+                            type='number'
+                            label='Cavalry'
+                            value={troopsInfo.setup['evenCav']}
+                            sx={{ maxWidth: '115px' }}
+                            onChange={e => {
+                              handleCalculatorChange(e, 'evenCav')
+                            }}
+                          />
+                        </Box>
+
+                        <Box sx={{ padding: '0.3em' }}>
+                          <TextField
+                            align='left'
+                            id='evenInfTier'
+                            size='small'
+                            variant='outlined'
+                            label='Tier'
+                            select
+                            sx={{ maxWidth: '60px' }}
+                            value={troopsInfo.setup['evenInfTier']}
+                            onChange={e => {
+                              handleCalculatorChange(e, 'evenInfTier')
+                            }}
+                          >
+                            {tierList.even?.map(option => (
+                              <MenuItem key={option.t} value={option.t}>
+                                {option.desc}
+                              </MenuItem>
+                            ))}
+                          </TextField>
+                          <TextField
+                            id='evenInf'
+                            size='small'
+                            variant='outlined'
+                            type='number'
+                            label='Infantry'
+                            sx={{ maxWidth: '115px' }}
+                            value={troopsInfo.setup['evenInf']}
+                            onChange={e => {
+                              handleCalculatorChange(e, 'evenInf')
+                            }}
+                            onBlur={handleCalculatorBlur}
+                          />
+                        </Box>
+                      </Box>
+                      {/* EMPTY */}
+                      <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+                        <Box sx={{ padding: '1.5em' }}></Box>
+                      </Box>
+                      {/* BACKLINE TROOPS */}
+                      <div>
+                        <Divider>
+                          <Typography variant='caption'>BACKLINE</Typography>
+                        </Divider>
+                      </div>
+                      <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+                        <Box sx={{ padding: '0.3em' }}>
+                          <TextField
+                            align='left'
+                            id='evenMageTier'
+                            size='small'
+                            variant='outlined'
+                            select
+                            label='Tier'
+                            sx={{ maxWidth: '60px' }}
+                            value={troopsInfo.setup['evenMageTier']}
+                            onChange={e => {
+                              handleCalculatorChange(e, 'evenMageTier')
+                            }}
+                          >
+                            {tierList.even?.map(option => (
+                              <MenuItem key={option.t} value={option.t}>
+                                {option.desc}
+                              </MenuItem>
+                            ))}
+                          </TextField>
+                          <TextField
+                            id='evenMage'
+                            size='small'
+                            variant='outlined'
+                            type='number'
+                            label='Mages'
+                            sx={{ maxWidth: '115px' }}
+                            value={troopsInfo.setup['evenMage']}
+                            onChange={e => {
+                              handleCalculatorChange(e, 'evenMage')
+                            }}
+                            onBlur={handleCalculatorBlur}
+                          />
+                        </Box>
+
+                        <Box sx={{ padding: '0.3em' }}>
+                          <TextField
+                            align='left'
+                            id='evenArcherTier'
+                            size='small'
+                            variant='outlined'
+                            label='Tier'
+                            select
+                            sx={{ maxWidth: '60px' }}
+                            value={troopsInfo.setup['evenArcherTier']}
+                            onChange={e => {
+                              handleCalculatorChange(e, 'evenArcherTier')
+                            }}
+                          >
+                            {tierList.even?.map(option => (
+                              <MenuItem key={option.t} value={option.t}>
+                                {option.desc}
+                              </MenuItem>
+                            ))}
+                          </TextField>
+                          <TextField
+                            id='evenArcher'
+                            size='small'
+                            variant='outlined'
+                            type='number'
+                            label='Archers'
+                            sx={{ maxWidth: '115px' }}
+                            value={troopsInfo.setup['evenArcher']}
+                            onChange={e => {
+                              handleCalculatorChange(e, 'evenArcher')
+                            }}
+                            onBlur={handleCalculatorBlur}
+                          />
+                        </Box>
                       </Box>
                     </Box>
                   </Paper>
-                  <Box
+                  <div style={{ marginLeft: '10px' }} />
+                  {/* ODD TIERS */}
+                  <Paper
+                    elevation={12}
                     sx={{
                       display: 'flex',
-                      flexDirection: 'row',
-                      justifyContent: 'center',
-                      padding: '0.5rem',
-                      flexWrap: 'wrap'
+                      flexDirection: 'column',
+                      justifyContent: 'space-between',
+                      padding: '0.5em'
                     }}
                   >
-                    {/* EVEN TIERS */}
-                    <Paper
-                      elevation={12}
-                      sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'space-between',
-                        padding: '0.5em'
-                      }}
-                    >
-                      <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                        {/* FRONTLINE TROOPS */}
-                        <Typography align='center' color='primary' variant='h6'>
-                          EVEN TIERS
-                        </Typography>
-                        <div>
-                          <Divider>
-                            <Typography variant='caption'>FRONTLINE</Typography>
-                          </Divider>
-                        </div>
-                        <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-                          <Box sx={{ padding: '0.3em' }}>
-                            <TextField
-                              align='left'
-                              id='evenCavTier'
-                              size='small'
-                              variant='outlined'
-                              label='Tier'
-                              select
-                              sx={{ maxWidth: '60px' }}
-                              value={troopsInfo.setup['evenCavTier']}
-                              onChange={e => {
-                                handleCalculatorChange(e, 'evenCavTier')
-                              }}
-                            >
-                              {tierList.even?.map(option => (
-                                <MenuItem key={option.t} value={option.t}>
-                                  {option.desc}
-                                </MenuItem>
-                              ))}
-                            </TextField>
-                            <TextField
-                              id='evenCav'
-                              size='small'
-                              variant='outlined'
-                              type='number'
-                              label='Cavalry'
-                              value={troopsInfo.setup['evenCav']}
-                              sx={{ maxWidth: '115px' }}
-                              onChange={e => {
-                                handleCalculatorChange(e, 'evenCav')
-                              }}
-                            />
-                          </Box>
-
-                          <Box sx={{ padding: '0.3em' }}>
-                            <TextField
-                              align='left'
-                              id='evenInfTier'
-                              size='small'
-                              variant='outlined'
-                              label='Tier'
-                              select
-                              sx={{ maxWidth: '60px' }}
-                              value={troopsInfo.setup['evenInfTier']}
-                              onChange={e => {
-                                handleCalculatorChange(e, 'evenInfTier')
-                              }}
-                            >
-                              {tierList.even?.map(option => (
-                                <MenuItem key={option.t} value={option.t}>
-                                  {option.desc}
-                                </MenuItem>
-                              ))}
-                            </TextField>
-                            <TextField
-                              id='evenInf'
-                              size='small'
-                              variant='outlined'
-                              type='number'
-                              label='Infantry'
-                              sx={{ maxWidth: '115px' }}
-                              value={troopsInfo.setup['evenInf']}
-                              onChange={e => {
-                                handleCalculatorChange(e, 'evenInf')
-                              }}
-                              onBlur={handleCalculatorBlur}
-                            />
-                          </Box>
+                    <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                      {/* FRONTLINE TROOPS */}
+                      <Typography align='center' color='primary' variant='h6'>
+                        ODD TIERS
+                      </Typography>
+                      <div>
+                        <Divider>
+                          <Typography variant='caption'>FRONTLINE</Typography>
+                        </Divider>
+                      </div>
+                      <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+                        <Box sx={{ padding: '0.3em' }}>
+                          <TextField
+                            align='left'
+                            id='oddInfTier'
+                            size='small'
+                            variant='outlined'
+                            label='Tier'
+                            select
+                            value={troopsInfo.setup['oddInfTier']}
+                            sx={{ maxWidth: '60px' }}
+                            onChange={e => {
+                              handleCalculatorChange(e, 'oddInfTier')
+                            }}
+                          >
+                            {tierList['odd']?.map(option => (
+                              <MenuItem key={option.t} value={option.t}>
+                                {option.desc}
+                              </MenuItem>
+                            ))}
+                          </TextField>
+                          <TextField
+                            id='oddInf'
+                            size='small'
+                            variant='outlined'
+                            type='number'
+                            label='Infantry'
+                            sx={{ maxWidth: '115px' }}
+                            value={troopsInfo.setup['oddInf']}
+                            onChange={e => {
+                              handleCalculatorChange(e, 'oddInf')
+                            }}
+                            onBlur={handleCalculatorBlur}
+                          />
                         </Box>
-                        {/* EMPTY */}
-                        <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-                          <Box sx={{ padding: '1.5em' }}></Box>
-                        </Box>
-                        {/* BACKLINE TROOPS */}
-                        <div>
-                          <Divider>
-                            <Typography variant='caption'>BACKLINE</Typography>
-                          </Divider>
-                        </div>
-                        <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-                          <Box sx={{ padding: '0.3em' }}>
-                            <TextField
-                              align='left'
-                              id='evenMageTier'
-                              size='small'
-                              variant='outlined'
-                              select
-                              label='Tier'
-                              sx={{ maxWidth: '60px' }}
-                              value={troopsInfo.setup['evenMageTier']}
-                              onChange={e => {
-                                handleCalculatorChange(e, 'evenMageTier')
-                              }}
-                            >
-                              {tierList.even?.map(option => (
-                                <MenuItem key={option.t} value={option.t}>
-                                  {option.desc}
-                                </MenuItem>
-                              ))}
-                            </TextField>
-                            <TextField
-                              id='evenMage'
-                              size='small'
-                              variant='outlined'
-                              type='number'
-                              label='Mages'
-                              sx={{ maxWidth: '115px' }}
-                              value={troopsInfo.setup['evenMage']}
-                              onChange={e => {
-                                handleCalculatorChange(e, 'evenMage')
-                              }}
-                              onBlur={handleCalculatorBlur}
-                            />
-                          </Box>
-
-                          <Box sx={{ padding: '0.3em' }}>
-                            <TextField
-                              align='left'
-                              id='evenArcherTier'
-                              size='small'
-                              variant='outlined'
-                              label='Tier'
-                              select
-                              sx={{ maxWidth: '60px' }}
-                              value={troopsInfo.setup['evenArcherTier']}
-                              onChange={e => {
-                                handleCalculatorChange(e, 'evenArcherTier')
-                              }}
-                            >
-                              {tierList.even?.map(option => (
-                                <MenuItem key={option.t} value={option.t}>
-                                  {option.desc}
-                                </MenuItem>
-                              ))}
-                            </TextField>
-                            <TextField
-                              id='evenArcher'
-                              size='small'
-                              variant='outlined'
-                              type='number'
-                              label='Archers'
-                              sx={{ maxWidth: '115px' }}
-                              value={troopsInfo.setup['evenArcher']}
-                              onChange={e => {
-                                handleCalculatorChange(e, 'evenArcher')
-                              }}
-                              onBlur={handleCalculatorBlur}
-                            />
-                          </Box>
+                        <Box sx={{ padding: '0.3em' }}>
+                          <TextField
+                            align='left'
+                            id='oddCavTier'
+                            size='small'
+                            variant='outlined'
+                            label='Tier'
+                            select
+                            value={troopsInfo.setup['oddCavTier']}
+                            sx={{ maxWidth: '60px' }}
+                            onChange={e => {
+                              handleCalculatorChange(e, 'oddCavTier')
+                            }}
+                          >
+                            {tierList['odd']?.map(option => (
+                              <MenuItem key={option.t} value={option.t}>
+                                {option.desc}
+                              </MenuItem>
+                            ))}
+                          </TextField>
+                          <TextField
+                            id='oddCav'
+                            size='small'
+                            variant='outlined'
+                            type='number'
+                            label='Cavalry'
+                            sx={{ maxWidth: '115px' }}
+                            value={troopsInfo.setup['oddCav']}
+                            onChange={e => {
+                              handleCalculatorChange(e, 'oddCav')
+                            }}
+                            onBlur={handleCalculatorBlur}
+                          />
                         </Box>
                       </Box>
-                    </Paper>
-                    <div style={{ marginLeft: '10px' }} />
-                    {/* ODD TIERS */}
-                    <Paper
-                      elevation={12}
-                      sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'space-between',
-                        padding: '0.5em'
-                      }}
-                    >
-                      <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                        {/* FRONTLINE TROOPS */}
-                        <Typography align='center' color='primary' variant='h6'>
-                          ODD TIERS
-                        </Typography>
-                        <div>
-                          <Divider>
-                            <Typography variant='caption'>FRONTLINE</Typography>
-                          </Divider>
-                        </div>
-                        <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-                          <Box sx={{ padding: '0.3em' }}>
-                            <TextField
-                              align='left'
-                              id='oddInfTier'
-                              size='small'
-                              variant='outlined'
-                              label='Tier'
-                              select
-                              value={troopsInfo.setup['oddInfTier']}
-                              sx={{ maxWidth: '60px' }}
-                              onChange={e => {
-                                handleCalculatorChange(e, 'oddInfTier')
-                              }}
-                            >
-                              {tierList['odd']?.map(option => (
-                                <MenuItem key={option.t} value={option.t}>
-                                  {option.desc}
-                                </MenuItem>
-                              ))}
-                            </TextField>
-                            <TextField
-                              id='oddInf'
-                              size='small'
-                              variant='outlined'
-                              type='number'
-                              label='Infantry'
-                              sx={{ maxWidth: '115px' }}
-                              value={troopsInfo.setup['oddInf']}
-                              onChange={e => {
-                                handleCalculatorChange(e, 'oddInf')
-                              }}
-                              onBlur={handleCalculatorBlur}
-                            />
-                          </Box>
-                          <Box sx={{ padding: '0.3em' }}>
-                            <TextField
-                              align='left'
-                              id='oddCavTier'
-                              size='small'
-                              variant='outlined'
-                              label='Tier'
-                              select
-                              value={troopsInfo.setup['oddCavTier']}
-                              sx={{ maxWidth: '60px' }}
-                              onChange={e => {
-                                handleCalculatorChange(e, 'oddCavTier')
-                              }}
-                            >
-                              {tierList['odd']?.map(option => (
-                                <MenuItem key={option.t} value={option.t}>
-                                  {option.desc}
-                                </MenuItem>
-                              ))}
-                            </TextField>
-                            <TextField
-                              id='oddCav'
-                              size='small'
-                              variant='outlined'
-                              type='number'
-                              label='Cavalry'
-                              sx={{ maxWidth: '115px' }}
-                              value={troopsInfo.setup['oddCav']}
-                              onChange={e => {
-                                handleCalculatorChange(e, 'oddCav')
-                              }}
-                              onBlur={handleCalculatorBlur}
-                            />
-                          </Box>
-                        </Box>
-                        {/* ANGELS */}
-                        <div>
-                          <Divider>
-                            <Typography variant='caption'>ANGELS</Typography>
-                          </Divider>
-                        </div>
-                        <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-                          <Box sx={{ padding: '0.3em' }}>
-                            <TextField
-                              align='left'
-                              id='angelTier'
-                              size='small'
-                              variant='outlined'
-                              select
-                              label='Tier'
-                              sx={{ maxWidth: '60px' }}
-                              value={troopsInfo.setup['angelTier']}
-                              onChange={e => {
-                                handleCalculatorChange(e, 'angelTier')
-                              }}
-                            >
-                              {tierList['angel']?.map(option => (
-                                <MenuItem key={option.t} value={option.t}>
-                                  {option.desc}
-                                </MenuItem>
-                              ))}
-                            </TextField>
-                            <TextField
-                              id='angel'
-                              size='small'
-                              variant='outlined'
-                              type='number'
-                              label='Angels'
-                              sx={{ maxWidth: '115px' }}
-                              value={troopsInfo.setup['angel']}
-                              onChange={e => {
-                                handleCalculatorChange(e, 'angel')
-                              }}
-                              onBlur={handleCalculatorBlur}
-                            />
-                          </Box>
-                        </Box>
-                        {/* BACKLINE TROOPS */}
-                        <div>
-                          <Divider>
-                            <Typography variant='caption'>BACKLINE</Typography>
-                          </Divider>
-                        </div>
-                        <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-                          <Box sx={{ padding: '0.3em' }}>
-                            <TextField
-                              align='left'
-                              id='oddArcherTier'
-                              size='small'
-                              variant='outlined'
-                              label='Tier'
-                              select
-                              value={troopsInfo.setup['oddArcherTier']}
-                              sx={{ maxWidth: '60px' }}
-                              onChange={e => {
-                                handleCalculatorChange(e, 'oddArcherTier')
-                              }}
-                            >
-                              {tierList['odd']?.map(option => (
-                                <MenuItem key={option.t} value={option.t}>
-                                  {option.desc}
-                                </MenuItem>
-                              ))}
-                            </TextField>
-                            <TextField
-                              id='oddArcher'
-                              size='small'
-                              variant='outlined'
-                              type='number'
-                              label='Archers'
-                              value={troopsInfo.setup['oddArcher']}
-                              sx={{ maxWidth: '115px' }}
-                              onChange={e => {
-                                handleCalculatorChange(e, 'oddArcher')
-                              }}
-                            />
-                          </Box>
-                          <Box sx={{ padding: '0.3em' }}>
-                            <TextField
-                              align='left'
-                              id='oddMageTier'
-                              size='small'
-                              variant='outlined'
-                              select
-                              label='Tier'
-                              value={troopsInfo.setup['oddMageTier']}
-                              sx={{ maxWidth: '60px' }}
-                              onChange={e => {
-                                handleCalculatorChange(e, 'oddMageTier')
-                              }}
-                            >
-                              {tierList['odd']?.map(option => (
-                                <MenuItem key={option.t} value={option.t}>
-                                  {option.desc}
-                                </MenuItem>
-                              ))}
-                            </TextField>
-                            <TextField
-                              id='oddMage'
-                              size='small'
-                              variant='outlined'
-                              type='number'
-                              label='Mages'
-                              value={troopsInfo.setup['oddMage']}
-                              sx={{ maxWidth: '115px' }}
-                              onChange={e => {
-                                handleCalculatorChange(e, 'oddMage')
-                              }}
-                            />
-                          </Box>
+                      {/* ANGELS */}
+                      <div>
+                        <Divider>
+                          <Typography variant='caption'>ANGELS</Typography>
+                        </Divider>
+                      </div>
+                      <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+                        <Box sx={{ padding: '0.3em' }}>
+                          <TextField
+                            align='left'
+                            id='angelTier'
+                            size='small'
+                            variant='outlined'
+                            select
+                            label='Tier'
+                            sx={{ maxWidth: '60px' }}
+                            value={troopsInfo.setup['angelTier']}
+                            onChange={e => {
+                              handleCalculatorChange(e, 'angelTier')
+                            }}
+                          >
+                            {tierList['angel']?.map(option => (
+                              <MenuItem key={option.t} value={option.t}>
+                                {option.desc}
+                              </MenuItem>
+                            ))}
+                          </TextField>
+                          <TextField
+                            id='angel'
+                            size='small'
+                            variant='outlined'
+                            type='number'
+                            label='Angels'
+                            sx={{ maxWidth: '115px' }}
+                            value={troopsInfo.setup['angel']}
+                            onChange={e => {
+                              handleCalculatorChange(e, 'angel')
+                            }}
+                            onBlur={handleCalculatorBlur}
+                          />
                         </Box>
                       </Box>
-                    </Paper>
-                  </Box>
-                </Paper>
+                      {/* BACKLINE TROOPS */}
+                      <div>
+                        <Divider>
+                          <Typography variant='caption'>BACKLINE</Typography>
+                        </Divider>
+                      </div>
+                      <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+                        <Box sx={{ padding: '0.3em' }}>
+                          <TextField
+                            align='left'
+                            id='oddArcherTier'
+                            size='small'
+                            variant='outlined'
+                            label='Tier'
+                            select
+                            value={troopsInfo.setup['oddArcherTier']}
+                            sx={{ maxWidth: '60px' }}
+                            onChange={e => {
+                              handleCalculatorChange(e, 'oddArcherTier')
+                            }}
+                          >
+                            {tierList['odd']?.map(option => (
+                              <MenuItem key={option.t} value={option.t}>
+                                {option.desc}
+                              </MenuItem>
+                            ))}
+                          </TextField>
+                          <TextField
+                            id='oddArcher'
+                            size='small'
+                            variant='outlined'
+                            type='number'
+                            label='Archers'
+                            value={troopsInfo.setup['oddArcher']}
+                            sx={{ maxWidth: '115px' }}
+                            onChange={e => {
+                              handleCalculatorChange(e, 'oddArcher')
+                            }}
+                          />
+                        </Box>
+                        <Box sx={{ padding: '0.3em' }}>
+                          <TextField
+                            align='left'
+                            id='oddMageTier'
+                            size='small'
+                            variant='outlined'
+                            select
+                            label='Tier'
+                            value={troopsInfo.setup['oddMageTier']}
+                            sx={{ maxWidth: '60px' }}
+                            onChange={e => {
+                              handleCalculatorChange(e, 'oddMageTier')
+                            }}
+                          >
+                            {tierList['odd']?.map(option => (
+                              <MenuItem key={option.t} value={option.t}>
+                                {option.desc}
+                              </MenuItem>
+                            ))}
+                          </TextField>
+                          <TextField
+                            id='oddMage'
+                            size='small'
+                            variant='outlined'
+                            type='number'
+                            label='Mages'
+                            value={troopsInfo.setup['oddMage']}
+                            sx={{ maxWidth: '115px' }}
+                            onChange={e => {
+                              handleCalculatorChange(e, 'oddMage')
+                            }}
+                          />
+                        </Box>
+                      </Box>
+                    </Box>
+                  </Paper>
+                </Box>
               </Grid>
               <Grid item xs={12}>
-                <Paper elevation={24}>
-                  <Typography align='center' variant='h6' color='primary' sx={{ paddingTop: '0.5em' }}>
-                    FORMATION GENERATOR
-                  </Typography>
-                  {/* FORMATIONS SLOTS */}
-                  <Box sx={{ display: 'flex', flexDirection: 'row', padding: '1rem' }}>
-                    <Paper
-                      elevation={12}
-                      sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'space-between',
-                        padding: '1em',
-                        width: '100%'
-                      }}
-                    >
-                      <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                        <Box>
-                          <GreenButton
-                            variant='contained'
-                            startIcon={<Icon icon='ic:baseline-save' />}
-                            onClick={handleSaveData}
-                            sx={{ marginBottom: '10px', marginRight: '10px' }}
-                          >
-                            SAVE
-                          </GreenButton>
-                        </Box>
-
-                        <Divider sx={{ mt: 2, mb: 3 }} />
-                        <Box
-                          key={'slots-header'}
-                          sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' }}
+                <Divider sx={{ marginTop: '10px', marginBottom: '10px' }} />
+                <Typography align='center' variant='h6' color='primary' sx={{ paddingTop: '0.5em' }}>
+                  FORMATION GENERATOR
+                </Typography>
+                {/* FORMATIONS SLOTS */}
+                <Box sx={{ display: 'flex', flexDirection: 'row', padding: '1rem' }}>
+                  <Paper
+                    elevation={12}
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'space-between',
+                      padding: '1em',
+                      width: '100%'
+                    }}
+                  >
+                    <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                      <Box>
+                        <GreenButton
+                          variant='contained'
+                          startIcon={<Icon icon='ic:baseline-save' />}
+                          onClick={handleSaveData}
+                          sx={{ marginBottom: '10px', marginRight: '10px' }}
                         >
-                          {troopsInfo.slots?.map(slot => {
-                            const { s: slotNumber } = slot
-                            const slotName = slot?.name
+                          SAVE
+                        </GreenButton>
+                      </Box>
 
-                            return (
-                              <>
+                      <Divider sx={{ mt: 2, mb: 3 }} />
+                      <Box
+                        key={'slots-header'}
+                        sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' }}
+                      >
+                        {troopsInfo.slots?.map(slot => {
+                          const { s: slotNumber } = slot
+                          const slotName = slot?.name
+
+                          return (
+                            <>
+                              <Box
+                                key={`${slotNumber}-load-formation`}
+                                sx={{ display: 'flex', alignItems: 'center' }}
+                              >
                                 <Box
-                                  key={`${slotNumber}-load-formation`}
-                                  sx={{ display: 'flex', alignItems: 'center' }}
+                                  key={`${slotNumber}-load-formation-det`}
+                                  sx={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    ml: 5,
+                                    border: `${
+                                      slotNumber === troopsInfo?.currentSlot
+                                        ? `2px solid ${theme.palette.primary.main}`
+                                        : 0
+                                    }`
+                                  }}
                                 >
-                                  <Box
-                                    key={`${slotNumber}-load-formation-det`}
-                                    sx={{
-                                      display: 'flex',
-                                      flexDirection: 'column',
-                                      ml: 5,
-                                      border: `${
-                                        slotNumber === troopsInfo?.currentSlot
-                                          ? `2px solid ${theme.palette.primary.main}`
-                                          : 0
-                                      }`
+                                  <Button
+                                    onClick={e => {
+                                      handleLoadFormation(e, slotNumber)
                                     }}
                                   >
-                                    <Button
-                                      onClick={e => {
-                                        handleLoadFormation(e, slotNumber)
+                                    <Badge
+                                      overlap='circular'
+                                      badgeContent={slotNumber}
+                                      color='primary'
+                                      anchorOrigin={{
+                                        vertical: 'bottom',
+                                        horizontal: 'right'
                                       }}
+                                      sx={{ marginBottom: '3px' }}
                                     >
-                                      <Badge
-                                        overlap='circular'
-                                        badgeContent={slotNumber}
-                                        color='primary'
-                                        anchorOrigin={{
-                                          vertical: 'bottom',
-                                          horizontal: 'right'
-                                        }}
-                                        sx={{ marginBottom: '3px' }}
-                                      >
-                                        <Avatar>
-                                          <Icon icon='game-icons:battle-gear' />
-                                        </Avatar>
-                                      </Badge>
-                                    </Button>
-                                    <Typography variant='caption' align='center'>
-                                      {slotName ?? 'Not Set'}
-                                    </Typography>
-                                  </Box>
+                                      <Avatar>
+                                        <Icon icon='game-icons:battle-gear' />
+                                      </Avatar>
+                                    </Badge>
+                                  </Button>
+                                  <Typography variant='caption' align='center'>
+                                    {slotName ?? 'Not Set'}
+                                  </Typography>
                                 </Box>
-                              </>
-                            )
-                          })}
-                        </Box>
+                              </Box>
+                            </>
+                          )
+                        })}
                       </Box>
-                    </Paper>
-                  </Box>
+                    </Box>
+                  </Paper>
+                </Box>
 
-                  {/* PREVIEW */}
-                  <Box sx={{ display: 'flex', flexDirection: 'row', padding: '1rem' }}>
-                    <Paper
-                      elevation={12}
-                      sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'space-between',
-                        padding: '1em',
-                        width: '100%'
-                      }}
-                    >
-                      <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                        {/* FRONTLINE TROOPS */}
-                        <Typography align='center' color='primary' variant='body1'>
-                          {troopsInfo.currentSlotName === ''
-                            ? `SLOT ${troopsInfo.currentSlot} - `
-                            : `${troopsInfo.currentSlotName} - `}
-                          FORMATION
-                        </Typography>
-                        <Typography align='center' variant='caption'>
-                          Army Size: {usedTroops?.toLocaleString()}
-                        </Typography>
-                        <div>
-                          <Divider>
-                            <Typography variant='caption'>FRONTLINE</Typography>
-                          </Divider>
-                        </div>
-                        {/* FRONTLINE */}
-                        <Grid container>
-                          {/* EVEN CAV */}
-                          {elementList[formations.fs[0]]}
-                          {/* EVEN INFANTRY */}
-                          {elementList[formations.fs[1]]}
-                          {/* ODD INFANTRY */}
-                          {elementList[formations.fs[2]]}
-                          {/* ODD CAVALRY */}
-                          {elementList[formations.fs[3]]}
-                        </Grid>
-                        {/* ANGELS */}
-                        <div>
-                          <Divider>
-                            <Typography variant='caption'>ANGELS</Typography>
-                          </Divider>
-                        </div>
-                        <Grid container>
-                          <Grid item xs={3}></Grid>
-                          <Grid item xs={3}></Grid>
-                          {elementList[formations.ms[2]]}
-                          <Grid item xs={3}></Grid>
-                        </Grid>
+                {/* PREVIEW */}
+                <Box sx={{ display: 'flex', flexDirection: 'row', padding: '1rem' }}>
+                  <Paper
+                    elevation={12}
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'space-between',
+                      padding: '1em',
+                      width: '100%'
+                    }}
+                  >
+                    <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                      {/* FRONTLINE TROOPS */}
+                      <Typography align='center' color='primary' variant='body1'>
+                        {troopsInfo.currentSlotName === ''
+                          ? `SLOT ${troopsInfo.currentSlot} - `
+                          : `${troopsInfo.currentSlotName} - `}
+                        FORMATION
+                      </Typography>
+                      <Typography align='center' variant='caption'>
+                        Army Size: {usedTroops?.toLocaleString()}
+                      </Typography>
+                      <div>
+                        <Divider>
+                          <Typography variant='caption'>FRONTLINE</Typography>
+                        </Divider>
+                      </div>
+                      {/* FRONTLINE */}
+                      <Grid container>
+                        {/* EVEN CAV */}
+                        {elementList[formations.fs[0]]}
+                        {/* EVEN INFANTRY */}
+                        {elementList[formations.fs[1]]}
+                        {/* ODD INFANTRY */}
+                        {elementList[formations.fs[2]]}
+                        {/* ODD CAVALRY */}
+                        {elementList[formations.fs[3]]}
+                      </Grid>
+                      {/* ANGELS */}
+                      <div>
+                        <Divider>
+                          <Typography variant='caption'>ANGELS</Typography>
+                        </Divider>
+                      </div>
+                      <Grid container>
+                        <Grid item xs={3}></Grid>
+                        <Grid item xs={3}></Grid>
+                        {elementList[formations.ms[2]]}
+                        <Grid item xs={3}></Grid>
+                      </Grid>
 
-                        {/* BACKLINE TROOPS */}
-                        <div>
-                          <Divider>
-                            <Typography variant='caption'>BACKLINE</Typography>
-                          </Divider>
-                        </div>
-                        <Grid container>
-                          {/* EVEN MAGE */}
-                          {elementList[formations.bs[0]]}
-                          {/* EVEN ARCHERS */}
-                          {elementList[formations.bs[1]]}
-                          {/* ODD ARCHERS */}
-                          {elementList[formations.bs[2]]}
-                          {/* ODD MAGE */}
-                          {elementList[formations.bs[3]]}
-                        </Grid>
-                      </Box>
-                    </Paper>
-                  </Box>
-                </Paper>
+                      {/* BACKLINE TROOPS */}
+                      <div>
+                        <Divider>
+                          <Typography variant='caption'>BACKLINE</Typography>
+                        </Divider>
+                      </div>
+                      <Grid container>
+                        {/* EVEN MAGE */}
+                        {elementList[formations.bs[0]]}
+                        {/* EVEN ARCHERS */}
+                        {elementList[formations.bs[1]]}
+                        {/* ODD ARCHERS */}
+                        {elementList[formations.bs[2]]}
+                        {/* ODD MAGE */}
+                        {elementList[formations.bs[3]]}
+                      </Grid>
+                    </Box>
+                  </Paper>
+                </Box>
               </Grid>
             </Grid>
           </Box>
@@ -1144,178 +1131,174 @@ const Troops = () => {
           <Box sx={{ flexGrow: 1 }}>
             <Grid container spacing={2} sx={{ padding: '1.5em' }}>
               <Grid item xs={12}>
-                <Paper elevation={24}>
-                  <Typography align='center' variant='h6' color='primary' sx={{ paddingTop: '0.3em' }}>
-                    TROOPS LAYOUTS
-                  </Typography>
-                  <Divider sx={{ mt: 3 }} />
+                <Typography align='center' variant='h6' color='primary' sx={{ paddingTop: '0.3em' }}>
+                  TROOPS LAYOUTS
+                </Typography>
+                <Box
+                  sx={{
+                    padding: '0.8em',
+                    display: 'flex',
+                    flexDirection: 'column'
+                  }}
+                >
                   <Box
                     sx={{
-                      padding: '0.8em',
                       display: 'flex',
-                      flexDirection: 'column'
+                      flexDirection: 'column',
+                      flexWrap: 'wrap',
+                      justifyContent: 'center',
+                      alignItems: 'center'
                     }}
                   >
-                    <Box
-                      sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        flexWrap: 'wrap',
-                        justifyContent: 'center',
-                        alignItems: 'center'
+                    <TextField
+                      align='center'
+                      id='activity-select'
+                      size='small'
+                      variant='outlined'
+                      label='Activity'
+                      select
+                      sx={{ minWidth: '220px', mt: 3 }}
+                      value={selectedLayout.act}
+                      onChange={e => {
+                        setSelectedLayout({ ...selectedLayout, act: e.target.value })
                       }}
                     >
-                      <TextField
-                        align='center'
-                        id='activity-select'
-                        size='small'
-                        variant='outlined'
-                        label='Activity'
-                        select
-                        sx={{ minWidth: '200px', mt: 3 }}
-                        value={selectedLayout.act}
-                        onChange={e => {
-                          setSelectedLayout({ ...selectedLayout, act: e.target.value })
-                        }}
-                      >
-                        {layoutConfig.activities?.map(option => (
-                          <MenuItem key={option.k} value={option.k}>
+                      {layoutConfig.activities?.map(option => (
+                        <MenuItem key={option.k} value={option.k}>
+                          {option.desc}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+
+                    <TextField
+                      align='center'
+                      id='setup-select'
+                      size='small'
+                      variant='outlined'
+                      label='Troops Formation'
+                      select
+                      disabled={selectedLayout.act.length > 0 ? false : true}
+                      sx={{ minWidth: '220px', mt: 4 }}
+                      value={selectedLayout.setup}
+                      onChange={e => {
+                        const template = layoutConfig.templates.find(
+                          t => t.act === selectedLayout.act && t.setup === e.target.value
+                        )
+
+                        setSelectedLayout({
+                          ...selectedLayout,
+                          setup: e.target.value,
+                          desc: template?.desc,
+                          preview: template
+                        })
+                        setTroopsInfo({ ...troopsInfo, setup: template })
+                      }}
+                    >
+                      {[...layoutConfig.templates]
+                        .filter(t => t.act === selectedLayout.act)
+                        ?.map(option => (
+                          <MenuItem key={option.setup} value={option.setup}>
                             {option.desc}
                           </MenuItem>
                         ))}
-                      </TextField>
+                    </TextField>
 
-                      <TextField
-                        align='center'
-                        id='setup-select'
-                        size='small'
-                        variant='outlined'
-                        label='Troops Formation'
-                        select
-                        disabled={selectedLayout.act.length > 0 ? false : true}
-                        sx={{ minWidth: '200px', mt: 4 }}
-                        value={selectedLayout.setup}
-                        onChange={e => {
-                          const template = layoutConfig.templates.find(
-                            t => t.act === selectedLayout.act && t.setup === e.target.value
-                          )
-
-                          setSelectedLayout({
-                            ...selectedLayout,
-                            setup: e.target.value,
-                            desc: template?.desc,
-                            preview: template
-                          })
-                          setTroopsInfo({ ...troopsInfo, setup: template })
+                    <Box sx={{ alignItems: 'center', display: 'flex', flexDirection: 'row' }}>
+                      <Button
+                        disabled={selectedLayout.act.length > 0 && selectedLayout.setup.length > 0 ? false : true}
+                        variant='contained'
+                        sx={{ mt: 5, mb: 5, mr: 2 }}
+                        onClick={e => {
+                          handleChange(e, 'setup')
                         }}
                       >
-                        {[...layoutConfig.templates]
-                          .filter(t => t.act === selectedLayout.act)
-                          ?.map(option => (
-                            <MenuItem key={option.setup} value={option.setup}>
-                              {option.desc}
-                            </MenuItem>
-                          ))}
-                      </TextField>
-
-                      <Box sx={{ alignItems: 'center', display: 'flex', flexDirection: 'row' }}>
-                        <Button
-                          disabled={selectedLayout.act.length > 0 && selectedLayout.setup.length > 0 ? false : true}
-                          variant='contained'
-                          sx={{ mt: 5, mb: 5, mr: 2 }}
-                          onClick={e => {
-                            handleChange(e, 'setup')
-                          }}
-                        >
-                          USE THIS LAYOUT
-                        </Button>
-                        <Tooltip title='This option will send you to the SETUP tab.' placement='bottom'>
-                          <IconButton onClick={() => setShowUseLayoutInfo(true)} color='primary'>
-                            <InfoOutlined color='primary' />
-                          </IconButton>
-                        </Tooltip>
-                      </Box>
+                        USE THIS LAYOUT
+                      </Button>
+                      <Tooltip title='This option will send you to the SETUP tab.' placement='bottom'>
+                        <IconButton onClick={() => setShowUseLayoutInfo(true)} color='primary'>
+                          <InfoOutlined color='primary' />
+                        </IconButton>
+                      </Tooltip>
                     </Box>
                   </Box>
-                </Paper>
+                </Box>
               </Grid>
               <Grid item xs={12}>
-                <Paper elevation={24}>
-                  <Typography align='center' variant='h6' color='primary' sx={{ paddingTop: '0.5em' }}>
-                    LAYOUT PREVIEW
-                  </Typography>
+                <Divider sx={{ mt: 3 }} />
+                <Typography align='center' variant='h6' color='primary' sx={{ paddingTop: '0.5em' }}>
+                  LAYOUT PREVIEW
+                </Typography>
 
-                  {/* PREVIEW */}
-                  <Box sx={{ display: 'flex', flexDirection: 'row', padding: '1rem' }}>
-                    <Paper
-                      elevation={12}
-                      sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'space-between',
-                        padding: '1em',
-                        width: '100%'
-                      }}
-                    >
-                      <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                        {/* FRONTLINE TROOPS */}
-                        <Typography align='center' color='primary' variant='body1'>
-                          {selectedLayout.setup.length > 0
-                            ? `${selectedLayout.desc} [${selectedLayout.act.toUpperCase()}]`
-                            : ''}
-                        </Typography>
-                        <Typography align='center' variant='caption'>
-                          Army Size: {usedTroops?.toLocaleString()}
-                        </Typography>
-                        <div>
-                          <Divider>
-                            <Typography variant='caption'>FRONTLINE</Typography>
-                          </Divider>
-                        </div>
-                        {/* FRONTLINE */}
-                        <Grid container>
-                          {/* EVEN CAV */}
-                          {elementList[formationPreview.fs[0]]}
-                          {/* EVEN INFANTRY */}
-                          {elementList[formationPreview.fs[1]]}
-                          {/* ODD INFANTRY */}
-                          {elementList[formationPreview.fs[2]]}
-                          {/* ODD CAVALRY */}
-                          {elementList[formationPreview.fs[3]]}
-                        </Grid>
-                        {/* ANGELS */}
-                        <div>
-                          <Divider>
-                            <Typography variant='caption'>ANGELS</Typography>
-                          </Divider>
-                        </div>
-                        <Grid container>
-                          <Grid item xs={3}></Grid>
-                          <Grid item xs={3}></Grid>
-                          {elementList[formationPreview.ms[2]]}
-                          <Grid item xs={3}></Grid>
-                        </Grid>
+                {/* PREVIEW */}
+                <Box sx={{ display: 'flex', flexDirection: 'row', padding: '1rem' }}>
+                  <Paper
+                    elevation={12}
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'space-between',
+                      padding: '1em',
+                      width: '100%'
+                    }}
+                  >
+                    <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                      {/* FRONTLINE TROOPS */}
+                      <Typography align='center' color='primary' variant='body1'>
+                        {selectedLayout.setup.length > 0
+                          ? `${selectedLayout.desc} [${selectedLayout.act.toUpperCase()}]`
+                          : ''}
+                      </Typography>
+                      <Typography align='center' variant='caption'>
+                        Army Size: {usedTroops?.toLocaleString()}
+                      </Typography>
+                      <div>
+                        <Divider>
+                          <Typography variant='caption'>FRONTLINE</Typography>
+                        </Divider>
+                      </div>
+                      {/* FRONTLINE */}
+                      <Grid container>
+                        {/* EVEN CAV */}
+                        {elementList[formationPreview.fs[0]]}
+                        {/* EVEN INFANTRY */}
+                        {elementList[formationPreview.fs[1]]}
+                        {/* ODD INFANTRY */}
+                        {elementList[formationPreview.fs[2]]}
+                        {/* ODD CAVALRY */}
+                        {elementList[formationPreview.fs[3]]}
+                      </Grid>
+                      {/* ANGELS */}
+                      <div>
+                        <Divider>
+                          <Typography variant='caption'>ANGELS</Typography>
+                        </Divider>
+                      </div>
+                      <Grid container>
+                        <Grid item xs={3}></Grid>
+                        <Grid item xs={3}></Grid>
+                        {elementList[formationPreview.ms[2]]}
+                        <Grid item xs={3}></Grid>
+                      </Grid>
 
-                        {/* BACKLINE TROOPS */}
-                        <div>
-                          <Divider>
-                            <Typography variant='caption'>BACKLINE</Typography>
-                          </Divider>
-                        </div>
-                        <Grid container>
-                          {/* EVEN MAGE */}
-                          {elementList[formationPreview.bs[0]]}
-                          {/* EVEN ARCHERS */}
-                          {elementList[formationPreview.bs[1]]}
-                          {/* ODD ARCHERS */}
-                          {elementList[formationPreview.bs[2]]}
-                          {/* ODD MAGE */}
-                          {elementList[formationPreview.bs[3]]}
-                        </Grid>
-                      </Box>
-                    </Paper>
-                  </Box>
-                </Paper>
+                      {/* BACKLINE TROOPS */}
+                      <div>
+                        <Divider>
+                          <Typography variant='caption'>BACKLINE</Typography>
+                        </Divider>
+                      </div>
+                      <Grid container>
+                        {/* EVEN MAGE */}
+                        {elementList[formationPreview.bs[0]]}
+                        {/* EVEN ARCHERS */}
+                        {elementList[formationPreview.bs[1]]}
+                        {/* ODD ARCHERS */}
+                        {elementList[formationPreview.bs[2]]}
+                        {/* ODD MAGE */}
+                        {elementList[formationPreview.bs[3]]}
+                      </Grid>
+                    </Box>
+                  </Paper>
+                </Box>
               </Grid>
             </Grid>
           </Box>
@@ -1333,6 +1316,15 @@ const Troops = () => {
             <Divider />
             <Grid container spacing={6} sx={{ padding: '1rem' }}>
               <Grid item xs={12} sm={6}>
+                <Alert severity="warning">
+                  {`After each modification (add, edit or delete) please, use the `}
+                    {
+                      <span role='img' aria-labelledby='floppy-disk'>
+                        {`💾`}
+                      </span>
+                    }{' '}
+                  {`button before refreshing or leaving the page.`}
+                </Alert>
                 <Box sx={{ marginTop: '10px' }}>
                   <GreenButton
                     variant='contained'
@@ -1353,19 +1345,6 @@ const Troops = () => {
                   >
                     CLEAR SLOTS
                   </Button>
-                </Box>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <Box sx={{ marginTop: '10px', display: 'flex', flexDirection: 'row' }}>
-                  <Typography variant='caption' color='primary'>
-                    {`After each modification (add, edit or delete) please, use the `}
-                    {
-                      <span role='img' aria-labelledby='floppy-disk'>
-                        {`💾`}
-                      </span>
-                    }{' '}
-                    {`button before refreshing or leaving the page.`}
-                  </Typography>
                 </Box>
               </Grid>
             </Grid>

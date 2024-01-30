@@ -67,9 +67,9 @@ const DefaultPalette = (mode, skin, themeColor) => {
       contrastText: whiteColor
     },
     error: {
-      light: '#FF6166',
-      main: '#FF4C51',
-      dark: '#E04347',
+      light: '#d1898b',
+      main: '#cb4a4e',
+      dark: '#a03e41',
       contrastText: whiteColor
     },
     warning: {
@@ -85,9 +85,9 @@ const DefaultPalette = (mode, skin, themeColor) => {
       contrastText: whiteColor
     },
     success: {
-      light: '#59FFCD',
-      main: '#4DDDB2',
-      dark: '#3EB390',
+      light: '#95e0c9',
+      main: '#4dddb2',
+      dark: '#36b891',
       contrastText: whiteColor
     },
     grey: {
