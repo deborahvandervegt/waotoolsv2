@@ -424,42 +424,6 @@ const Minitools = () => {
           </Box>
         </Card>
       </>
-    ),
-    calculator: (
-      <>
-        <Card>
-          <Box sx={{ flexGrow: 1 }}>
-            <Snackbar
-              open={snackOpen.open}
-              autoHideDuration={snackOpen.time ?? 6000}
-              onClose={snackClose}
-              anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-            >
-              {snackOpen.open && (
-                <Alert variant='filled' onClose={snackClose} severity={snackOpen.type}>
-                  <AlertTitle>{snackOpen.type === 'success' ? 'Done!' : 'Info:'}</AlertTitle>
-                  {snackOpen.open}
-                </Alert>
-              )}
-            </Snackbar>
-            <Grid container spacing={2} sx={{ padding: '0.5em' }}>
-              <Grid item xs={12}>
-                <Paper elevation={24}>
-                  <Typography
-                    align='center'
-                    variant='h6'
-                    color='primary'
-                    sx={{ paddingTop: '0.5em', paddingBottom: '0.5em' }}
-                  >
-                    RUNESTONES AND TATTOOS CALCULATOR
-                  </Typography>
-                  <Divider sx={{ marginBottom: '8px' }} />
-                </Paper>
-              </Grid>
-            </Grid>
-          </Box>
-        </Card>
-      </>
     )
   }
 
@@ -494,15 +458,6 @@ const Minitools = () => {
                         </Box>
                       }
                     />
-                    {/* <Tab
-                      value='calculator'
-                      label={
-                        <Box sx={{ display: 'flex', alignItems: 'center', ...(!hideText && { '& svg': { mr: 2 } }) }}>
-                          <Icon fontSize={20} icon='ion:stats-chart-sharp' />
-                          {'Calculator'}
-                        </Box>
-                      }
-                    /> */}
                   </TabList>
                 </Grid>
                 <Grid item xs={12} sx={{ pt: theme => `${theme.spacing(4)} !important` }}>

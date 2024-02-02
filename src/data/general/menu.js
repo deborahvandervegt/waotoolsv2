@@ -110,8 +110,8 @@ export const menuList = [
     subModule: [{ name: '- Pack List' }]
   },
   {
-    status: 'development',
-    text: 'artifact',
+    status: 'finished',
+    text: 'artifacts',
     desc: 'Artifacts',
     src: '/images/cards/pose_f9.png',
     icon: 'game-icons:glowing-artifact',
