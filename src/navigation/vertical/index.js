@@ -18,6 +18,12 @@ const navigation = () => {
       icon: 'game-icons:rally-the-troops',
       path: '/troops'
     },
+    ,
+    {
+      title: 'Artifacts',
+      icon: 'game-icons:glowing-artifact',
+      path: '/artifacts'
+    },
     {
       title: 'Azurite',
       icon: 'game-icons:crystal-growth',
