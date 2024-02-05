@@ -2,9 +2,9 @@
 import { useRef, useState } from 'react'
 
 // ** MUI Imports
-import List from '@mui/material/List'
 import Box from '@mui/material/Box'
-import { createTheme, responsiveFontSizes, styled, ThemeProvider } from '@mui/material/styles'
+import List from '@mui/material/List'
+import { ThemeProvider, createTheme, responsiveFontSizes, styled } from '@mui/material/styles'
 
 // ** Third Party Components
 import PerfectScrollbar from 'react-perfect-scrollbar'
@@ -14,8 +14,8 @@ import themeConfig from 'src/configs/themeConfig'
 
 // ** Component Imports
 import Drawer from './Drawer'
-import VerticalNavItems from './VerticalNavItems'
 import VerticalNavHeader from './VerticalNavHeader'
+import VerticalNavItems from './VerticalNavItems'
 
 // ** Theme Options
 import themeOptions from 'src/@core/theme/ThemeOptions'
@@ -144,7 +144,7 @@ const Navigation = props => {
                 sx={{
                   pt: 0,
                   transition: 'padding .25s ease',
-                  '& > :first-child': { mt: '0' },
+                  '& > :first-of-type': { mt: '0' },
                   pr: !navCollapsed || (navCollapsed && navHover) ? 4.5 : 1.25
                 }}
               >
