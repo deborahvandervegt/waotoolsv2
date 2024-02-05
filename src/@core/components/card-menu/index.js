@@ -16,7 +16,7 @@ const statusProps = {
   finished: { desc: 'Finished', color: '', show: true },
   development: { desc: 'Under development', color: '#cb4a4e', textColor: 'white', show: false, icon: 'mdi:cog', iconColor: 'white'  },
   comingsoon: { desc: 'Coming soon', color: '#e4b80d', textColor: 'white', show: false, icon: 'mdi:clock', iconColor: 'white' },
-  new: { desc: 'NEW', color: '#e4b80d', textColor: 'white', show: false, icon: 'mdi:star', iconColor: 'white' }
+  new: { desc: 'NEW', color: '#e4b80d', textColor: 'white', show: true, icon: 'mdi:star', iconColor: 'white' }
 }
 
 const StatusChip = props => {
