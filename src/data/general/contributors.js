@@ -1,5 +1,5 @@
 export const contributorsList = [
-  { name: 'oNare', realm: '1286', desc: ` Line: onare - SPEEEEEEEEEEEEEEEEEEEED!`, type: 'creator' },
+  { name: 'oNare', realm: '1286', desc: `ANE`, type: 'creator' },
   { name: 'DvdVgt', realm: '1226', desc: '', type: 'developer' },
   { name: 'Panda', realm: '1022', desc: '(EOL) Alliance', type: 'VIP supporter' },
   { name: 'Nooby', realm: '1242', desc: '', type: 'VIP contributor' },
@@ -29,5 +29,9 @@ export const contributorsList = [
   { name: 'Lucifer_Boots', realm: '1351', desc: '(INC) Alliance', type: 'contributor' },
   { name: 'Envy', realm: '619', desc: '(RAW) Alliance', type: 'contributor' },
   { name: 'DocHollywood', realm: '1014', desc: '(ZBE) Alliance', type: 'contributor' },
-  { name: 'Marvin', realm: '1101', desc: '', type: 'contributor' }
+  { name: 'Marvin', realm: '1101', desc: '', type: 'contributor' },
+  { name: '༻Sepж༺ ', realm: '1396', desc: '', type: 'contributor' },
+  { name: 'Slave', realm: '1490', desc: 'HOK', type: 'supporter' },
+  { name: 'Aren', realm: '1101', desc: 'MFL', type: 'supporter' },
+  { name: 'Nudes_For_RSS', realm: '1330', desc: 'PUB', type: 'VIP supporter' }
 ]
