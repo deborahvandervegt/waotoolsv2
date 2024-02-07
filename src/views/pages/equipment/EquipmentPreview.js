@@ -4,6 +4,14 @@ import { indigo, red } from '@mui/material/colors'
 import { styled } from '@mui/system'
 import { Icon } from '@iconify/react'
 
+const RedButton = styled(Button)(({ theme }) => ({
+  color: theme.palette.getContrastText(red[400]),
+  backgroundColor: red[400],
+  '&:hover': {
+    backgroundColor: red[800]
+  }
+}))
+
 const BlueButton = styled(Button)(({ theme }) => ({
   color: theme.palette.getContrastText(indigo[400]),
   backgroundColor: indigo[400],
@@ -21,49 +29,40 @@ const starIcon = {
 }
 
 const qualityInfo = {
-  none: {},
+  none: { color: '', backgroundColor: '' },
   blue: { color: '#216de7e0', backgroundColor: '#216de729' },
   purple: { color: '#7028dde0', backgroundColor: '#7028dd2b' },
   orange: { color: '#cf893c', backgroundColor: '#cf893c2e' }
 }
 
-const ArtifactPreview = props => {
-  const { slot, currentSlot, onEdit, onRemove, onAddArtifactOpen } = props
+const colors = {
+  primary: '#0e0e0ed6',
+  secondary: '#3a354199',
+  full: '#12782ad6'
+}
+
+const EquipmentPreview = props => {
+  const { slot, onRemove, onAddEquipmentOpen } = props
   if (!slot) return
 
-  const artifact = slot.artifact
-  const quality = artifact?.quality?.toLowerCase() ?? 'none'
-  const iconColor = qualityInfo[quality].color
-  const iconBgColor = qualityInfo[quality].backgroundColor
+  const equipment = slot.equipment
+  const quality = slot?.quality?.toLowerCase() ?? 'none'
+  const iconColor = qualityInfo[quality]?.color
+  const iconBgColor = qualityInfo[quality]?.backgroundColor
 
-  const artifactInput =
-    Object.keys(slot.artifactDetails).length > 0
-      ? slot.artifactDetails
-      : {
-          star: 1,
-          rank: 0,
-          expLevel: 1,
-          levelMin: 1,
-          levelMax: artifact?.maxLevel
-        }
-
-  const handleRemoveArtifact = slot => {
+  const handleRemoveEquipment = slot => {
     onRemove(slot)
   }
 
-  const handleEditArtifact = slot => {
-    onEdit(slot)
-  }
-
-  const handleAddArtifactOpenDialog = slot => {
-    onAddArtifactOpen(slot)
+  const handleAddEquipmentOpenDialog = slot => {
+    onAddEquipmentOpen(slot)
   }
 
   return (
     <Grid key={slot.key} item>
-      {artifact?.key && (
+      {equipment?.level > 0 && (
         <Paper
-          elevation={currentSlot.key === slot.key ? 24 : 0}
+          elevation={12}
           sx={{
             padding: theme => theme.spacing(2),
             display: 'flex',
@@ -72,8 +71,9 @@ const ArtifactPreview = props => {
             minHeight: '205px',
             minWidth: '125px',
             justifyContent: 'center',
-            backgroundColor: iconBgColor,
-            border: `${currentSlot.key === slot.key ? '5px outset #0278aecc' : ''}`
+            backgroundColor: iconBgColor
+
+            // border: `${currentSlot?.key === slot?.key ? '5px outset #0278aecc' : ''}`
           }}
         >
           <Box
@@ -87,59 +87,45 @@ const ArtifactPreview = props => {
             }}
           >
             <Avatar
-              alt={artifact?.key}
-              src={`/images/artifacts/${artifact?.key}.png`}
+              alt={slot.slotDesc}
+              src={`/images/equipment/${equipment?.desc}.jpg`}
               sx={{ width: '55px', height: '55px' }}
             />
+            <Typography variant='body2' sx={{ color: iconColor }}>
+              {quality?.charAt(0)?.toUpperCase()}
+              {quality?.slice(1)}
+            </Typography>
             <Typography variant='body2' color='primary' align='center'>
-              Lv.{artifactInput?.expLevel} / {artifact?.maxLevel}
+              Lv.{equipment?.level} | {slot?.slotDesc}
             </Typography>
 
-            <Box key={`header-icons-${slot.key}`} sx={{ marginLeft: '5px' }}>
-              {artifact?.starsGeneral?.map(star => {
-                const starPercent = artifactInput?.star >= star.star ? 100 : 0
-
-                return (
-                  <>
-                    <Icon key={star.s} fontSize={20} icon={starIcon[starPercent]} style={{ color: `${iconColor}` }} />
-                  </>
-                )
-              })}
-            </Box>
-            <Typography variant='caption' color='primary' align='center'>
-              {artifact?.desc ? artifact?.desc : 'Not selected'}
+            <Typography variant='caption' color='primary' align='center' sx={{ color: iconColor }}>
+              {equipment?.desc ? equipment?.desc : 'Not selected'}
             </Typography>
-            <Divider light />
-            <BlueButton
+            <Divider flexItem light />
+            {slot?.eLevel > 0 && (
+              <Typography variant='caption' color='primary' align='center' sx={{ color: '#438b4d', maxWidth: '150px' }}>
+                {`${slot?.enhancement?.key} ${slot?.eStat}${slot?.eStat?.length > 3 ? '' : '%'}`}
+              </Typography>
+            )}
+            <Divider flexItem light />
+            <RedButton
               align='center'
               variant='contained'
               color='secondary'
-              disabled={currentSlot.key === slot.key ? true : false}
               size='small'
-              startIcon={currentSlot.key === slot.key ? null : <Clear />}
-              onClick={e => {
-                handleEditArtifact(slot)
-              }}
-            >
-              {currentSlot.key === slot.key ? 'SELECTED' : 'EDIT'}
-            </BlueButton>
-
-            <Button
-              align='center'
-              variant='text'
-              color='error'
-              size='small'
+              startIcon={<Clear />}
               sx={{ marginTop: '5px' }}
               onClick={e => {
-                handleRemoveArtifact(slot)
+                handleRemoveEquipment(slot)
               }}
             >
               REMOVE
-            </Button>
+            </RedButton>
           </Box>
         </Paper>
       )}
-      {!artifact?.key && (
+      {!equipment?.level && (
         <Paper
           elevation={6}
           sx={{
@@ -163,15 +149,15 @@ const ArtifactPreview = props => {
             }}
           >
             <IconButton
-              aria-label='add-artifact'
+              aria-label='add-equipment'
               onClick={e => {
-                handleAddArtifactOpenDialog(slot)
+                handleAddEquipmentOpenDialog(slot)
               }}
             >
               <AddCircle color='primary' sx={{ fontSize: 50 }} />
             </IconButton>
             <Typography variant='body2' color='primary' align='center'>
-              Add Artifact
+              {slot?.slotDesc}
             </Typography>
           </Box>
         </Paper>
@@ -180,4 +166,4 @@ const ArtifactPreview = props => {
   )
 }
 
-export default ArtifactPreview
+export default EquipmentPreview

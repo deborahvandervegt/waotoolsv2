@@ -122,7 +122,7 @@ export const menuList = [
     ]
   },
   {
-    status: 'development',
+    status: 'finished',
     text: 'equipment',
     desc: 'Equipment',
     src: '/images/cards/pose_f9.png',
@@ -152,5 +152,13 @@ export const menuList = [
     src: '/images/cards/pose_f9.png',
     icon: 'mdi:help-outline',
     subModule: [{ name: '- Developers' }, { name: '- Contributors' }, { name: '- Supporters' }]
+  },
+  {
+    status: 'finished',
+    text: 'releases',
+    desc: 'Release Notes',
+    src: '/images/cards/pose_f9.png',
+    icon: 'material-symbols:new-releases',
+    subModule: [{ name: '- Versions' }, { name: '- Releases' }]
   }
 ]

@@ -1,5 +1,5 @@
 // ** React Imports
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 // ** Next Imports
 import Head from 'next/head'
@@ -56,6 +56,10 @@ import 'src/iconify-bundle/icons-bundle-react'
 // ** Global css styles
 import '../../styles/globals.scss'
 
+// ** MUI Imports
+import CircularProgress from '@mui/material/CircularProgress'
+import FallbackSpinner from 'src/@core/components/spinner'
+
 const clientSideEmotionCache = createEmotionCache()
 
 // logEvent(analytics, 'notification_received')
@@ -88,6 +92,9 @@ const Guard = ({ children, authGuard, guestGuard }) => {
 const App = props => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props
 
+  // Hooks
+  const [loading, setLoading] = useState(true)
+
   // Variables
   const contentHeightFixed = Component.contentHeightFixed ?? false
 
@@ -100,6 +107,18 @@ const App = props => {
 
   useEffect(() => {
     analytics
+  }, [])
+
+  useEffect(() => {
+    const handleLoading = () => {
+      setLoading(false)
+    }
+
+    const waitingForLoading = setTimeout(() => {
+      handleLoading()
+    }, 4000)
+
+    return () => clearTimeout(waitingForLoading)
   }, [])
 
   return (
@@ -120,7 +139,7 @@ const App = props => {
                   <ThemeComponent settings={settings}>
                     <Guard authGuard={authGuard} guestGuard={guestGuard}>
                       {/* <AclGuard aclAbilities={aclAbilities} guestGuard={guestGuard} authGuard={authGuard}> */}
-                      {getLayout(<Component {...pageProps} />)}
+                      {loading ? <FallbackSpinner /> : getLayout(<Component {...pageProps} />)}
                       {/* </AclGuard> */}
                     </Guard>
 

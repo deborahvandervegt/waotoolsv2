@@ -25,6 +25,11 @@ const navigation = () => {
       path: '/artifacts'
     },
     {
+      title: 'Equipment',
+      icon: 'game-icons:shoulder-armor',
+      path: '/equipment'
+    },
+    {
       title: 'Azurite',
       icon: 'game-icons:crystal-growth',
       path: '/azurite'
@@ -83,6 +88,11 @@ const navigation = () => {
       title: 'Contributors',
       icon: 'mdi:help-outline',
       path: '/contributors'
+    },
+    {
+      title: 'Release Notes',
+      icon: 'material-symbols:new-releases',
+      path: '/releases'
     }
   ]
 }
