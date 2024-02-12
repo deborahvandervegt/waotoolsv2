@@ -151,9 +151,9 @@ const Home = () => {
               md={2}
               sx={{
                 pt: theme => `${theme.spacing(5)} !important`,
-                '&:nth-child(2n) .cardHeader': { backgroundColor: 'customColors.skyPaletteSecondary' },
-                '&:nth-child(3n) .cardHeader': { backgroundColor: 'customColors.skyPaletteTertiary' },
-                '&:nth-child(4n) .cardHeader': { backgroundColor: 'customColors.skyPaletteQuaternary' }
+                '&:nth-of-type(2n) .cardHeader': { backgroundColor: 'customColors.skyPaletteSecondary' },
+                '&:nth-of-type(3n) .cardHeader': { backgroundColor: 'customColors.skyPaletteTertiary' },
+                '&:nth-of-type(4n) .cardHeader': { backgroundColor: 'customColors.skyPaletteQuaternary' }
               }}
             >
               <CardMenu data={menu} />
