@@ -15,6 +15,7 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  Box,
   Divider,
   IconButton,
   InputBase,
@@ -75,12 +76,18 @@ const DatabaseList = props => {
     <>
       <>
         <Card>
-        <CustomHeader icon='database' title='DATABASE' />
-            <Divider />
-          <Grid container spacing={3} style={{ minWidth: '320px', padding: '1rem' }}>
-            <Grid item xs={12} md={6} lg={8}>
+          <CustomHeader icon='database' title='DATABASE' />
+          <Divider />
+          <Grid
+            container
+            spacing={3}
+            sx={{
+              padding: '1rem'
+            }}
+          >
+            <Grid item xs={12}>
               <Paper
-                elevation={12}
+                elevation={5}
                 component='form'
                 sx={{
                   padding: '2px 4px',
@@ -88,8 +95,7 @@ const DatabaseList = props => {
                   alignItems: 'center',
                   width: '250px',
                   marginBottom: '10px',
-                  border: '1px solid rgb(49 113 235 / 39%)',
-                  boxShadow: 'none'
+                  border: '1px solid rgb(49 113 235 / 39%)'
                 }}
               >
                 <InputBase
@@ -129,6 +135,8 @@ const DatabaseList = props => {
               )}
             </Grid>
           </Grid>
+          <Divider />
+
           {chartData.length > 0 && (
             <Grid container spacing={3} style={{ minWidth: '240px' }}>
               <Grid item key='header-accordions' xs={12} md={12} lg={12}>
@@ -139,19 +147,19 @@ const DatabaseList = props => {
 
                   return (
                     <>
-                      <Accordion square style={{ minWidth: '240px' }}>
+                      <Accordion square sx={{ minWidth: '240px' }}>
                         <AccordionSummary
                           expandIcon={<ExpandMore color='primary' />}
                           aria-controls='normal-content'
                           id={`normal-header-${chart.slot}`}
-                          style={{ minWidth: '240px' }}
+                          sx={{ minWidth: '240px' }}
                         >
                           <Typography color='primary'>{chartName}</Typography>
                           <Divider />
                         </AccordionSummary>
-                        <AccordionDetails style={{ minWidth: '240px' }}>
+                        <AccordionDetails sx={{ minWidth: '240px' }}>
                           {
-                            <div style={{ minWidth: '240px' }}>
+                            <Box sx={{ minWidth: '240px' }}>
                               <TableContainer>
                                 <Table
                                   key={`${chart.slot}-${chart.key}`}
@@ -159,7 +167,7 @@ const DatabaseList = props => {
                                   size={'small'}
                                   aria-label='enhanced table'
                                 >
-                                  <TableBody style={{ minWidth: '240px' }}>
+                                  <TableBody sx={{ minWidth: '240px' }}>
                                     {/* HEADER */}
                                     <TableRow>
                                       <TableCell align='center'>{`Level`}</TableCell>
@@ -217,7 +225,7 @@ const DatabaseList = props => {
                                   </TableBody>
                                 </Table>
                               </TableContainer>
-                            </div>
+                            </Box>
                           }
                         </AccordionDetails>
                       </Accordion>

@@ -4,6 +4,21 @@ export const releaseNotes = {
 
   releases: [
     {
+      version: '2.1.4',
+      date: '2024-02-13',
+      quote: 'Onare, what is the EW trick? (The guy who has 3 years playing)',
+      new: [
+        'Added Tips N Tricks module.',
+        'Added Elite War layouts in Troops module.',
+        'Added sharing option for Troops layouts. '
+      ],
+      improvements: [
+        'Some minor visual improvements for mobile.',
+        'Remove Checkboxs for Realm Merges, Building and Artifacts tables.'
+      ],
+      bugs: ['Angel Limit not showing in Accessory Enhancements.', 'EW Preset Enhancement showing RI enhance in Boots.']
+    },
+    {
       version: '2.1.3',
       date: '2024-02-07',
       quote: "Anyone SOS? (The ones who don't want to drop the shield) My Royal Challenge hit.",

@@ -138,9 +138,7 @@ const Building = () => {
     }
   }
 
-  const columns = [
-    ...defaultColumns
-  ]
+  const columns = [...defaultColumns]
 
   const tabContentList = {
     items: (
@@ -186,14 +184,14 @@ const Building = () => {
 
           {!search.found && (
             <>
-              <Alert severity="error" sx={{ margin: '10px'}}>
+              <Alert severity='error' sx={{ margin: '10px' }}>
                 <Typography variant='body2' align='center' sx={{ paddingTop: '10px' }}>
                   {`There are no results for "${search.search}"`}
                 </Typography>
               </Alert>
             </>
           )}
-          
+
           {buildingData.length > 0 && (
             <DataGrid
               autoHeight
@@ -201,7 +199,6 @@ const Building = () => {
               getRowId={row => row.building + '-' + row.level}
               rows={buildingData}
               columns={columns}
-              checkboxSelection
               disableRowSelectionOnClick
               pageSizeOptions={[10, 25, 50]}
               paginationModel={paginationModel}

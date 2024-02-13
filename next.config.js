@@ -9,6 +9,10 @@ module.exports = {
   trailingSlash: true,
   reactStrictMode: false,
   output: 'export',
+  cookies: {
+    secure: true,
+    httpOnly: true
+  },
   webpack: config => {
     config.resolve.alias = {
       ...config.resolve.alias,
@@ -17,13 +21,13 @@ module.exports = {
 
     return config
   },
-  async redirects () {
+  async redirects() {
     return [
       {
         source: '/home',
         destination: '/',
-        permanent: true,
-      },
+        permanent: true
+      }
     ]
-  },
+  }
 }

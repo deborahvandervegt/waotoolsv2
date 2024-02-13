@@ -431,6 +431,7 @@ export const enhancementsEquipment = [
     slotDesc: 'Accessory',
     enhancements: [
       { desc: 'Angel Attack' },
+      { desc: 'Angel Limit' },
       { desc: 'Archer Attack' },
       { desc: 'Army Size Limit' },
       { desc: 'Cavalry Attack' },
@@ -3660,7 +3661,7 @@ export const enhancementTemplates = [
       { key: 'Accessory', value: 'Increases Damage during Elite War' },
       { key: 'Helmet', value: 'Reduces Damage taken from Mages' },
       { key: 'Clothes', value: 'Reduces Damage taken from Angels' },
-      { key: 'Boots', value: 'Damage Taken Reduction in Realm Invasion' }
+      { key: 'Boots', value: 'Damage Taken Reduction in Elite War' }
     ]
   },
   {

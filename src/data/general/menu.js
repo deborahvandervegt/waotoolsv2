@@ -130,7 +130,7 @@ export const menuList = [
     subModule: [{ name: '- Equipment Simulator' }, { name: '- Enhancement Simulator' }, { name: '- Equipment List' }]
   },
   {
-    status: 'comingsoon',
+    status: 'new',
     text: 'tipsandtricks',
     desc: 'Tips N Tricks',
     src: '/images/cards/pose_f9.png',

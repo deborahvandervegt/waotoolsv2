@@ -80,6 +80,11 @@ const navigation = () => {
       path: '/database'
     },
     {
+      title: 'Tips N Tricks',
+      icon: 'game-icons:magick-trick',
+      path: '/tipsandtricks'
+    },
+    {
       title: 'Realms',
       icon: 'bi:globe',
       path: '/realms'
