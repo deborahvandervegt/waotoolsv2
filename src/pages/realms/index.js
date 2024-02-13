@@ -402,7 +402,6 @@ const Realms = () => {
                 getRowHeight={params => 'auto'}
                 rows={itemList}
                 columns={columns}
-                checkboxSelection
                 disableRowSelectionOnClick
                 pageSizeOptions={[50, 75, 100]}
                 paginationModel={paginationModel}
