@@ -604,7 +604,7 @@ const Equipment = () => {
                   >
                     {equipmentTemplates?.map(option => (
                       <MenuItem key={option.key} value={option.key}>
-                        {option.desc}
+                        {option.desc} (Lv{option.level})
                       </MenuItem>
                     ))}
                   </TextField>
