@@ -20,6 +20,7 @@ import { InfoOutlined } from '@mui/icons-material'
 import { Button, CardMedia, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Switch } from '@mui/material'
 import CustomHeader from 'src/@core/components/Header'
 import nRound from 'src/@core/utils/numberRound'
+import moment from 'moment'
 
 const CustomBox = styled(Box)(({ theme }) => ({
   marginTop: '4px',
@@ -358,40 +359,54 @@ const AzuriteCalculator = props => {
                       Azurite Daily:
                     </Typography>
                   </div>
-                  <Typography variant='h6' color='textPrimary' align='center' style={{ marginLeft: '10px' }}>
+                  <Typography variant='h6' color='textPrimary' align='center' sx={{ marginLeft: '10px' }}>
                     {azuCalculator.total.toLocaleString()}
                   </Typography>
                 </div>
                 <div>
                   <div style={{ minWidth: '200px' }}>
-                    <Typography variant='body2' color='primary' align='center' style={{ marginLeft: '10px' }}>
+                    <Typography variant='body2' color='primary' align='center' sx={{ marginLeft: '10px' }}>
                       Azurite Weekly:
                     </Typography>
                   </div>
-                  <Typography variant='h6' color='textPrimary' align='center' style={{ marginLeft: '10px' }}>
+                  <Typography variant='h6' color='textPrimary' align='center' sx={{ marginLeft: '10px' }}>
                     {(azuCalculator.total * 7).toLocaleString()}
                   </Typography>
                 </div>
                 <div>
                   <div style={{ minWidth: '200px' }}>
-                    <Typography variant='body2' color='primary' align='center' style={{ marginLeft: '10px' }}>
+                    <Typography variant='body2' color='primary' align='center' sx={{ marginLeft: '10px' }}>
                       Azurite Monthly (30d):
                     </Typography>
                   </div>
-                  <Typography variant='h6' color='textPrimary' align='center' style={{ marginLeft: '10px' }}>
+                  <Typography variant='h6' color='textPrimary' align='center' sx={{ marginLeft: '10px' }}>
                     {(azuCalculator.total * 30).toLocaleString()}
                   </Typography>
                 </div>
                 {azuCalculator.needed > 0 && azuCalculator.needed > azuCalculator.owned && azuCalculator.total > 0 && (
                   <div>
                     <div style={{ minWidth: '200px' }}>
-                      <Typography variant='body2' color='primary' align='center' style={{ marginLeft: '10px' }}>
+                      <Typography variant='body2' color='primary' align='left' sx={{ marginLeft: '10px' }}>
                         Days needed to complete missing azurite (Needed - owned)/Daily output:
                       </Typography>
                     </div>
-                    <Typography variant='body2' color='textPrimary' align='center' style={{ marginLeft: '10px' }}>
+                    <Typography variant='body2' color='textPrimary' align='left' sx={{ marginLeft: '10px' }}>
                       {Math.round((azuCalculator.needed - azuCalculator.owned) / azuCalculator.total).toLocaleString()}d
                       to get {(azuCalculator.needed - azuCalculator.owned).toLocaleString()} azurite.
+                    </Typography>
+                  </div>
+                )}
+                {azuCalculator.needed > 0 && azuCalculator.needed > azuCalculator.owned && azuCalculator.total > 0 && (
+                  <div>
+                    <div style={{ minWidth: '200px' }}>
+                      <Typography variant='body2' color='primary' align='left' sx={{ marginLeft: '10px' }}>
+                        You will get the missing azurite on:
+                      </Typography>
+                    </div>
+                    <Typography variant='body2' color='textPrimary' align='left' sx={{ marginLeft: '10px' }}>
+                      {moment()
+                        .add(Math.ceil((azuCalculator.needed - azuCalculator.owned) / azuCalculator.total), 'days')
+                        .format('MMMM Do, YYYY')}
                     </Typography>
                   </div>
                 )}
