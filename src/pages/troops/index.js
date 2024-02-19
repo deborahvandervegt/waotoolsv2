@@ -1365,7 +1365,11 @@ const Troops = () => {
                   }{' '}
                   {`button before refreshing or leaving the page.`}
                 </Alert>
-                <Box sx={{ marginTop: '10px' }}>
+
+                <Alert severity='info' sx={{ marginTop: '6px' }}>
+                  {`EVEN is used for even tiers: II,IV,VI,VIII,X,XII,XII - 2,4,6,8,10,12,14. ODD is used for odd tiers: I,III,V,VII,IX,XI,XIII - 1,3,5,7,9,11,13.`}
+                </Alert>
+                <Box sx={{ marginTop: '6px' }}>
                   <GreenButton
                     variant='contained'
                     startIcon={<Icon icon='ic:baseline-save' />}
