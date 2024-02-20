@@ -1,3 +1,131 @@
+export const buildingLevel = {
+  castle: [
+    { l: 30 },
+    { l: 31 },
+    { l: 32 },
+    { l: 33 },
+    { l: 34 },
+    { l: 35 },
+    { l: 36 },
+    { l: 37 },
+    { l: 38 },
+    { l: 39 },
+    { l: 40 },
+    { l: 41, sl: 'sacredCastle', el: 1 },
+    { l: 42, sl: 'sacredCastle', el: 2 },
+    { l: 43, sl: 'sacredCastle', el: 3 }
+  ],
+  wall: [
+    { l: 31 },
+    { l: 32 },
+    { l: 33 },
+    { l: 34 },
+    { l: 35 },
+    { l: 36 },
+    { l: 37 },
+    { l: 38 },
+    { l: 39 },
+    { l: 40 },
+    { l: 41 },
+    { l: 42 },
+    { l: 43 }
+  ],
+  barracks: [
+    { l: 31 },
+    { l: 32 },
+    { l: 33 },
+    { l: 34 },
+    { l: 35 },
+    { l: 36 },
+    { l: 37 },
+    { l: 38 },
+    { l: 39 },
+    { l: 40 },
+    { l: 41, sl: 'sacredBarrack', el: 1 },
+    { l: 42, sl: 'sacredBarrack', el: 2 },
+    { l: 43, sl: 'sacredBarrack', el: 3 }
+  ],
+  drillGrounds: [
+    { l: 31 },
+    { l: 32 },
+    { l: 33 },
+    { l: 34 },
+    { l: 35 },
+    { l: 36 },
+    { l: 37 },
+    { l: 38 },
+    { l: 39 },
+    { l: 40 }
+  ],
+  guardianTemple: [{ l: 1 }, { l: 2 }, { l: 3 }, { l: 4 }, { l: 5 }, { l: 6 }, { l: 7 }, { l: 8 }, { l: 9 }],
+  depot: [
+    { l: 31 },
+    { l: 32 },
+    { l: 33 },
+    { l: 34 },
+    { l: 35 },
+    { l: 36 },
+    { l: 37 },
+    { l: 38 },
+    { l: 39 },
+    { l: 40 },
+    { l: 41, sl: 'sacredDepot', el: 1 }
+  ],
+  embassy: [
+    { l: 31 },
+    { l: 32 },
+    { l: 33 },
+    { l: 34 },
+    { l: 35 },
+    { l: 36 },
+    { l: 37 },
+    { l: 38 },
+    { l: 39 },
+    { l: 40 }
+  ],
+  blacksmith: [
+    { l: 30 },
+    { l: 31 },
+    { l: 32 },
+    { l: 33 },
+    { l: 34 },
+    { l: 35 },
+    { l: 36 },
+    { l: 37 },
+    { l: 38 },
+    { l: 39 },
+    { l: 40 }
+  ],
+  college: [
+    { l: 30 },
+    { l: 31 },
+    { l: 32 },
+    { l: 33 },
+    { l: 34 },
+    { l: 35 },
+    { l: 36 },
+    { l: 37 },
+    { l: 38 },
+    { l: 39 },
+    { l: 40 }
+  ],
+  hospital: [
+    { l: 30 },
+    { l: 31 },
+    { l: 32 },
+    { l: 33 },
+    { l: 34 },
+    { l: 35 },
+    { l: 36 },
+    { l: 37 },
+    { l: 38 },
+    { l: 39 },
+    { l: 40 },
+    { l: 41, sl: 'sacredHospital', el: 1 },
+    { l: 42, sl: 'sacredHospital', el: 2 }
+  ]
+}
+
 export const buildingList = [
   {
     type: 'Building',
@@ -3977,6 +4105,95 @@ export const itemTemplates = [
     ]
   },
   {
+    template: 'c31tosc3',
+    desc: 'c31 to Sacred Castle III w Angels T13',
+    buildings: [
+      { building: 'blacksmith', level: 31 },
+      { building: 'castle', level: 31 },
+      { building: 'wall', level: 31 },
+      { building: 'drillGrounds', level: 31 },
+      { building: 'castle', level: 32 },
+      { building: 'guardianTemple', level: 6 },
+      { building: 'wall', level: 32 },
+      { building: 'depot', level: 31 },
+      { building: 'depot', level: 32 },
+      { building: 'castle', level: 33 },
+      { building: 'wall', level: 33 },
+      { building: 'embassy', level: 31 },
+      { building: 'embassy', level: 32 },
+      { building: 'embassy', level: 33 },
+      { building: 'castle', level: 34 },
+      { building: 'wall', level: 34 },
+      { building: 'hospital', level: 31 },
+      { building: 'hospital', level: 32 },
+      { building: 'hospital', level: 33 },
+      { building: 'hospital', level: 34 },
+      { building: 'castle', level: 35 },
+      { building: 'guardianTemple', level: 7 },
+      { building: 'wall', level: 35 },
+      { building: 'drillGrounds', level: 31 },
+      { building: 'drillGrounds', level: 32 },
+      { building: 'drillGrounds', level: 33 },
+      { building: 'drillGrounds', level: 34 },
+      { building: 'drillGrounds', level: 35 },
+      { building: 'castle', level: 36 },
+      { building: 'wall', level: 36 },
+      { building: 'depot', level: 33 },
+      { building: 'depot', level: 34 },
+      { building: 'depot', level: 35 },
+      { building: 'depot', level: 36 },
+      { building: 'castle', level: 37 },
+      { building: 'wall', level: 37 },
+      { building: 'embassy', level: 34 },
+      { building: 'embassy', level: 35 },
+      { building: 'embassy', level: 36 },
+      { building: 'embassy', level: 37 },
+      { building: 'castle', level: 38 },
+      { building: 'guardianTemple', level: 8 },
+      { building: 'wall', level: 38 },
+      { building: 'college', level: 31 },
+      { building: 'college', level: 32 },
+      { building: 'college', level: 33 },
+      { building: 'college', level: 34 },
+      { building: 'college', level: 35 },
+      { building: 'college', level: 36 },
+      { building: 'college', level: 37 },
+      { building: 'college', level: 38 },
+      { building: 'castle', level: 39 },
+      { building: 'wall', level: 39 },
+      { building: 'hospital', level: 34 },
+      { building: 'hospital', level: 35 },
+      { building: 'hospital', level: 36 },
+      { building: 'hospital', level: 37 },
+      { building: 'hospital', level: 38 },
+      { building: 'hospital', level: 39 },
+      { building: 'castle', level: 40 },
+      { building: 'wall', level: 40 },
+      { building: 'embassy', level: 38 },
+      { building: 'embassy', level: 39 },
+      { building: 'embassy', level: 40 },
+      { building: 'chargeTier', level: 1 },
+      { building: 'sacredCastle', level: 1 },
+      { building: 'guardianTemple', level: 9 },
+      { building: 'wall', level: 41 },
+      { building: 'depot', level: 37 },
+      { building: 'depot', level: 38 },
+      { building: 'depot', level: 39 },
+      { building: 'depot', level: 40 },
+      { building: 'sacredDepot', level: 1 },
+      { building: 'chargeTier', level: 2 },
+      { building: 'sacredCastle', level: 2 },
+      { building: 'sacredBarrack', level: 1 },
+      { building: 'sacredBarrack', level: 2 },
+      { building: 'wall', level: 42 },
+      { building: 'sacredHospital', level: 1 },
+      { building: 'sacredHospital', level: 2 },
+      { building: 'chargeTier', level: 3 },
+      { building: 'sacredCastle', level: 3 },
+      { building: 'sacredBarrack', level: 3 }
+    ]
+  },
+  {
     template: 'c34toc40',
     desc: 'c34 to c40 w Angels T12',
     buildings: [
@@ -4587,3 +4804,173 @@ export const azuCalcConf = {
   ],
   card: 90
 }
+
+export const requirementList = [
+  {
+    c: 31,
+    req: [
+      { building: 'blacksmith', level: 30 },
+      { building: 'castle', level: 31 }
+    ]
+  },
+  {
+    c: 32,
+    req: [
+      { building: 'wall', level: 31 },
+      { building: 'drillGrounds', level: 31 },
+      { building: 'castle', level: 32 }
+    ]
+  },
+  {
+    c: 33,
+    req: [
+      { building: 'wall', level: 32 },
+      { building: 'depot', level: 31 },
+      { building: 'depot', level: 32 },
+      { building: 'castle', level: 33 }
+    ]
+  },
+  {
+    c: 34,
+    req: [
+      { building: 'wall', level: 33 },
+      { building: 'embassy', level: 31 },
+      { building: 'embassy', level: 32 },
+      { building: 'embassy', level: 33 },
+      { building: 'castle', level: 34 }
+    ]
+  },
+  {
+    c: 35,
+    req: [
+      { building: 'wall', level: 34 },
+      { building: 'hospital', level: 31 },
+      { building: 'hospital', level: 32 },
+      { building: 'hospital', level: 33 },
+      { building: 'hospital', level: 34 },
+      { building: 'castle', level: 35 }
+    ]
+  },
+  {
+    c: 36,
+    req: [
+      { building: 'wall', level: 35 },
+      { building: 'drillGrounds', level: 31 },
+      { building: 'drillGrounds', level: 32 },
+      { building: 'drillGrounds', level: 33 },
+      { building: 'drillGrounds', level: 34 },
+      { building: 'drillGrounds', level: 35 },
+      { building: 'castle', level: 36 }
+    ]
+  },
+  {
+    c: 37,
+    req: [
+      { building: 'wall', level: 36 },
+      { building: 'depot', level: 33 },
+      { building: 'depot', level: 34 },
+      { building: 'depot', level: 35 },
+      { building: 'depot', level: 36 },
+      { building: 'castle', level: 37 }
+    ]
+  },
+  {
+    c: 38,
+    req: [
+      { building: 'wall', level: 37 },
+      { building: 'embassy', level: 34 },
+      { building: 'embassy', level: 35 },
+      { building: 'embassy', level: 36 },
+      { building: 'embassy', level: 37 },
+      { building: 'castle', level: 38 }
+    ]
+  },
+  {
+    c: 39,
+    req: [
+      { building: 'wall', level: 38 },
+      { building: 'college', level: 31 },
+      { building: 'college', level: 32 },
+      { building: 'college', level: 33 },
+      { building: 'college', level: 34 },
+      { building: 'college', level: 35 },
+      { building: 'college', level: 36 },
+      { building: 'college', level: 37 },
+      { building: 'college', level: 38 },
+      { building: 'castle', level: 39 }
+    ]
+  },
+  {
+    c: 40,
+    req: [
+      { building: 'wall', level: 39 },
+      { building: 'hospital', level: 34 },
+      { building: 'hospital', level: 35 },
+      { building: 'hospital', level: 36 },
+      { building: 'hospital', level: 37 },
+      { building: 'hospital', level: 38 },
+      { building: 'hospital', level: 39 },
+      { building: 'castle', level: 40 }
+    ]
+  },
+  {
+    c: 41,
+    req: [
+      { building: 'wall', level: 40 },
+      { building: 'embassy', level: 38 },
+      { building: 'embassy', level: 39 },
+      { building: 'embassy', level: 40 },
+      { building: 'chargeTier', level: 1 },
+      { building: 'sacredCastle', level: 1 }
+    ]
+  },
+  {
+    c: 42,
+    req: [
+      { building: 'wall', level: 41 },
+      { building: 'depot', level: 37 },
+      { building: 'depot', level: 38 },
+      { building: 'depot', level: 39 },
+      { building: 'depot', level: 40 },
+      { building: 'sacredDepot', level: 1 },
+      { building: 'chargeTier', level: 2 },
+      { building: 'sacredCastle', level: 2 }
+    ]
+  },
+  {
+    c: 43,
+    req: [
+      { building: 'sacredBarrack', level: 1 },
+      { building: 'sacredBarrack', level: 2 },
+      { building: 'wall', level: 42 },
+      { building: 'sacredHospital', level: 1 },
+      { building: 'sacredHospital', level: 2 },
+      { building: 'chargeTier', level: 3 },
+      { building: 'sacredCastle', level: 3 },
+      { building: 'sacredBarrack', level: 3 }
+    ]
+  }
+]
+
+export const barracksReqList = [
+  { building: 'barracks', level: 31 },
+  { building: 'barracks', level: 32 },
+  { building: 'barracks', level: 33 },
+  { building: 'barracks', level: 34 },
+  { building: 'barracks', level: 35 },
+  { building: 'barracks', level: 36 },
+  { building: 'barracks', level: 37 },
+  { building: 'barracks', level: 38 },
+  { building: 'barracks', level: 39 },
+  { building: 'barracks', level: 40 },
+  { building: 'sacredBarrack', level: 41, el: 1 },
+  { building: 'sacredBarrack', level: 42, el: 2 },
+  { building: 'sacredBarrack', level: 43, el: 3 }
+]
+
+export const angelsReqList = [
+  { c: 32, building: 'guardianTemple', level: 6 },
+  { c: 35, building: 'guardianTemple', level: 7 },
+  { c: 38, building: 'guardianTemple', level: 8 },
+  { c: 42, building: 'guardianTemple', level: 9 }
+]
