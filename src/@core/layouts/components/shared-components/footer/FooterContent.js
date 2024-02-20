@@ -17,7 +17,16 @@ const FooterContent = () => {
 
   return (
     <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>
-      <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', '& :not(:last-child)': { mr: 4 } }}>
+      <Box
+        sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', '& :not(:last-child)': { mr: 4 }, gap: '1rem' }}
+      >
+        <Box>
+          <LinkStyled target='_blank' href='https://onadev.net'>
+            onaDev
+          </LinkStyled>
+          {` © ${moment().year()}`}
+        </Box>
+
         <LinkStyled target='_blank' href='https://www.paypal.com/paypalme/oNaare'>
           Donate
         </LinkStyled>
@@ -27,10 +36,6 @@ const FooterContent = () => {
         >
           Contribute
         </LinkStyled>
-        <LinkStyled target='_blank' href='https://onadev.net'>
-          onaDev
-        </LinkStyled>
-        {` © ${moment().year()}`}
       </Box>
     </Box>
   )
