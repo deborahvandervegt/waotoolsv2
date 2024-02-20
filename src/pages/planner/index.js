@@ -1,36 +1,45 @@
 // ** React Imports
-import { forwardRef, useEffect, useState } from 'react';
+import { forwardRef, useEffect, useState } from 'react'
 
 // ** Next Import
 
 // ** MUI Imports
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import MuiTabList from '@mui/lab/TabList';
-import Alert from '@mui/material/Alert';
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import Grid from '@mui/material/Grid';
-import IconButton from '@mui/material/IconButton';
-import MenuItem from '@mui/material/MenuItem';
-import TextField from '@mui/material/TextField';
-import Tooltip from '@mui/material/Tooltip';
-import Typography from '@mui/material/Typography';
-import { styled } from '@mui/material/styles';
-import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
+import MuiTabList from '@mui/lab/TabList'
+import Alert from '@mui/material/Alert'
+import Box from '@mui/material/Box'
+import Card from '@mui/material/Card'
+import Grid from '@mui/material/Grid'
+import IconButton from '@mui/material/IconButton'
+import MenuItem from '@mui/material/MenuItem'
+import TextField from '@mui/material/TextField'
+import Tooltip from '@mui/material/Tooltip'
+import Typography from '@mui/material/Typography'
+import { styled } from '@mui/material/styles'
+import { DataGrid, GridToolbar } from '@mui/x-data-grid'
 
 // ** Icon Imports
-import Icon from 'src/@core/components/icon';
+import Icon from 'src/@core/components/icon'
 
 // ** Third Party Imports
-import toast from 'react-hot-toast';
+import toast from 'react-hot-toast'
 
 // ** Custom Components Imports
-import CustomAvatar from 'src/@core/components/mui/avatar';
-import { azuCalcConf, buildingList, extraBarracks, itemTemplates } from 'src/data/building';
-import TableHeader from 'src/views/apps/invoice/list/TableHeader';
+import CustomAvatar from 'src/@core/components/mui/avatar'
+import {
+  azuCalcConf,
+  angelsReqList,
+  buildingList,
+  buildingLevel,
+  extraBarracks,
+  itemTemplates,
+  requirementList,
+  barracksReqList
+} from 'src/data/building'
+import TableHeader from 'src/views/apps/invoice/list/TableHeader'
 
 // ** Styled Components
-import { TabContext, TabPanel } from '@mui/lab';
+import { TabContext, TabPanel } from '@mui/lab'
 import {
   Autocomplete,
   Button,
@@ -49,11 +58,13 @@ import {
   TableRow,
   Toolbar,
   useMediaQuery
-} from '@mui/material';
-import moment from 'moment';
-import CustomHeader from 'src/@core/components/Header';
-import { nFormatter } from 'src/@core/utils/numberFormatter';
-import nRound from 'src/@core/utils/numberRound';
+} from '@mui/material'
+import moment from 'moment'
+import CustomHeader from 'src/@core/components/Header'
+import { nFormatter } from 'src/@core/utils/numberFormatter'
+import nRound from 'src/@core/utils/numberRound'
+import { InfoOutlined } from '@mui/icons-material'
+import { red } from '@mui/material/colors'
 
 // ** Styled component for the link in the dataTable (Add from template button)
 const BlueButton = styled(Button)(({ theme }) => ({
@@ -61,7 +72,17 @@ const BlueButton = styled(Button)(({ theme }) => ({
   color: theme.palette.customColors.skyPaletteTitle,
   '&:hover': {
     backgroundColor: theme.palette.customColors.skyPaletteSecondary,
-    filter: 'brightness(0.85)'  }
+    filter: 'brightness(0.85)'
+  }
+}))
+
+const RedButton = styled(Button)(({ theme }) => ({
+  color: theme.palette.getContrastText(red[500]),
+  backgroundColor: red[500],
+  '&:hover': {
+    backgroundColor: red[700],
+    filter: 'brightness(0.85)'
+  }
 }))
 
 // ** Save button
@@ -104,6 +125,11 @@ const CustomBox = styled(Box)(({ theme }) => ({
   justifyContent: 'flex-start',
   alignItems: 'center',
   flexDirection: 'row'
+}))
+
+const RssBox = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center'
 }))
 
 // ** Variables
@@ -189,7 +215,20 @@ const defaultInfo = {
   presetB: '',
   selectedList: [],
   totalGot: { a: 0, w: 0, f: 0, s: 0, i: 0 },
-  azuCalculator: { mineHour: 0, rcLevel: 0, card: 0, packs: 0, chests: 0, owned: 0, needed: 0, total: 0 }
+  azuCalculator: { mineHour: 0, rcLevel: 0, card: 0, packs: 0, chests: 0, owned: 0, needed: 0, total: 0 },
+  castle: {
+    castle: { v: 0, min: 30, max: 43 },
+    wall: { v: 0, min: 30, max: 43 },
+    barracks: { v: 0, min: 30, max: 43 },
+    drillGrounds: { v: 0, min: 30, max: 43 },
+    guardianTemple: { v: 0, min: 30, max: 43 },
+    depot: { v: 0, min: 30, max: 43 },
+    embassy: { v: 0, min: 30, max: 43 },
+    blacksmith: { v: 0, min: 30, max: 43 },
+    college: { v: 0, min: 30, max: 43 },
+    hospital: { v: 0, min: 30, max: 43 }
+  },
+  strictMode: false
 }
 
 // ** Custom Functions
@@ -216,15 +255,112 @@ function getTotalAzurite(template) {
   return 0
 }
 
+function getRssNeeded(minLevel, maxLevel, castleObj) {
+  const resultList = []
+  const barracksResultList = []
+  const angelsResultList = []
+
+  // Get all castle buildings
+  const buildingReqList = [...requirementList].filter(b => b.c > minLevel && b.c <= maxLevel)
+
+  buildingReqList.forEach(brl => {
+    const reqList = []
+    brl.req.forEach(req => {
+      if (castleObj[req.building]?.v < req.level) {
+        const getBuildingInfo = buildingList.find(b => b.building === req.building && b.level === req.level)
+        reqList.push({
+          b: req.building,
+          l: req.level,
+          a: getBuildingInfo?.rss?.a,
+          f: getBuildingInfo?.rss?.f,
+          w: getBuildingInfo?.rss?.w,
+          s: getBuildingInfo?.rss?.s,
+          i: getBuildingInfo?.rss?.i
+        })
+      }
+    })
+
+    resultList.push({ c: brl.c, req: reqList })
+  })
+
+  // Generate totals
+  const resultGenerate = (type, list) => {
+    const rssList = []
+    list.forEach(rl => {
+      if (rl.req?.length > 0) {
+        const azurite = rl.req.reduce((acc, cur) => acc + cur.a, 0)
+        const food = rl.req.reduce((acc, cur) => acc + cur.f, 0)
+        const wood = rl.req.reduce((acc, cur) => acc + cur.w, 0)
+        const stone = rl.req.reduce((acc, cur) => acc + cur.s, 0)
+        const iron = rl.req.reduce((acc, cur) => acc + cur.i, 0)
+        rssList.push({ t: type, req: rl.req, l: rl.c, a: azurite, f: food, w: wood, s: stone, i: iron })
+      }
+    })
+
+    return rssList
+  }
+
+  // Get Barracks buildings
+  const barracksList = [...barracksReqList].filter(bl => bl.level > minLevel && bl.level <= maxLevel)
+
+  barracksList.forEach(req => {
+    const reqList = []
+    if (castleObj['barracks']?.v < req.level) {
+      const getBuildingInfo = buildingList.find(b => b.building === req.building && b.level === req.level)
+      reqList.push({
+        b: req.building,
+        l: req.level,
+        a: getBuildingInfo.rss.a,
+        f: getBuildingInfo.rss.f,
+        w: getBuildingInfo.rss.w,
+        s: getBuildingInfo.rss.s,
+        i: getBuildingInfo.rss.i
+      })
+    }
+
+    barracksResultList.push({ c: req.level, req: reqList })
+  })
+
+  // Get Angels buildings
+  const angelList = [...angelsReqList].filter(bl => bl.c > minLevel && bl.c <= maxLevel)
+
+  angelList.forEach(req => {
+    const reqList = []
+
+    if (castleObj['guardianTemple']?.v < req.level) {
+      const getBuildingInfo = buildingList.find(b => b.building === req.building && b.level === req.level)
+      reqList.push({
+        b: req.building,
+        l: req.level,
+        a: getBuildingInfo.rss.a,
+        f: getBuildingInfo.rss.f,
+        w: getBuildingInfo.rss.w,
+        s: getBuildingInfo.rss.s,
+        i: getBuildingInfo.rss.i
+      })
+    }
+
+    angelsResultList.push({ c: req.level, req: reqList })
+  })
+
+  return {
+    barracks: resultGenerate('barracks', barracksResultList),
+    castle: resultGenerate('castle', resultList),
+    angels: resultGenerate('guardianTemple', angelsResultList)
+  }
+}
+
 /* eslint-enable */
 const Planner = () => {
   // ** State
   const [selectedRows, setSelectedRows] = useState([])
-  const [activeTab, setActiveTab] = useState('items')
+  const [activeTab, setActiveTab] = useState('castle')
   const [isLoading, setIsLoading] = useState(true)
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
   const [showAddTemplate, setShowAddTemplate] = useState(false)
   const [showAddItems, setShowAddItems] = useState(false)
+  const [showAutoFill, setShowAutoFill] = useState(false)
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false)
   const [showAddTemp, setShowAddTemp] = useState(false)
   const [showAddTempAzurite, setShowAddtempAzurite] = useState(0)
   const [editDialogOpen, setEditDialogOpen] = useState(false)
@@ -242,6 +378,8 @@ const Planner = () => {
     if (saved) setPlanInfo(saved)
     setIsLoading(false)
   }, [])
+  console.log(planInfo)
+  console.log(getRssNeeded(30, 34, planInfo?.castle))
 
   const handleLoadTemplateChange = e => {
     const newPreset = e.target.value
@@ -451,7 +589,6 @@ const Planner = () => {
   }
 
   const handleChange = (event, value) => {
-    // setIsLoading(true)
     setActiveTab(value)
   }
 
@@ -486,11 +623,1044 @@ const Planner = () => {
     setPlanInfo({ ...planInfo, azuCalculator: totalObj })
   }
 
-  const columns = [
-    ...defaultColumns
-  ]
+  const handleCastleConfig = (e, key, autocomplete = false) => {
+    const level = e.target.value
+    const newCastle = { ...planInfo.castle }
+    const valuesReq = { ...newCastle }
+    const valueList = Object.keys(newCastle)
+
+    if (key === 'castle') newCastle['castle'].v === level
+
+    // If strict mode, check for requirements.
+    if (planInfo.strictMode) {
+      const requirementsList = [...buildingList].filter(b => b.building === key && b.level <= level)
+
+      // Check for requirements for min value
+      requirementsList.forEach(rl => {
+        rl.requirements.forEach(req => {
+          if (valuesReq.hasOwnProperty(req.building)) {
+            valuesReq[req.building].min = req.level
+          }
+        })
+      })
+
+      if (key === 'castle') {
+        valueList.forEach((v, index) => {
+          if (v === key) {
+            newCastle[v].v = level
+          } else if (v === 'guardianTemple') {
+            newCastle[v].min = 1
+            if (level < 32) newCastle[v].max = 5
+            if (level < 35 && level > 31) newCastle[v].max = 6
+            if (level < 38 && level > 34) newCastle[v].max = 7
+            if (level < 42 && level > 37) newCastle[v].max = 8
+            if (level >= 42) newCastle[v].max = 9
+          } else if (v === 'barracks') {
+            if (level > 30 && level < 35) {
+              newCastle[v].min = 30
+            }
+            if (level > 34 && level < 38) {
+              newCastle[v].min = 34
+            }
+            if (level > 37 && level < 41) {
+              newCastle[v].min = 37
+            }
+            if (level > 40 && level < 43) {
+              newCastle[v].min = 40
+            }
+            if (level === 43) {
+              newCastle[v].min = 42
+            }
+            newCastle[v].max = level
+          } else {
+            newCastle[v].min = valuesReq[v]?.min
+            newCastle[v].max = level
+          }
+        })
+      } else {
+        newCastle[key].v = level
+      }
+    } else {
+      newCastle[key].v = level
+    }
+
+    if (autocomplete) {
+      Object.keys(newCastle).forEach(v => {
+        if (v !== 'castle') newCastle[v].v = newCastle[v].min
+      })
+      setPlanInfo(prevState => ({ ...prevState, castle: newCastle }))
+      setShowAutoFill(false)
+    } else {
+      setPlanInfo(prevState => ({ ...prevState, castle: newCastle }))
+      if (key === 'castle') setShowAutoFill(true)
+    }
+  }
+
+  const handleClearAllData = e => {
+    localStorage.removeItem('planInfo', JSON.stringify(planInfo))
+    setPlanInfo({ ...planInfo, preset: '', presetB: '', selectedList: [] })
+    setShowDeleteDialog(false)
+
+    return toast.success('Data successfully REMOVED from the browser!')
+  }
+
+  const columns = [...defaultColumns]
 
   const tabContentList = {
+    castle: (
+      <>
+        <Card>
+          <Grid container spacing={3} style={{ padding: '1rem' }}>
+            <Grid item xs={12}>
+              <Divider>DETAILS</Divider>
+              <Box>
+                <Typography>Overall Progress: 80%</Typography>
+                <Typography>Castle Level: 35</Typography>
+                <Typography>Troops Tier: XII</Typography>
+                <Typography>Angels Tier: XI</Typography>
+              </Box>
+
+              <Divider>CONFIGURATION</Divider>
+              <Typography variant='body2'>Set your current Castle Configuration.</Typography>
+
+              <CustomBox>
+                <Box sx={{ marginRight: '5px' }}>
+                  <Typography variant='body2' color='primary' align='left'>
+                    Strict Mode:
+                  </Typography>
+                </Box>
+                <Switch
+                  inputProps={{ 'aria-label': 'Strict Mode Switch' }}
+                  checked={planInfo.strictMode}
+                  onChange={e => {
+                    setPlanInfo(prevState => ({ ...prevState, strictMode: e.target.checked }))
+                  }}
+                  color='success'
+                />
+                <IconButton
+                  aria-label='card-info-button'
+                  onClick={e => {
+                    return toast.success(
+                      `With the strict mode on you'll have a controlled version of the planner. You'll able to update your progress through the ITEMS tab.`,
+                      {
+                        duration: 8000,
+                        position: 'bottom-center',
+                        style: {
+                          borderRadius: '10px',
+                          border: '1px solid #0278AE',
+                          padding: '16px',
+                          color: '#0278AE'
+                        },
+                        iconTheme: {
+                          primary: '#0278AE',
+                          secondary: '#FFFAEE'
+                        }
+                      }
+                    )
+                  }}
+                >
+                  <InfoOutlined color='primary' />
+                </IconButton>
+              </CustomBox>
+
+              {planInfo?.castle?.castle?.v > 0 && (
+                <CustomBox>
+                  <Box sx={{ marginRight: '5px' }}>
+                    <Typography variant='body2' color='primary' align='left'>
+                      Set Default Castle Level Requirements:
+                    </Typography>
+                  </Box>
+                  <Button
+                    size='small'
+                    variant='contained'
+                    onClick={e => {
+                      handleCastleConfig({ target: { value: planInfo?.castle?.castle?.v } }, 'castle', true)
+                    }}
+                  >
+                    UPDATE
+                  </Button>
+                </CustomBox>
+              )}
+
+              <Divider sx={{ mt: 3 }} />
+              <Box sx={{ mt: 1, p: 1, display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: '1rem' }}>
+                <CustomBox>
+                  <Box sx={{ marginRight: '5px' }}>
+                    <Typography variant='body2' color='primary' align='right'>
+                      Castle:
+                    </Typography>
+                  </Box>
+                  <TextField
+                    align='left'
+                    id='castle-select'
+                    size='small'
+                    variant='outlined'
+                    select
+                    value={planInfo?.castle?.castle?.v ?? ''}
+                    sx={{ maxWidth: '70px' }}
+                    onChange={e => {
+                      handleCastleConfig(e, 'castle')
+                    }}
+                  >
+                    {[...buildingLevel['castle']].map(option => (
+                      <MenuItem key={option.l} value={option.l}>
+                        {option.l}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </CustomBox>
+                <CustomBox>
+                  <Box sx={{ marginRight: '5px' }}>
+                    <Typography variant='body2' color='primary' align='right'>
+                      Wall:
+                    </Typography>
+                  </Box>
+                  <TextField
+                    align='left'
+                    id='wall-select'
+                    size='small'
+                    variant='outlined'
+                    select
+                    value={planInfo?.castle?.wall?.v ?? ''}
+                    sx={{ maxWidth: '70px' }}
+                    onChange={e => {
+                      handleCastleConfig(e, 'wall')
+                    }}
+                  >
+                    {[...buildingLevel['wall']]
+                      .filter(b => b.l >= planInfo?.castle?.wall?.min && b.l <= planInfo?.castle?.wall?.max)
+                      .map(option => (
+                        <MenuItem key={option.l} value={option.l}>
+                          {option.l}
+                        </MenuItem>
+                      ))}
+                  </TextField>
+                </CustomBox>
+                <CustomBox>
+                  <Box sx={{ marginRight: '5px' }}>
+                    <Typography variant='body2' color='primary' align='right'>
+                      Barrack:
+                    </Typography>
+                  </Box>
+                  <TextField
+                    align='left'
+                    id='barracks-select'
+                    size='small'
+                    variant='outlined'
+                    select
+                    value={planInfo?.castle?.barracks?.v ?? ''}
+                    sx={{ maxWidth: '70px' }}
+                    onChange={e => {
+                      handleCastleConfig(e, 'barracks')
+                    }}
+                  >
+                    {[...buildingLevel['barracks']]
+                      .filter(b => b.l >= planInfo?.castle?.barracks?.min && b.l <= planInfo?.castle?.barracks?.max)
+                      .map(option => (
+                        <MenuItem key={option.l} value={option.l}>
+                          {option.l}
+                        </MenuItem>
+                      ))}
+                  </TextField>
+                </CustomBox>
+                <CustomBox>
+                  <Box sx={{ marginRight: '5px' }}>
+                    <Typography variant='body2' color='primary' align='right'>
+                      Drill Grounds:
+                    </Typography>
+                  </Box>
+                  <TextField
+                    align='left'
+                    id='drill-grounds-select'
+                    size='small'
+                    variant='outlined'
+                    select
+                    value={planInfo?.castle?.drillGrounds?.v ?? ''}
+                    sx={{ maxWidth: '70px' }}
+                    onChange={e => {
+                      handleCastleConfig(e, 'drillGrounds')
+                    }}
+                  >
+                    {[...buildingLevel['drillGrounds']]
+                      .filter(
+                        b => b.l >= planInfo?.castle?.drillGrounds?.min && b.l <= planInfo?.castle?.drillGrounds?.max
+                      )
+                      .map(option => (
+                        <MenuItem key={option.l} value={option.l}>
+                          {option.l}
+                        </MenuItem>
+                      ))}
+                  </TextField>
+                </CustomBox>
+                <CustomBox>
+                  <Box sx={{ marginRight: '5px' }}>
+                    <Typography variant='body2' color='primary' align='right'>
+                      Guardian Temple:
+                    </Typography>
+                  </Box>
+                  <TextField
+                    align='left'
+                    id='guardian-temple-select'
+                    size='small'
+                    variant='outlined'
+                    select
+                    value={planInfo?.castle?.guardianTemple?.v ?? ''}
+                    sx={{ maxWidth: '70px' }}
+                    onChange={e => {
+                      handleCastleConfig(e, 'guardianTemple')
+                    }}
+                  >
+                    {[...buildingLevel['guardianTemple']]
+                      .filter(
+                        b =>
+                          b.l >= planInfo?.castle?.guardianTemple?.min && b.l <= planInfo?.castle?.guardianTemple?.max
+                      )
+                      .map(option => (
+                        <MenuItem key={option.l} value={option.l}>
+                          {option.l}
+                        </MenuItem>
+                      ))}
+                  </TextField>
+                </CustomBox>
+                <CustomBox>
+                  <Box sx={{ marginRight: '5px' }}>
+                    <Typography variant='body2' color='primary' align='right'>
+                      Depot:
+                    </Typography>
+                  </Box>
+                  <TextField
+                    align='left'
+                    id='depot-select'
+                    size='small'
+                    variant='outlined'
+                    select
+                    value={planInfo?.castle?.depot?.v ?? ''}
+                    sx={{ maxWidth: '70px' }}
+                    onChange={e => {
+                      handleCastleConfig(e, 'depot')
+                    }}
+                  >
+                    {[...buildingLevel['depot']]
+                      .filter(b => b.l >= planInfo?.castle?.depot?.min && b.l <= planInfo?.castle?.depot?.max)
+                      .map(option => (
+                        <MenuItem key={option.l} value={option.l}>
+                          {option.l}
+                        </MenuItem>
+                      ))}
+                  </TextField>
+                </CustomBox>
+                <CustomBox>
+                  <Box sx={{ marginRight: '5px' }}>
+                    <Typography variant='body2' color='primary' align='right'>
+                      Embassy:
+                    </Typography>
+                  </Box>
+                  <TextField
+                    align='left'
+                    id='embassy-select'
+                    size='small'
+                    variant='outlined'
+                    select
+                    value={planInfo?.castle?.embassy?.v ?? ''}
+                    sx={{ maxWidth: '70px' }}
+                    onChange={e => {
+                      handleCastleConfig(e, 'embassy')
+                    }}
+                  >
+                    {[...buildingLevel['embassy']]
+                      .filter(b => b.l >= planInfo?.castle?.embassy?.min && b.l <= planInfo?.castle?.embassy?.max)
+                      .map(option => (
+                        <MenuItem key={option.l} value={option.l}>
+                          {option.l}
+                        </MenuItem>
+                      ))}
+                  </TextField>
+                </CustomBox>
+                <CustomBox>
+                  <Box sx={{ marginRight: '5px' }}>
+                    <Typography variant='body2' color='primary' align='right'>
+                      Blacksmith:
+                    </Typography>
+                  </Box>
+                  <TextField
+                    align='left'
+                    id='blacksmith-select'
+                    size='small'
+                    variant='outlined'
+                    select
+                    value={planInfo?.castle?.blacksmith?.v ?? ''}
+                    sx={{ maxWidth: '70px' }}
+                    onChange={e => {
+                      handleCastleConfig(e, 'blacksmith')
+                    }}
+                  >
+                    {[...buildingLevel['blacksmith']]
+                      .filter(b => b.l >= planInfo?.castle?.blacksmith?.min && b.l <= planInfo?.castle?.blacksmith?.max)
+                      .map(option => (
+                        <MenuItem key={option.l} value={option.l}>
+                          {option.l}
+                        </MenuItem>
+                      ))}
+                  </TextField>
+                </CustomBox>
+                <CustomBox>
+                  <Box sx={{ marginRight: '5px' }}>
+                    <Typography variant='body2' color='primary' align='right'>
+                      College:
+                    </Typography>
+                  </Box>
+                  <TextField
+                    align='left'
+                    id='college-select'
+                    size='small'
+                    variant='outlined'
+                    select
+                    value={planInfo?.castle?.college?.v ?? ''}
+                    sx={{ maxWidth: '70px' }}
+                    onChange={e => {
+                      handleCastleConfig(e, 'college')
+                    }}
+                  >
+                    {[...buildingLevel['college']]
+                      .filter(b => b.l >= planInfo?.castle?.college?.min && b.l <= planInfo?.castle?.college?.max)
+                      .map(option => (
+                        <MenuItem key={option.l} value={option.l}>
+                          {option.l}
+                        </MenuItem>
+                      ))}
+                  </TextField>
+                </CustomBox>
+                <CustomBox>
+                  <Box sx={{ marginRight: '5px' }}>
+                    <Typography variant='body2' color='primary' align='right'>
+                      Hospital:
+                    </Typography>
+                  </Box>
+                  <TextField
+                    align='left'
+                    id='hospital-select'
+                    size='small'
+                    variant='outlined'
+                    select
+                    value={planInfo?.castle?.hospital?.v ?? ''}
+                    sx={{ maxWidth: '70px' }}
+                    onChange={e => {
+                      handleCastleConfig(e, 'hospital')
+                    }}
+                  >
+                    {[...buildingLevel['hospital']]
+                      .filter(b => b.l >= planInfo?.castle?.hospital?.min && b.l <= planInfo?.castle?.hospital?.max)
+                      .map(option => (
+                        <MenuItem key={option.l} value={option.l}>
+                          {option.l}
+                        </MenuItem>
+                      ))}
+                  </TextField>
+                </CustomBox>
+              </Box>
+              <Divider>DEVELOPMENT</Divider>
+              <Box sx={{ mt: 1, p: 1, display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: '1rem' }}>
+                {/* CASTLE 34 */}
+                {planInfo?.castle?.castle?.v < 35 && planInfo?.castle?.castle?.v >= 30 && (
+                  <Box sx={{ p: '1rem' }}>
+                    <Box>
+                      <Typography variant='body1' color='primary'>
+                        Requirements for Castle Lvl 34:
+                      </Typography>
+                    </Box>
+
+                    <Box>
+                      <Typography variant='body2' color='primary'>
+                        Castle 34:
+                      </Typography>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          flexWrap: 'wrap',
+                          gap: '1rem',
+                          alignItems: 'center'
+                        }}
+                      >
+                        <>
+                          <RssBox>
+                            <Icon icon='game-icons:crystal-growth' color='#22a0bf' fontSize={18} />
+
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${getRssNeeded(30, 34, planInfo?.castle)
+                                ?.castle.reduce((acc, cur) => acc + cur.a, 0)
+                                .toLocaleString()}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:wheat' color='#e7ba83' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(30, 34, planInfo?.castle)?.castle.reduce((acc, cur) => acc + cur.f, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+
+                          <RssBox>
+                            <Icon icon='game-icons:wood-pile' color='#c18439' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(30, 34, planInfo?.castle)?.castle.reduce((acc, cur) => acc + cur.w, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:stone-pile' color='#bdbdbd' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(30, 34, planInfo?.castle)?.castle.reduce((acc, cur) => acc + cur.s, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:metal-bar' color='#8f8881' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(30, 34, planInfo?.castle)?.castle.reduce((acc, cur) => acc + cur.i, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                        </>
+                      </Box>
+
+                      <Typography variant='body2' color='primary' sx={{ mt: '6px' }}>
+                        Barracks 34 (Troops T11/XI):
+                      </Typography>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          flexWrap: 'wrap',
+                          gap: '1rem',
+                          alignItems: 'center'
+                        }}
+                      >
+                        <>
+                          <RssBox>
+                            <Icon icon='game-icons:crystal-growth' color='#22a0bf' fontSize={18} />
+
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${getRssNeeded(30, 34, planInfo?.castle)
+                                ?.barracks.reduce((acc, cur) => acc + cur.a, 0)
+                                .toLocaleString()}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:wheat' color='#e7ba83' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(30, 34, planInfo?.castle)?.barracks.reduce((acc, cur) => acc + cur.f, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+
+                          <RssBox>
+                            <Icon icon='game-icons:wood-pile' color='#c18439' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(30, 34, planInfo?.castle)?.barracks.reduce((acc, cur) => acc + cur.w, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:stone-pile' color='#bdbdbd' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(30, 34, planInfo?.castle)?.barracks.reduce((acc, cur) => acc + cur.s, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:metal-bar' color='#8f8881' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(30, 34, planInfo?.castle)?.barracks.reduce((acc, cur) => acc + cur.i, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                        </>
+                      </Box>
+
+                      <Typography variant='body2' color='primary' sx={{ mt: '6px' }}>
+                        Angels (T10/X):
+                      </Typography>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          flexWrap: 'wrap',
+                          gap: '1rem',
+                          alignItems: 'center'
+                        }}
+                      >
+                        <>
+                          <RssBox>
+                            <Icon icon='game-icons:crystal-growth' color='#22a0bf' fontSize={18} />
+
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${getRssNeeded(30, 34, planInfo?.castle)
+                                ?.angels.reduce((acc, cur) => acc + cur.a, 0)
+                                .toLocaleString()}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:wheat' color='#e7ba83' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(30, 34, planInfo?.castle)?.angels.reduce((acc, cur) => acc + cur.f, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+
+                          <RssBox>
+                            <Icon icon='game-icons:wood-pile' color='#c18439' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(30, 34, planInfo?.castle)?.angels.reduce((acc, cur) => acc + cur.w, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:stone-pile' color='#bdbdbd' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(30, 34, planInfo?.castle)?.angels.reduce((acc, cur) => acc + cur.s, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:metal-bar' color='#8f8881' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(30, 34, planInfo?.castle)?.angels.reduce((acc, cur) => acc + cur.i, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                        </>
+                      </Box>
+                    </Box>
+                  </Box>
+                )}
+
+                {/* CASTLE 37 */}
+                {planInfo?.castle?.castle?.v < 38 && planInfo?.castle?.castle?.v >= 30 && (
+                  <Box sx={{ p: '1rem' }}>
+                    <Box>
+                      <Typography variant='body1' color='primary'>
+                        Requirements for Castle Lvl 37:
+                      </Typography>
+                    </Box>
+                    <Box>
+                      <Typography variant='body2' color='primary'>
+                        Castle 37:
+                      </Typography>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          flexWrap: 'wrap',
+                          gap: '1rem',
+                          alignItems: 'center'
+                        }}
+                      >
+                        <>
+                          <RssBox>
+                            <Icon icon='game-icons:crystal-growth' color='#22a0bf' fontSize={18} />
+
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${getRssNeeded(34, 37, planInfo?.castle)
+                                ?.castle.reduce((acc, cur) => acc + cur.a, 0)
+                                .toLocaleString()}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:wheat' color='#e7ba83' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(34, 37, planInfo?.castle)?.castle.reduce((acc, cur) => acc + cur.f, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+
+                          <RssBox>
+                            <Icon icon='game-icons:wood-pile' color='#c18439' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(34, 37, planInfo?.castle)?.castle.reduce((acc, cur) => acc + cur.w, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:stone-pile' color='#bdbdbd' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(34, 37, planInfo?.castle)?.castle.reduce((acc, cur) => acc + cur.s, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:metal-bar' color='#8f8881' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(34, 37, planInfo?.castle)?.castle.reduce((acc, cur) => acc + cur.i, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                        </>
+                      </Box>
+
+                      <Typography variant='body2' color='primary' sx={{ mt: '6px' }}>
+                        Barracks 37 (Troops T12/XII):
+                      </Typography>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          flexWrap: 'wrap',
+                          gap: '1rem',
+                          alignItems: 'center'
+                        }}
+                      >
+                        <>
+                          <RssBox>
+                            <Icon icon='game-icons:crystal-growth' color='#22a0bf' fontSize={18} />
+
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${getRssNeeded(34, 37, planInfo?.castle)
+                                ?.barracks.reduce((acc, cur) => acc + cur.a, 0)
+                                .toLocaleString()}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:wheat' color='#e7ba83' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(34, 37, planInfo?.castle)?.barracks.reduce((acc, cur) => acc + cur.f, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+
+                          <RssBox>
+                            <Icon icon='game-icons:wood-pile' color='#c18439' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(34, 37, planInfo?.castle)?.barracks.reduce((acc, cur) => acc + cur.w, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:stone-pile' color='#bdbdbd' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(34, 37, planInfo?.castle)?.barracks.reduce((acc, cur) => acc + cur.s, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:metal-bar' color='#8f8881' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(34, 37, planInfo?.castle)?.barracks.reduce((acc, cur) => acc + cur.i, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                        </>
+                      </Box>
+
+                      <Typography variant='body2' color='primary' sx={{ mt: '6px' }}>
+                        Angels (T11/XI):
+                      </Typography>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          flexWrap: 'wrap',
+                          gap: '1rem',
+                          alignItems: 'center'
+                        }}
+                      >
+                        <>
+                          <RssBox>
+                            <Icon icon='game-icons:crystal-growth' color='#22a0bf' fontSize={18} />
+
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${getRssNeeded(34, 37, planInfo?.castle)
+                                ?.angels.reduce((acc, cur) => acc + cur.a, 0)
+                                .toLocaleString()}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:wheat' color='#e7ba83' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(34, 37, planInfo?.castle)?.angels.reduce((acc, cur) => acc + cur.f, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+
+                          <RssBox>
+                            <Icon icon='game-icons:wood-pile' color='#c18439' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(34, 37, planInfo?.castle)?.angels.reduce((acc, cur) => acc + cur.w, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:stone-pile' color='#bdbdbd' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(34, 37, planInfo?.castle)?.angels.reduce((acc, cur) => acc + cur.s, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:metal-bar' color='#8f8881' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(34, 37, planInfo?.castle)?.angels.reduce((acc, cur) => acc + cur.i, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                        </>
+                      </Box>
+                    </Box>
+                  </Box>
+                )}
+
+                {/* CASTLE 40 */}
+                {planInfo?.castle?.castle?.v < 41 && planInfo?.castle?.castle?.v >= 30 && (
+                  <Box sx={{ p: '1rem' }}>
+                    <Box>
+                      <Typography variant='body1' color='primary'>
+                        Requirements for Castle Lvl 40:
+                      </Typography>
+                    </Box>
+                    <Box>
+                      <Typography variant='body2' color='primary'>
+                        Castle 40:
+                      </Typography>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          flexWrap: 'wrap',
+                          gap: '1rem',
+                          alignItems: 'center'
+                        }}
+                      >
+                        <>
+                          <RssBox>
+                            <Icon icon='game-icons:crystal-growth' color='#22a0bf' fontSize={18} />
+
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${getRssNeeded(37, 40, planInfo?.castle)
+                                ?.castle.reduce((acc, cur) => acc + cur.a, 0)
+                                .toLocaleString()}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:wheat' color='#e7ba83' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(37, 40, planInfo?.castle)?.castle.reduce((acc, cur) => acc + cur.f, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+
+                          <RssBox>
+                            <Icon icon='game-icons:wood-pile' color='#c18439' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(37, 40, planInfo?.castle)?.castle.reduce((acc, cur) => acc + cur.w, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:stone-pile' color='#bdbdbd' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(37, 40, planInfo?.castle)?.castle.reduce((acc, cur) => acc + cur.s, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:metal-bar' color='#8f8881' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(37, 40, planInfo?.castle)?.castle.reduce((acc, cur) => acc + cur.i, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                        </>
+                      </Box>
+
+                      <Typography variant='body2' color='primary' sx={{ mt: '6px' }}>
+                        Barracks 40 (Troops T13/XIII):
+                      </Typography>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          flexWrap: 'wrap',
+                          gap: '1rem',
+                          alignItems: 'center'
+                        }}
+                      >
+                        <>
+                          <RssBox>
+                            <Icon icon='game-icons:crystal-growth' color='#22a0bf' fontSize={18} />
+
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${getRssNeeded(37, 40, planInfo?.castle)
+                                ?.barracks.reduce((acc, cur) => acc + cur.a, 0)
+                                .toLocaleString()}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:wheat' color='#e7ba83' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(37, 40, planInfo?.castle)?.barracks.reduce((acc, cur) => acc + cur.f, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+
+                          <RssBox>
+                            <Icon icon='game-icons:wood-pile' color='#c18439' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(37, 40, planInfo?.castle)?.barracks.reduce((acc, cur) => acc + cur.w, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:stone-pile' color='#bdbdbd' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(37, 40, planInfo?.castle)?.barracks.reduce((acc, cur) => acc + cur.s, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:metal-bar' color='#8f8881' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(37, 40, planInfo?.castle)?.barracks.reduce((acc, cur) => acc + cur.i, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                        </>
+                      </Box>
+
+                      <Typography variant='body2' color='primary' sx={{ mt: '6px' }}>
+                        Angels (T12/XII):
+                      </Typography>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          flexWrap: 'wrap',
+                          gap: '1rem',
+                          alignItems: 'center'
+                        }}
+                      >
+                        <>
+                          <RssBox>
+                            <Icon icon='game-icons:crystal-growth' color='#22a0bf' fontSize={18} />
+
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${getRssNeeded(37, 40, planInfo?.castle)
+                                ?.angels.reduce((acc, cur) => acc + cur.a, 0)
+                                .toLocaleString()}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:wheat' color='#e7ba83' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(37, 40, planInfo?.castle)?.angels.reduce((acc, cur) => acc + cur.f, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+
+                          <RssBox>
+                            <Icon icon='game-icons:wood-pile' color='#c18439' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(37, 40, planInfo?.castle)?.angels.reduce((acc, cur) => acc + cur.w, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:stone-pile' color='#bdbdbd' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(37, 40, planInfo?.castle)?.angels.reduce((acc, cur) => acc + cur.s, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:metal-bar' color='#8f8881' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(37, 40, planInfo?.castle)?.angels.reduce((acc, cur) => acc + cur.i, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                        </>
+                      </Box>
+                    </Box>
+                  </Box>
+                )}
+              </Box>
+              <Box sx={{ pb: '5rem' }} />
+            </Grid>
+          </Grid>
+        </Card>
+      </>
+    ),
     items: (
       <>
         <Card>
@@ -753,450 +1923,425 @@ const Planner = () => {
               </TableContainer>
             </Grid>
 
-              {/* RESOURCES DATA  */}
-              <Grid item xs={12} sx={{ pt: theme => `${theme.spacing(4)} !important` }}>
-                <TableContainer>
-                  <Table aria-labelledby='tableTitleInfo' size={'small'} aria-label='enhanced table info'>
-                    <TableBody>
-                      <TableRow>
-                        <TableCell align='center'>{'RSS'}</TableCell>
-                        <TableCell align='center'>{'RSS Needed'}</TableCell>
-                        <TableCell align='center'>{'RSS Owned'}</TableCell>
-                        <TableCell align='center'>{'Total'}</TableCell>
-                      </TableRow>
-                      {/* AZURITE */}
-                      <TableRow>
-                        <TableCell align='center'>{<Typography color='primary'>Azurite</Typography>}</TableCell>
+            {/* RESOURCES DATA  */}
+            <Grid item xs={12} sx={{ pt: theme => `${theme.spacing(4)} !important` }}>
+              <TableContainer>
+                <Table aria-labelledby='tableTitleInfo' size={'small'} aria-label='enhanced table info'>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell align='center'>{'RSS'}</TableCell>
+                      <TableCell align='center'>{'RSS Needed'}</TableCell>
+                      <TableCell align='center'>{'RSS Owned'}</TableCell>
+                      <TableCell align='center'>{'Total'}</TableCell>
+                    </TableRow>
+                    {/* AZURITE */}
+                    <TableRow>
+                      <TableCell align='center'>{<Typography color='primary'>Azurite</Typography>}</TableCell>
 
+                      <TableCell align='center'>
+                        {
+                          <Typography color='textPrimary'>
+                            {planInfo?.itemList
+                              ?.reduce((accumulator, currentValue) => accumulator + currentValue.rss.a, 0)
+                              ?.toLocaleString()}
+                          </Typography>
+                        }
+                      </TableCell>
+                      <TableCell align='center'>
+                        {
+                          <TextField
+                            label=''
+                            sx={{ minWidth: '100px' }}
+                            variant='outlined'
+                            align='center'
+                            id='azurite-input'
+                            size='small'
+                            type='number'
+                            value={planInfo?.totalGot.a === 0 ? '' : planInfo?.totalGot.a}
+                            onChange={e => {
+                              let newState
+                              let error
+                              if (+e.target.value >= 2000000 || +e.target.value < 0) {
+                                newState = { ...planInfo?.totalGot, a: 2000000 }
+                                error = true
+                              } else {
+                                newState = { ...planInfo?.totalGot, a: +e.target.value }
+                              }
+                              setPlanInfo({ ...planInfo, totalGot: newState })
+                              if (error) return toast.error('Please use an input less than 2,000,000 and more than 0.')
+                            }}
+                          />
+                        }
+                      </TableCell>
+                      {planInfo?.itemList?.reduce((accumulator, currentValue) => accumulator + currentValue.rss.a, 0) >
+                        planInfo?.totalGot.a && (
                         <TableCell align='center'>
                           {
-                            <Typography color='textPrimary'>
-                              {planInfo?.itemList
-                                ?.reduce((accumulator, currentValue) => accumulator + currentValue.rss.a, 0)
-                                ?.toLocaleString()}
+                            <Typography sx={{ color: '#ed2727' }}>
+                              -
+                              {(
+                                planInfo?.itemList?.reduce(
+                                  (accumulator, currentValue) => accumulator + currentValue.rss.a,
+                                  0
+                                ) - planInfo?.totalGot.a
+                              )?.toLocaleString()}
                             </Typography>
                           }
                         </TableCell>
+                      )}
+                      {planInfo?.itemList?.reduce((accumulator, currentValue) => accumulator + currentValue.rss.a, 0) <
+                        planInfo?.totalGot.a && (
                         <TableCell align='center'>
                           {
-                            <TextField
-                              label=''
-                              style={{ minWidth: '100px' }}
-                              variant='outlined'
-                              align='center'
-                              id='azurite-input'
-                              size='small'
-                              type='number'
-                              value={planInfo?.totalGot.a === 0 ? '' : planInfo?.totalGot.a}
-                              onChange={e => {
-                                let newState
-                                let error
-                                if (+e.target.value >= 2000000 || +e.target.value < 0) {
-                                  newState = { ...planInfo?.totalGot, a: 2000000 }
-                                  error = true
-                                } else {
-                                  newState = { ...planInfo?.totalGot, a: +e.target.value }
-                                }
-                                setPlanInfo({ ...planInfo, totalGot: newState })
-                                if (error)
-                                  return toast.error('Please use an input less than 2,000,000 and more than 0.')
-                              }}
-                            />
+                            <Button sx={{ color: '#4DDDB2' }} startIcon={<Icon icon='mingcute:check-2-line' />}>
+                              {' '}
+                              +
+                              {(
+                                planInfo?.totalGot.a -
+                                planInfo?.itemList?.reduce(
+                                  (accumulator, currentValue) => accumulator + currentValue.rss.a,
+                                  0
+                                )
+                              ).toLocaleString()}
+                            </Button>
                           }
                         </TableCell>
-                        {planInfo?.itemList?.reduce(
-                          (accumulator, currentValue) => accumulator + currentValue.rss.a,
-                          0
-                        ) > planInfo?.totalGot.a && (
-                          <TableCell align='center'>
-                            {
-                              <Typography style={{ color: '#ed2727' }}>
-                                -
-                                {(
-                                  planInfo?.itemList?.reduce(
-                                    (accumulator, currentValue) => accumulator + currentValue.rss.a,
-                                    0
-                                  ) - planInfo?.totalGot.a
-                                )?.toLocaleString()}
-                              </Typography>
-                            }
-                          </TableCell>
-                        )}
-                        {planInfo?.itemList?.reduce(
-                          (accumulator, currentValue) => accumulator + currentValue.rss.a,
-                          0
-                        ) < planInfo?.totalGot.a && (
-                          <TableCell align='center'>
-                            {
-                              <Button style={{ color: '#4DDDB2' }} startIcon={<Icon icon='mingcute:check-2-line' />}>
-                                {' '}
-                                +
-                                {(
-                                  planInfo?.totalGot.a -
-                                  planInfo?.itemList?.reduce(
-                                    (accumulator, currentValue) => accumulator + currentValue.rss.a,
-                                    0
-                                  )
-                                ).toLocaleString()}
-                              </Button>
-                            }
-                          </TableCell>
-                        )}
-                      </TableRow>
+                      )}
+                    </TableRow>
 
-                      {/* FOOD */}
-                      <TableRow>
-                        <TableCell align='center'>{<Typography color='primary'>Food</Typography>}</TableCell>
+                    {/* FOOD */}
+                    <TableRow>
+                      <TableCell align='center'>{<Typography color='primary'>Food</Typography>}</TableCell>
 
+                      <TableCell align='center'>
+                        {
+                          <Typography color='textPrimary'>
+                            {nFormatter(
+                              planInfo?.itemList?.reduce(
+                                (accumulator, currentValue) => accumulator + currentValue.rss.f,
+                                0
+                              ),
+                              1
+                            )}
+                          </Typography>
+                        }
+                      </TableCell>
+                      <TableCell align='center'>
+                        {
+                          <TextField
+                            label=''
+                            align='center'
+                            variant='outlined'
+                            id='food-input'
+                            size='small'
+                            type='number'
+                            value={planInfo?.totalGot.f === 0 ? '' : planInfo?.totalGot.f}
+                            onChange={e => {
+                              let newState
+                              let error
+                              if (+e.target.value >= 4000000001 || +e.target.value < 0) {
+                                newState = { ...planInfo?.totalGot, f: 4000000000 }
+                                error = true
+                              } else {
+                                newState = { ...planInfo?.totalGot, f: +e.target.value }
+                              }
+                              setPlanInfo({ ...planInfo, totalGot: newState })
+                              if (error) return toast.error('Please use an input less than 2,000,000 and more than 0.')
+                            }}
+                          />
+                        }
+                      </TableCell>
+                      {planInfo?.itemList?.reduce((accumulator, currentValue) => accumulator + currentValue.rss.f, 0) >
+                        planInfo?.totalGot.f && (
                         <TableCell align='center'>
                           {
-                            <Typography color='textPrimary'>
+                            <Typography style={{ color: '#ed2727' }}>
+                              -
                               {nFormatter(
                                 planInfo?.itemList?.reduce(
                                   (accumulator, currentValue) => accumulator + currentValue.rss.f,
                                   0
-                                ),
+                                ) - planInfo?.totalGot.f,
                                 1
                               )}
                             </Typography>
                           }
                         </TableCell>
+                      )}
+                      {planInfo?.itemList?.reduce((accumulator, currentValue) => accumulator + currentValue.rss.f, 0) <
+                        planInfo?.totalGot.f && (
                         <TableCell align='center'>
                           {
-                            <TextField
-                              label=''
-                              align='center'
-                              variant='outlined'
-                              id='food-input'
-                              size='small'
-                              type='number'
-                              value={planInfo?.totalGot.f === 0 ? '' : planInfo?.totalGot.f}
-                              onChange={e => {
-                                let newState
-                                let error
-                                if (+e.target.value >= 4000000001 || +e.target.value < 0) {
-                                  newState = { ...planInfo?.totalGot, f: 4000000000 }
-                                  error = true
-                                } else {
-                                  newState = { ...planInfo?.totalGot, f: +e.target.value }
-                                }
-                                setPlanInfo({ ...planInfo, totalGot: newState })
-                                if (error)
-                                  return toast.error('Please use an input less than 2,000,000 and more than 0.')
-                              }}
-                            />
-                          }
-                        </TableCell>
-                        {planInfo?.itemList?.reduce(
-                          (accumulator, currentValue) => accumulator + currentValue.rss.f,
-                          0
-                        ) > planInfo?.totalGot.f && (
-                          <TableCell align='center'>
-                            {
-                              <Typography style={{ color: '#ed2727' }}>
-                                -
-                                {nFormatter(
+                            <Button
+                              style={{ color: '#50a308' }}
+                              color='primary'
+                              startIcon={<Icon icon='mingcute:check-2-line' />}
+                            >
+                              +
+                              {nFormatter(
+                                planInfo?.totalGot.f -
                                   planInfo?.itemList?.reduce(
                                     (accumulator, currentValue) => accumulator + currentValue.rss.f,
                                     0
-                                  ) - planInfo?.totalGot.f,
-                                  1
-                                )}
-                              </Typography>
-                            }
-                          </TableCell>
-                        )}
-                        {planInfo?.itemList?.reduce(
-                          (accumulator, currentValue) => accumulator + currentValue.rss.f,
-                          0
-                        ) < planInfo?.totalGot.f && (
-                          <TableCell align='center'>
-                            {
-                              <Button
-                                style={{ color: '#50a308' }}
-                                color='primary'
-                                startIcon={<Icon icon='mingcute:check-2-line' />}
-                              >
-                                +
-                                {nFormatter(
-                                  planInfo?.totalGot.f -
-                                    planInfo?.itemList?.reduce(
-                                      (accumulator, currentValue) => accumulator + currentValue.rss.f,
-                                      0
-                                    ),
-                                  1
-                                )}
-                              </Button>
-                            }
-                          </TableCell>
-                        )}
-                      </TableRow>
-                      {/* WOOD */}
-                      <TableRow>
-                        <TableCell align='center'>{<Typography color='primary'>Wood</Typography>}</TableCell>
+                                  ),
+                                1
+                              )}
+                            </Button>
+                          }
+                        </TableCell>
+                      )}
+                    </TableRow>
+                    {/* WOOD */}
+                    <TableRow>
+                      <TableCell align='center'>{<Typography color='primary'>Wood</Typography>}</TableCell>
 
+                      <TableCell align='center'>
+                        {
+                          <Typography color='textPrimary'>
+                            {nFormatter(
+                              planInfo?.itemList?.reduce(
+                                (accumulator, currentValue) => accumulator + currentValue.rss.w,
+                                0
+                              ),
+                              1
+                            )}
+                          </Typography>
+                        }
+                      </TableCell>
+                      <TableCell align='center'>
+                        {
+                          <TextField
+                            label=''
+                            align='center'
+                            variant='outlined'
+                            id='wood-input'
+                            size='small'
+                            type='number'
+                            value={planInfo?.totalGot.w === 0 ? '' : planInfo?.totalGot.w}
+                            onChange={e => {
+                              let newState
+                              let error
+                              if (+e.target.value >= 4000000001 || +e.target.value < 0) {
+                                newState = { ...planInfo?.totalGot, w: 4000000000 }
+                                error = true
+                              } else {
+                                newState = { ...planInfo?.totalGot, w: +e.target.value }
+                              }
+                              setPlanInfo({ ...planInfo, totalGot: newState })
+                              if (error) return toast.error('Please use an input less than 2,000,000 and more than 0.')
+                            }}
+                          />
+                        }
+                      </TableCell>
+                      {planInfo?.itemList?.reduce((accumulator, currentValue) => accumulator + currentValue.rss.w, 0) >
+                        planInfo?.totalGot.w && (
                         <TableCell align='center'>
                           {
-                            <Typography color='textPrimary'>
+                            <Typography style={{ color: '#ed2727' }}>
+                              -
                               {nFormatter(
                                 planInfo?.itemList?.reduce(
                                   (accumulator, currentValue) => accumulator + currentValue.rss.w,
                                   0
-                                ),
+                                ) - planInfo?.totalGot.w,
                                 1
                               )}
                             </Typography>
                           }
                         </TableCell>
+                      )}
+                      {planInfo?.itemList?.reduce((accumulator, currentValue) => accumulator + currentValue.rss.w, 0) <
+                        planInfo?.totalGot.w && (
                         <TableCell align='center'>
                           {
-                            <TextField
-                              label=''
-                              align='center'
-                              variant='outlined'
-                              id='wood-input'
-                              size='small'
-                              type='number'
-                              value={planInfo?.totalGot.w === 0 ? '' : planInfo?.totalGot.w}
-                              onChange={e => {
-                                let newState
-                                let error
-                                if (+e.target.value >= 4000000001 || +e.target.value < 0) {
-                                  newState = { ...planInfo?.totalGot, w: 4000000000 }
-                                  error = true
-                                } else {
-                                  newState = { ...planInfo?.totalGot, w: +e.target.value }
-                                }
-                                setPlanInfo({ ...planInfo, totalGot: newState })
-                                if (error)
-                                  return toast.error('Please use an input less than 2,000,000 and more than 0.')
-                              }}
-                            />
-                          }
-                        </TableCell>
-                        {planInfo?.itemList?.reduce(
-                          (accumulator, currentValue) => accumulator + currentValue.rss.w,
-                          0
-                        ) > planInfo?.totalGot.w && (
-                          <TableCell align='center'>
-                            {
-                              <Typography style={{ color: '#ed2727' }}>
-                                -
-                                {nFormatter(
+                            <Button
+                              style={{ color: '#50a308' }}
+                              color='primary'
+                              startIcon={<Icon icon='mingcute:check-2-line' />}
+                            >
+                              +
+                              {nFormatter(
+                                planInfo?.totalGot.w -
                                   planInfo?.itemList?.reduce(
                                     (accumulator, currentValue) => accumulator + currentValue.rss.w,
                                     0
-                                  ) - planInfo?.totalGot.w,
-                                  1
-                                )}
-                              </Typography>
-                            }
-                          </TableCell>
-                        )}
-                        {planInfo?.itemList?.reduce(
-                          (accumulator, currentValue) => accumulator + currentValue.rss.w,
-                          0
-                        ) < planInfo?.totalGot.w && (
-                          <TableCell align='center'>
-                            {
-                              <Button
-                                style={{ color: '#50a308' }}
-                                color='primary'
-                                startIcon={<Icon icon='mingcute:check-2-line' />}
-                              >
-                                +
-                                {nFormatter(
-                                  planInfo?.totalGot.w -
-                                    planInfo?.itemList?.reduce(
-                                      (accumulator, currentValue) => accumulator + currentValue.rss.w,
-                                      0
-                                    ),
-                                  1
-                                )}
-                              </Button>
-                            }
-                          </TableCell>
-                        )}
-                      </TableRow>
-                      {/* STONE */}
-                      <TableRow>
-                        <TableCell align='center'>{<Typography color='primary'>Stone</Typography>}</TableCell>
+                                  ),
+                                1
+                              )}
+                            </Button>
+                          }
+                        </TableCell>
+                      )}
+                    </TableRow>
+                    {/* STONE */}
+                    <TableRow>
+                      <TableCell align='center'>{<Typography color='primary'>Stone</Typography>}</TableCell>
 
+                      <TableCell align='center'>
+                        {
+                          <Typography color='textPrimary'>
+                            {nFormatter(
+                              planInfo?.itemList?.reduce(
+                                (accumulator, currentValue) => accumulator + currentValue.rss.s,
+                                0
+                              ),
+                              1
+                            )}
+                          </Typography>
+                        }
+                      </TableCell>
+                      <TableCell align='center'>
+                        {
+                          <TextField
+                            label=''
+                            align='center'
+                            variant='outlined'
+                            id='stone-input'
+                            size='small'
+                            type='number'
+                            value={planInfo?.totalGot.s === 0 ? '' : planInfo?.totalGot.s}
+                            onChange={e => {
+                              let newState
+                              let error
+                              if (+e.target.value >= 4000000001 || +e.target.value < 0) {
+                                newState = { ...planInfo?.totalGot, s: 4000000000 }
+                                error = true
+                              } else {
+                                newState = { ...planInfo?.totalGot, s: +e.target.value }
+                              }
+                              setPlanInfo({ ...planInfo, totalGot: newState })
+                              if (error) return toast.error('Please use an input less than 2,000,000 and more than 0.')
+                            }}
+                          />
+                        }
+                      </TableCell>
+                      {planInfo?.itemList?.reduce((accumulator, currentValue) => accumulator + currentValue.rss.s, 0) >
+                        planInfo?.totalGot.s && (
                         <TableCell align='center'>
                           {
-                            <Typography color='textPrimary'>
+                            <Typography style={{ color: '#ed2727' }}>
+                              -
                               {nFormatter(
                                 planInfo?.itemList?.reduce(
                                   (accumulator, currentValue) => accumulator + currentValue.rss.s,
                                   0
-                                ),
+                                ) - planInfo?.totalGot.s,
                                 1
                               )}
                             </Typography>
                           }
                         </TableCell>
+                      )}
+                      {planInfo?.itemList?.reduce((accumulator, currentValue) => accumulator + currentValue.rss.s, 0) <
+                        planInfo?.totalGot.s && (
                         <TableCell align='center'>
                           {
-                            <TextField
-                              label=''
-                              align='center'
-                              variant='outlined'
-                              id='stone-input'
-                              size='small'
-                              type='number'
-                              value={planInfo?.totalGot.s === 0 ? '' : planInfo?.totalGot.s}
-                              onChange={e => {
-                                let newState
-                                let error
-                                if (+e.target.value >= 4000000001 || +e.target.value < 0) {
-                                  newState = { ...planInfo?.totalGot, s: 4000000000 }
-                                  error = true
-                                } else {
-                                  newState = { ...planInfo?.totalGot, s: +e.target.value }
-                                }
-                                setPlanInfo({ ...planInfo, totalGot: newState })
-                                if (error)
-                                  return toast.error('Please use an input less than 2,000,000 and more than 0.')
-                              }}
-                            />
-                          }
-                        </TableCell>
-                        {planInfo?.itemList?.reduce(
-                          (accumulator, currentValue) => accumulator + currentValue.rss.s,
-                          0
-                        ) > planInfo?.totalGot.s && (
-                          <TableCell align='center'>
-                            {
-                              <Typography style={{ color: '#ed2727' }}>
-                                -
-                                {nFormatter(
+                            <Button
+                              style={{ color: '#50a308' }}
+                              color='primary'
+                              startIcon={<Icon icon='mingcute:check-2-line' />}
+                            >
+                              +
+                              {nFormatter(
+                                planInfo?.totalGot.s -
                                   planInfo?.itemList?.reduce(
                                     (accumulator, currentValue) => accumulator + currentValue.rss.s,
                                     0
-                                  ) - planInfo?.totalGot.s,
-                                  1
-                                )}
-                              </Typography>
-                            }
-                          </TableCell>
-                        )}
-                        {planInfo?.itemList?.reduce(
-                          (accumulator, currentValue) => accumulator + currentValue.rss.s,
-                          0
-                        ) < planInfo?.totalGot.s && (
-                          <TableCell align='center'>
-                            {
-                              <Button
-                                style={{ color: '#50a308' }}
-                                color='primary'
-                                startIcon={<Icon icon='mingcute:check-2-line' />}
-                              >
-                                +
-                                {nFormatter(
-                                  planInfo?.totalGot.s -
-                                    planInfo?.itemList?.reduce(
-                                      (accumulator, currentValue) => accumulator + currentValue.rss.s,
-                                      0
-                                    ),
-                                  1
-                                )}
-                              </Button>
-                            }
-                          </TableCell>
-                        )}
-                      </TableRow>
+                                  ),
+                                1
+                              )}
+                            </Button>
+                          }
+                        </TableCell>
+                      )}
+                    </TableRow>
 
-                      {/* IRON */}
-                      <TableRow>
-                        <TableCell align='center'>{<Typography color='primary'>Iron</Typography>}</TableCell>
+                    {/* IRON */}
+                    <TableRow>
+                      <TableCell align='center'>{<Typography color='primary'>Iron</Typography>}</TableCell>
 
+                      <TableCell align='center'>
+                        {
+                          <Typography color='textPrimary'>
+                            {nFormatter(
+                              planInfo?.itemList?.reduce(
+                                (accumulator, currentValue) => accumulator + currentValue.rss.i,
+                                0
+                              ),
+                              1
+                            )}
+                          </Typography>
+                        }
+                      </TableCell>
+                      <TableCell align='center'>
+                        {
+                          <TextField
+                            label=''
+                            align='center'
+                            variant='outlined'
+                            id='iron-input'
+                            size='small'
+                            type='number'
+                            value={planInfo?.totalGot.i === 0 ? '' : planInfo?.totalGot.i}
+                            onChange={e => {
+                              let newState
+                              let error
+                              if (+e.target.value >= 4000000001 || +e.target.value < 0) {
+                                newState = { ...planInfo?.totalGot, i: 4000000000 }
+                                error = true
+                              } else {
+                                newState = { ...planInfo?.totalGot, i: +e.target.value }
+                              }
+                              setPlanInfo({ ...planInfo, totalGot: newState })
+                              if (error) return toast.error('Please use an input less than 2,000,000 and more than 0.')
+                            }}
+                          />
+                        }
+                      </TableCell>
+                      {planInfo?.itemList?.reduce((accumulator, currentValue) => accumulator + currentValue.rss.i, 0) >
+                        planInfo?.totalGot.i && (
                         <TableCell align='center'>
                           {
-                            <Typography color='textPrimary'>
+                            <Typography style={{ color: '#ed2727' }}>
+                              -
                               {nFormatter(
                                 planInfo?.itemList?.reduce(
                                   (accumulator, currentValue) => accumulator + currentValue.rss.i,
                                   0
-                                ),
+                                ) - planInfo?.totalGot.i,
                                 1
                               )}
                             </Typography>
                           }
                         </TableCell>
+                      )}
+                      {planInfo?.itemList?.reduce((accumulator, currentValue) => accumulator + currentValue.rss.i, 0) <
+                        planInfo?.totalGot.i && (
                         <TableCell align='center'>
                           {
-                            <TextField
-                              label=''
-                              align='center'
-                              variant='outlined'
-                              id='iron-input'
-                              size='small'
-                              type='number'
-                              value={planInfo?.totalGot.i === 0 ? '' : planInfo?.totalGot.i}
-                              onChange={e => {
-                                let newState
-                                let error
-                                if (+e.target.value >= 4000000001 || +e.target.value < 0) {
-                                  newState = { ...planInfo?.totalGot, i: 4000000000 }
-                                  error = true
-                                } else {
-                                  newState = { ...planInfo?.totalGot, i: +e.target.value }
-                                }
-                                setPlanInfo({ ...planInfo, totalGot: newState })
-                                if (error)
-                                  return toast.error('Please use an input less than 2,000,000 and more than 0.')
-                              }}
-                            />
-                          }
-                        </TableCell>
-                        {planInfo?.itemList?.reduce(
-                          (accumulator, currentValue) => accumulator + currentValue.rss.i,
-                          0
-                        ) > planInfo?.totalGot.i && (
-                          <TableCell align='center'>
-                            {
-                              <Typography style={{ color: '#ed2727' }}>
-                                -
-                                {nFormatter(
+                            <Button
+                              style={{ color: '#50a308' }}
+                              color='primary'
+                              startIcon={<Icon icon='mingcute:check-2-line' />}
+                            >
+                              +
+                              {nFormatter(
+                                planInfo?.totalGot.i -
                                   planInfo?.itemList?.reduce(
                                     (accumulator, currentValue) => accumulator + currentValue.rss.i,
                                     0
-                                  ) - planInfo?.totalGot.i,
-                                  1
-                                )}
-                              </Typography>
-                            }
-                          </TableCell>
-                        )}
-                        {planInfo?.itemList?.reduce(
-                          (accumulator, currentValue) => accumulator + currentValue.rss.i,
-                          0
-                        ) < planInfo?.totalGot.i && (
-                          <TableCell align='center'>
-                            {
-                              <Button
-                                style={{ color: '#50a308' }}
-                                color='primary'
-                                startIcon={<Icon icon='mingcute:check-2-line' />}
-                              >
-                                +
-                                {nFormatter(
-                                  planInfo?.totalGot.i -
-                                    planInfo?.itemList?.reduce(
-                                      (accumulator, currentValue) => accumulator + currentValue.rss.i,
-                                      0
-                                    ),
-                                  1
-                                )}
-                              </Button>
-                            }
-                          </TableCell>
-                        )}
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              </Grid>
+                                  ),
+                                1
+                              )}
+                            </Button>
+                          }
+                        </TableCell>
+                      )}
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Grid>
           </Grid>
         </Card>
       </>
@@ -1212,15 +2357,15 @@ const Planner = () => {
             <Divider />
             <Grid container spacing={6} sx={{ padding: '1rem' }}>
               <Grid item xs={12} sm={6}>
-              <Alert severity="warning">
-              {`After each modification (add, edit or delete) please, use the `}
-                {
-                  <span role='img' aria-labelledby='floppy-disk'>
-                    {`💾`}
-                  </span>
-                }{' '}
-              {`button before refreshing or leaving the page.`}
-            </Alert>
+                <Alert severity='warning'>
+                  {`After each modification (add, edit or delete) please, use the `}
+                  {
+                    <span role='img' aria-labelledby='floppy-disk'>
+                      {`💾`}
+                    </span>
+                  }{' '}
+                  {`button before refreshing or leaving the page.`}
+                </Alert>
                 <Box sx={{ marginTop: '10px', display: 'flex', flexDirection: 'row' }}>
                   <BlueButton
                     variant='contained'
@@ -1231,7 +2376,17 @@ const Planner = () => {
                     Add from Template
                   </BlueButton>
                 </Box>
-                <Box sx={{ marginTop: '10px' }}>
+                <Box sx={{ marginTop: '10px', display: 'flex', flexDirection: 'row' }}>
+                  <Button
+                    variant='contained'
+                    size='small'
+                    startIcon={<Icon icon='ic:round-add' />}
+                    onClick={() => setShowAddItems(true)}
+                  >
+                    ADD ITEM/S
+                  </Button>
+                </Box>
+                <Box sx={{ marginTop: '10px', flexWrap: 'wrap' }}>
                   <GreenButton
                     variant='contained'
                     startIcon={<Icon icon='ic:baseline-save' />}
@@ -1240,14 +2395,16 @@ const Planner = () => {
                   >
                     SAVE
                   </GreenButton>
-                  <Button
+                  <RedButton
                     variant='contained'
-                    startIcon={<Icon icon='ic:round-add' />}
-                    onClick={() => setShowAddItems(true)}
-                    sx={{ marginBottom: '10px' }}
+                    startIcon={<Icon icon='mdi:delete-forever-outline' />}
+                    onClick={e => {
+                      setShowDeleteDialog(true)
+                    }}
+                    sx={{ marginBottom: '10px', marginRight: '10px' }}
                   >
-                    ADD ITEM/S
-                  </Button>
+                    DELETE
+                  </RedButton>
                 </Box>
               </Grid>
             </Grid>
@@ -1265,6 +2422,15 @@ const Planner = () => {
                     onChange={handleChange}
                     aria-label='customized tabs'
                   >
+                    <Tab
+                      value='castle'
+                      label={
+                        <Box sx={{ display: 'flex', alignItems: 'center', ...(!hideText && { '& svg': { mr: 2 } }) }}>
+                          <Icon fontSize={20} icon='emojione-monotone:castle' />
+                          {!hideText && 'Castle'}
+                        </Box>
+                      }
+                    />
                     <Tab
                       value='items'
                       label={
@@ -1321,7 +2487,6 @@ const Planner = () => {
         scroll='body'
         onClose={handleAddTemplateClose}
         TransitionComponent={Transition}
-        onBackdropClick={handleAddTemplateClose}
       >
         <DialogContent
           sx={{
@@ -1511,7 +2676,6 @@ const Planner = () => {
         scroll='body'
         onClose={handleAddTemplateClose}
         TransitionComponent={Transition}
-        onBackdropClick={handleAddItemClose}
       >
         <DialogContent
           sx={{
@@ -1693,7 +2857,6 @@ const Planner = () => {
         scroll='body'
         onClose={() => setEditDialogOpen(false)}
         TransitionComponent={Transition}
-        onBackdropClick={() => setEditDialogOpen(false)}
       >
         <DialogContent
           sx={{
@@ -1739,6 +2902,112 @@ const Planner = () => {
           >
             COMPLETED
           </GreenButton>
+        </DialogActions>
+      </Dialog>
+
+      {/* Dialog | AUTO FILL CASTLE DEPENDENCIES */}
+      <Dialog
+        fullWidth
+        open={showAutoFill}
+        maxWidth='md'
+        scroll='body'
+        onClose={e => {
+          setShowAutoFill(false)
+        }}
+        TransitionComponent={Transition}
+      >
+        <DialogContent
+          sx={{
+            position: 'relative',
+            pb: theme => `${theme.spacing(5)} !important`,
+            px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
+            pt: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(5)} !important`]
+          }}
+        >
+          <IconButton
+            size='small'
+            onClick={e => {
+              setShowAutoFill(false)
+            }}
+            sx={{ position: 'absolute', right: '1rem', top: '1rem' }}
+          >
+            <Icon icon='mdi:close' />
+          </IconButton>
+          <Box sx={{ mb: 4, textAlign: 'center' }}>
+            <Typography variant='h5' sx={{ mb: 3 }}>
+              Castle Requirements
+            </Typography>
+            <Typography variant='body2'>
+              Do you want to auto fill all the minimum required buildings for this Castle level? (Only works with strict
+              mode on)
+            </Typography>
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button size='small' color='primary' onClick={e => setShowAutoFill(false)}>
+            NO, CLOSE
+          </Button>
+
+          <Button
+            variant='contained'
+            onClick={e => {
+              handleCastleConfig({ target: { value: planInfo?.castle?.castle?.v } }, 'castle', true, {
+                ...planInfo.castle,
+                castle: { v: planInfo?.castle?.castle?.v, min: 30, max: 43 }
+              })
+            }}
+            color='primary'
+          >
+            YES
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Dialog | AUTO FILL CASTLE DEPENDENCIES */}
+      <Dialog
+        fullWidth
+        open={showDeleteDialog}
+        maxWidth='md'
+        scroll='body'
+        onClose={e => {
+          setShowDeleteDialog(false)
+        }}
+        TransitionComponent={Transition}
+      >
+        <DialogContent
+          sx={{
+            position: 'relative',
+            pb: theme => `${theme.spacing(5)} !important`,
+            px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
+            pt: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(5)} !important`]
+          }}
+        >
+          <IconButton
+            size='small'
+            onClick={e => {
+              setShowDeleteDialog(false)
+            }}
+            sx={{ position: 'absolute', right: '1rem', top: '1rem' }}
+          >
+            <Icon icon='mdi:close' />
+          </IconButton>
+          <Box sx={{ mb: 4, textAlign: 'center' }}>
+            <Typography variant='h5' sx={{ mb: 3 }}>
+              Delete Stored Data
+            </Typography>
+            <Typography variant='body2'>
+              Do you want to delete all stored/saved data? This action can't be undone.
+            </Typography>
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button size='small' color='primary' onClick={e => setShowDeleteDialog(false)}>
+            NO, CLOSE
+          </Button>
+
+          <RedButton variant='contained' onClick={handleClearAllData} color='primary'>
+            YES
+          </RedButton>
         </DialogActions>
       </Dialog>
     </>
