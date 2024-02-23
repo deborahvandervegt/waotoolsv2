@@ -123,7 +123,8 @@ export const buildingLevel = {
     { l: 40 },
     { l: 41, sl: 'sacredHospital', el: 1 },
     { l: 42, sl: 'sacredHospital', el: 2 }
-  ]
+  ],
+  chargeTier: [{ l: 1 }, { l: 2 }, { l: 3 }]
 }
 
 export const buildingList = [
@@ -293,10 +294,7 @@ export const buildingList = [
     desc: 'Castle',
     level: 31,
     rss: { f: 182370000, w: 182370000, s: 39520000, i: 19760000, a: 4810 },
-    requirements: [
-      { building: 'wall', level: 30 },
-      { building: 'blacksmith', level: 30 }
-    ]
+    requirements: [{ building: 'wall', level: 30 }]
   },
   {
     type: 'Building',
@@ -3879,9 +3877,9 @@ export const buildingList = [
   },
   {
     type: 'Building',
-    building: 'sacredCastle',
+    building: 'castle',
     desc: 'Sacred Castle I',
-    level: 1,
+    level: 41,
     rss: { f: 276886000, w: 276886000, s: 80006949, i: 42762330, a: 65000 },
     requirements: [
       { type: 'Building', building: 'wall', level: 40 },
@@ -3891,28 +3889,28 @@ export const buildingList = [
   },
   {
     type: 'Building',
-    building: 'sacredCastle',
+    building: 'castle',
     desc: 'Sacred Castle II',
-    level: 2,
+    level: 42,
     rss: { f: 217600000, w: 217600000, s: 63500000, i: 34000000, a: 73000 },
     requirements: [
       { type: 'Building', building: 'wall', level: 41 },
       { type: 'Building', building: 'depot', level: 40 },
-      { type: 'Building', building: 'sacredCastle', level: 1 },
+      { type: 'Building', building: 'castle', level: 41 },
       { type: 'Building', building: 'chargeTier', level: 2 }
     ]
   },
   {
     type: 'Building',
-    building: 'sacredCastle',
+    building: 'castle',
     desc: 'Sacred Castle III',
-    level: 3,
+    level: 43,
     rss: { f: 0, w: 0, s: 0, i: 0, a: 82000 },
     requirements: [
-      { type: 'Building', building: 'wall', level: 41 },
-      { type: 'Building', building: 'sacredHospital', level: 1 },
-      { type: 'Building', building: 'sacredHospital', level: 2 },
-      { type: 'Building', building: 'sacredCastle', level: 1 },
+      { type: 'Building', building: 'wall', level: 42 },
+      { type: 'Building', building: 'hospital', level: 41 },
+      { type: 'Building', building: 'hospital', level: 42 },
+      { type: 'Building', building: 'castle', level: 2 },
       { type: 'Building', building: 'chargeTier', level: 3 }
     ]
   },
@@ -3942,27 +3940,27 @@ export const buildingList = [
   },
   {
     type: 'Building',
-    building: 'sacredBarrack',
+    building: 'barracks',
     desc: 'Sacred Barrack I',
-    level: 1,
+    level: 41,
     rss: { f: 0, w: 0, s: 0, i: 0, a: 33330 },
-    requirements: [{ type: 'Building', building: 'sacredCastle', level: 1 }]
+    requirements: [{ type: 'Building', building: 'castle', level: 41 }]
   },
   {
     type: 'Building',
-    building: 'sacredBarrack',
+    building: 'barracks',
     desc: 'Sacred Barrack II',
-    level: 2,
+    level: 42,
     rss: { f: 0, w: 0, s: 0, i: 0, a: 37430 },
-    requirements: [{ type: 'Building', building: 'sacredCastle', level: 2 }]
+    requirements: [{ type: 'Building', building: 'castle', level: 42 }]
   },
   {
     type: 'Building',
-    building: 'sacredBarrack',
+    building: 'barracks',
     desc: 'Sacred Barrack III',
-    level: 3,
+    level: 43,
     rss: { f: 0, w: 0, s: 0, i: 0, a: 42040 },
-    requirements: [{ type: 'Building', building: 'sacredCastle', level: 3 }]
+    requirements: [{ type: 'Building', building: 'castle', level: 43 }]
   },
   {
     type: 'Building',
@@ -3974,11 +3972,11 @@ export const buildingList = [
   },
   {
     type: 'Building',
-    building: 'sacredDepot',
+    building: 'depot',
     desc: 'Sacred Depot I',
-    level: 1,
+    level: 41,
     rss: { f: 0, w: 0, s: 0, i: 0, a: 14850 },
-    requirements: [{ type: 'Building', building: 'sacredCastle', level: 1 }]
+    requirements: [{ type: 'Building', building: 'castle', level: 41 }]
   },
   {
     type: 'Building',
@@ -3998,19 +3996,19 @@ export const buildingList = [
   },
   {
     type: 'Building',
-    building: 'sacredHospital',
+    building: 'hospital',
     desc: 'Sacred Hospital I',
-    level: 1,
+    level: 41,
     rss: { f: 0, w: 0, s: 0, i: 0, a: 24650 },
-    requirements: [{ type: 'Building', building: 'sacredCastle', level: 1 }]
+    requirements: [{ type: 'Building', building: 'castle', level: 41 }]
   },
   {
     type: 'Building',
-    building: 'sacredHospital',
+    building: 'hospital',
     desc: 'Sacred Hospital II',
-    level: 2,
+    level: 42,
     rss: { f: 0, w: 0, s: 0, i: 0, a: 27680 },
-    requirements: [{ type: 'Building', building: 'sacredCastle', level: 2 }]
+    requirements: [{ type: 'Building', building: 'castle', level: 42 }]
   },
   {
     type: 'Building',
@@ -4018,7 +4016,7 @@ export const buildingList = [
     desc: 'Wall',
     level: 41,
     rss: { f: 0, w: 157000000, s: 33400000, i: 16800000, a: 39690 },
-    requirements: [{ type: 'Building', building: 'sacredCastle', level: 1 }]
+    requirements: [{ type: 'Building', building: 'castle', level: 41 }]
   },
   {
     type: 'Building',
@@ -4026,7 +4024,7 @@ export const buildingList = [
     desc: 'Wall',
     level: 42,
     rss: { f: 0, w: 0, s: 0, i: 0, a: 44570 },
-    requirements: [{ type: 'Building', building: 'sacredCastle', level: 2 }]
+    requirements: [{ type: 'Building', building: 'castle', level: 42 }]
   },
   {
     type: 'Building',
@@ -4034,7 +4032,7 @@ export const buildingList = [
     desc: 'Guardian Temple',
     level: 9,
     rss: { f: 84200000, w: 19300000, s: 7800000, i: 5400000, a: 50000 },
-    requirements: [{ type: 'Building', building: 'sacredCastle', level: 1 }]
+    requirements: [{ type: 'Building', building: 'castle', level: 41 }]
   }
 ]
 
@@ -4173,24 +4171,24 @@ export const itemTemplates = [
       { building: 'embassy', level: 39 },
       { building: 'embassy', level: 40 },
       { building: 'chargeTier', level: 1 },
-      { building: 'sacredCastle', level: 1 },
+      { building: 'castle', level: 41 },
       { building: 'guardianTemple', level: 9 },
       { building: 'wall', level: 41 },
       { building: 'depot', level: 37 },
       { building: 'depot', level: 38 },
       { building: 'depot', level: 39 },
       { building: 'depot', level: 40 },
-      { building: 'sacredDepot', level: 1 },
+      { building: 'depot', level: 41 },
       { building: 'chargeTier', level: 2 },
-      { building: 'sacredCastle', level: 2 },
-      { building: 'sacredBarrack', level: 1 },
-      { building: 'sacredBarrack', level: 2 },
+      { building: 'castle', level: 42 },
+      { building: 'barracks', level: 41 },
+      { building: 'barracks', level: 42 },
       { building: 'wall', level: 42 },
-      { building: 'sacredHospital', level: 1 },
-      { building: 'sacredHospital', level: 2 },
+      { building: 'hospital', level: 41 },
+      { building: 'hospital', level: 42 },
       { building: 'chargeTier', level: 3 },
-      { building: 'sacredCastle', level: 3 },
-      { building: 'sacredBarrack', level: 3 }
+      { building: 'castle', level: 43 },
+      { building: 'barracks', level: 43 }
     ]
   },
   {
@@ -4434,7 +4432,7 @@ export const itemTemplates = [
       { building: 'embassy', level: 39 },
       { building: 'embassy', level: 40 },
       { building: 'chargeTier', level: 1 },
-      { building: 'sacredCastle', level: 1 }
+      { building: 'castle', level: 41 }
     ]
   },
   {
@@ -4446,7 +4444,7 @@ export const itemTemplates = [
       { building: 'embassy', level: 39 },
       { building: 'embassy', level: 40 },
       { building: 'chargeTier', level: 1 },
-      { building: 'sacredCastle', level: 1 },
+      { building: 'castle', level: 41 },
       { building: 'guardianTemple', level: 9 }
     ]
   },
@@ -4459,11 +4457,11 @@ export const itemTemplates = [
       { building: 'depot', level: 38 },
       { building: 'depot', level: 39 },
       { building: 'depot', level: 40 },
-      { building: 'sacredDepot', level: 1 },
+      { building: 'depot', level: 41 },
       { building: 'chargeTier', level: 2 },
-      { building: 'sacredCastle', level: 2 },
-      { building: 'sacredBarrack', level: 1 },
-      { building: 'sacredBarrack', level: 2 }
+      { building: 'castle', level: 42 },
+      { building: 'barracks', level: 41 },
+      { building: 'barracks', level: 42 }
     ]
   },
   {
@@ -4471,11 +4469,11 @@ export const itemTemplates = [
     desc: 'Sacred Castle II to Sacred Castle III + Sacred Barracks III',
     buildings: [
       { building: 'wall', level: 42 },
-      { building: 'sacredHospital', level: 1 },
-      { building: 'sacredHospital', level: 2 },
+      { building: 'hospital', level: 41 },
+      { building: 'hospital', level: 42 },
       { building: 'chargeTier', level: 3 },
-      { building: 'sacredCastle', level: 3 },
-      { building: 'sacredBarrack', level: 3 }
+      { building: 'castle', level: 43 },
+      { building: 'barracks', level: 43 }
     ]
   },
   {
@@ -4487,24 +4485,24 @@ export const itemTemplates = [
       { building: 'embassy', level: 39 },
       { building: 'embassy', level: 40 },
       { building: 'chargeTier', level: 1 },
-      { building: 'sacredCastle', level: 1 },
+      { building: 'castle', level: 41 },
       { building: 'guardianTemple', level: 9 },
       { building: 'wall', level: 41 },
       { building: 'depot', level: 37 },
       { building: 'depot', level: 38 },
       { building: 'depot', level: 39 },
       { building: 'depot', level: 40 },
-      { building: 'sacredDepot', level: 1 },
+      { building: 'depot', level: 41 },
       { building: 'chargeTier', level: 2 },
-      { building: 'sacredCastle', level: 2 },
-      { building: 'sacredBarrack', level: 1 },
-      { building: 'sacredBarrack', level: 2 },
+      { building: 'castle', level: 42 },
+      { building: 'barracks', level: 41 },
+      { building: 'barracks', level: 42 },
       { building: 'wall', level: 42 },
-      { building: 'sacredHospital', level: 1 },
-      { building: 'sacredHospital', level: 2 },
+      { building: 'hospital', level: 41 },
+      { building: 'hospital', level: 42 },
       { building: 'chargeTier', level: 3 },
-      { building: 'sacredCastle', level: 3 },
-      { building: 'sacredBarrack', level: 3 }
+      { building: 'castle', level: 43 },
+      { building: 'barracks', level: 43 }
     ]
   },
   {
@@ -4662,9 +4660,9 @@ export const itemTemplates = [
     template: 'sbItosbIII',
     desc: 'Sacred Barracks I to III',
     buildings: [
-      { building: 'sacredBarrack', level: 1 },
-      { building: 'sacredBarrack', level: 2 },
-      { building: 'sacredBarrack', level: 3 }
+      { building: 'barracks', level: 41 },
+      { building: 'barracks', level: 42 },
+      { building: 'barracks', level: 43 }
     ]
   },
   {
@@ -4697,9 +4695,9 @@ export const itemTemplates = [
       { building: 'barracks', level: 38 },
       { building: 'barracks', level: 39 },
       { building: 'barracks', level: 40 },
-      { building: 'sacredBarrack', level: 1 },
-      { building: 'sacredBarrack', level: 2 },
-      { building: 'sacredBarrack', level: 3 }
+      { building: 'barracks', level: 41 },
+      { building: 'barracks', level: 42 },
+      { building: 'barracks', level: 43 }
     ]
   }
 ]
@@ -4738,9 +4736,9 @@ export const extraBarracks = [
     template: 'sbItosbIII',
     desc: 'Sacred Barracks I to III',
     buildings: [
-      { building: 'sacredBarrack', level: 1 },
-      { building: 'sacredBarrack', level: 2 },
-      { building: 'sacredBarrack', level: 3 }
+      { building: 'barracks', level: 41 },
+      { building: 'barracks', level: 42 },
+      { building: 'barracks', level: 43 }
     ]
   },
   {
@@ -4773,9 +4771,9 @@ export const extraBarracks = [
       { building: 'barracks', level: 38 },
       { building: 'barracks', level: 39 },
       { building: 'barracks', level: 40 },
-      { building: 'sacredBarrack', level: 1 },
-      { building: 'sacredBarrack', level: 2 },
-      { building: 'sacredBarrack', level: 3 }
+      { building: 'barracks', level: 1 },
+      { building: 'barracks', level: 42 },
+      { building: 'barracks', level: 43 }
     ]
   }
 ]
@@ -4808,10 +4806,7 @@ export const azuCalcConf = {
 export const requirementList = [
   {
     c: 31,
-    req: [
-      { building: 'blacksmith', level: 30 },
-      { building: 'castle', level: 31 }
-    ]
+    req: [{ building: 'castle', level: 31 }]
   },
   {
     c: 32,
@@ -4921,7 +4916,7 @@ export const requirementList = [
       { building: 'embassy', level: 39 },
       { building: 'embassy', level: 40 },
       { building: 'chargeTier', level: 1 },
-      { building: 'sacredCastle', level: 1 }
+      { building: 'castle', level: 41 }
     ]
   },
   {
@@ -4932,22 +4927,22 @@ export const requirementList = [
       { building: 'depot', level: 38 },
       { building: 'depot', level: 39 },
       { building: 'depot', level: 40 },
-      { building: 'sacredDepot', level: 1 },
+      { building: 'depot', level: 41 },
       { building: 'chargeTier', level: 2 },
-      { building: 'sacredCastle', level: 2 }
+      { building: 'castle', level: 42 }
     ]
   },
   {
     c: 43,
     req: [
-      { building: 'sacredBarrack', level: 1 },
-      { building: 'sacredBarrack', level: 2 },
+      { building: 'barracks', level: 41 },
+      { building: 'barracks', level: 42 },
       { building: 'wall', level: 42 },
-      { building: 'sacredHospital', level: 1 },
-      { building: 'sacredHospital', level: 2 },
+      { building: 'hospital', level: 41 },
+      { building: 'hospital', level: 42 },
       { building: 'chargeTier', level: 3 },
-      { building: 'sacredCastle', level: 3 },
-      { building: 'sacredBarrack', level: 3 }
+      { building: 'castle', level: 43 },
+      { building: 'barracks', level: 34 }
     ]
   }
 ]
@@ -4963,9 +4958,9 @@ export const barracksReqList = [
   { building: 'barracks', level: 38 },
   { building: 'barracks', level: 39 },
   { building: 'barracks', level: 40 },
-  { building: 'sacredBarrack', level: 41, el: 1 },
-  { building: 'sacredBarrack', level: 42, el: 2 },
-  { building: 'sacredBarrack', level: 43, el: 3 }
+  { building: 'barracks', level: 41, el: 1 },
+  { building: 'barracks', level: 42, el: 2 },
+  { building: 'barracks', level: 43, el: 3 }
 ]
 
 export const angelsReqList = [
