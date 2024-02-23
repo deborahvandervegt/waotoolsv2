@@ -127,7 +127,10 @@ const App = props => {
         <Head>
           <title>{`WAO Tools V2 - Making your War and Order path easier`}</title>
           <meta name='description' content={`${themeConfig.templateName} is a War and Order compilation of tools.`} />
-          <meta name='keywords' content='war and order, wao, waotools, war and order game' />
+          <meta
+            name='keywords'
+            content='war and order, wao, waotools, war and order game,wao tricks,wao tips,wao requirements'
+          />
           <meta name='viewport' content='initial-scale=1, width=device-width' />
         </Head>
 

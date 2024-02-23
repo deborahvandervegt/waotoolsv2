@@ -65,6 +65,7 @@ import { nFormatter } from 'src/@core/utils/numberFormatter'
 import nRound from 'src/@core/utils/numberRound'
 import { InfoOutlined } from '@mui/icons-material'
 import { red } from '@mui/material/colors'
+import CastleDetails from 'src/views/pages/planner/CastleDetails'
 
 // ** Styled component for the link in the dataTable (Add from template button)
 const BlueButton = styled(Button)(({ theme }) => ({
@@ -226,9 +227,10 @@ const defaultInfo = {
     embassy: { v: 0, min: 30, max: 43 },
     blacksmith: { v: 0, min: 30, max: 43 },
     college: { v: 0, min: 30, max: 43 },
-    hospital: { v: 0, min: 30, max: 43 }
+    hospital: { v: 0, min: 30, max: 43 },
+    chargeTier: { v: 0, min: 1, max: 3 }
   },
-  strictMode: false
+  strictMode: true
 }
 
 // ** Custom Functions
@@ -255,10 +257,12 @@ function getTotalAzurite(template) {
   return 0
 }
 
-function getRssNeeded(minLevel, maxLevel, castleObj) {
+function getRssNeeded(minLevel, maxLevel, castleObj = { ...defaultInfo.castle }) {
   const resultList = []
   const barracksResultList = []
   const angelsResultList = []
+
+  if (Object?.keys(castleObj) === 0) return
 
   // Get all castle buildings
   const buildingReqList = [...requirementList].filter(b => b.c > minLevel && b.c <= maxLevel)
@@ -350,6 +354,61 @@ function getRssNeeded(minLevel, maxLevel, castleObj) {
   }
 }
 
+function getTier(type, castleObj = {}) {
+  const barrack = castleObj?.barracks?.v
+  const guardianTemple = castleObj?.guardianTemple?.v
+  let tier
+
+  if (Object.keys(castleObj).length === 0) return 'None'
+  if (type === 'troops') {
+    if (barrack < 34) tier = 10
+    if (barrack > 33 && barrack < 37) tier = 11
+    if (barrack > 36 && barrack < 40) tier = 12
+    if (barrack > 39 && barrack < 42) tier = 13
+    if (barrack > 41 && barrack < 43) tier = 14
+    if (barrack === 43) tier = 142
+  }
+
+  if (type === 'angels') {
+    if (guardianTemple === 6) tier = 10
+    if (guardianTemple === 7) tier = 11
+    if (guardianTemple === 8) tier = 12
+    if (guardianTemple === 9) tier = 13
+    if (guardianTemple < 6) tier = 'None'
+  }
+
+  return tier
+}
+
+function getTotalReq(data, all = false) {
+  const { angels, barracks, castle } = data
+  const items = []
+  let generalItems = 0
+
+  if (angels?.length > 0) {
+    angels.forEach(i => items.push(i.req))
+  }
+
+  if (barracks?.length > 0) {
+    barracks.forEach(i => items.push(i.req))
+  }
+
+  if (castle?.length > 0) {
+    castle.forEach(i => {
+      i.req.forEach(id => {
+        items.push(id)
+      })
+    })
+  }
+
+  if (all) {
+    generalItems =
+      requirementList.reduce((acc, cur) => acc + cur.req.length, 0) + barracksReqList.length + angelsReqList.length
+  }
+
+  return all ? generalItems : items.length
+}
+
 /* eslint-enable */
 const Planner = () => {
   // ** State
@@ -364,8 +423,13 @@ const Planner = () => {
   const [showAddTemp, setShowAddTemp] = useState(false)
   const [showAddTempAzurite, setShowAddtempAzurite] = useState(0)
   const [editDialogOpen, setEditDialogOpen] = useState(false)
-  const hideText = useMediaQuery(theme => theme.breakpoints.down('sm'))
   const [planInfo, setPlanInfo] = useState(defaultInfo)
+  const hideText = useMediaQuery(theme => theme.breakpoints.down('sm'))
+  const castleExtra = { tier: getTier('troops', planInfo.castle), angelTier: getTier('angels', planInfo.castle) }
+
+  const totalBuildings = getTotalReq(getRssNeeded(30, 43, defaultInfo?.castle), true)
+  const totalMissingBuildings = getTotalReq(getRssNeeded(30, 43, planInfo?.castle))
+  const totalProgress = (1 - totalMissingBuildings / totalBuildings) * 100
 
   // ** Hooks
   useEffect(() => {
@@ -378,8 +442,6 @@ const Planner = () => {
     if (saved) setPlanInfo(saved)
     setIsLoading(false)
   }, [])
-  console.log(planInfo)
-  console.log(getRssNeeded(30, 34, planInfo?.castle))
 
   const handleLoadTemplateChange = e => {
     const newPreset = e.target.value
@@ -648,6 +710,27 @@ const Planner = () => {
         valueList.forEach((v, index) => {
           if (v === key) {
             newCastle[v].v = level
+          } else if (v === 'chargeTier') {
+            if (level < 40) {
+              newCastle[v].min = 0
+              newCastle[v].max = 0
+            }
+            if (level === 40) {
+              newCastle[v].min = 0
+              newCastle[v].max = 1
+            }
+            if (level === 41) {
+              newCastle[v].min = 1
+              newCastle[v].max = 2
+            }
+            if (level === 42) {
+              newCastle[v].min = 2
+              newCastle[v].max = 3
+            }
+            if (level === 43) {
+              newCastle[v].min = 3
+              newCastle[v].max = 3
+            }
           } else if (v === 'guardianTemple') {
             newCastle[v].min = 1
             if (level < 32) newCastle[v].max = 5
@@ -710,15 +793,10 @@ const Planner = () => {
     castle: (
       <>
         <Card>
-          <Grid container spacing={3} style={{ padding: '1rem' }}>
+          <Grid container spacing={3} sx={{ padding: '1rem' }}>
             <Grid item xs={12}>
               <Divider>DETAILS</Divider>
-              <Box>
-                <Typography>Overall Progress: 80%</Typography>
-                <Typography>Castle Level: 35</Typography>
-                <Typography>Troops Tier: XII</Typography>
-                <Typography>Angels Tier: XI</Typography>
-              </Box>
+              <CastleDetails castle={planInfo.castle} extra={castleExtra} totalProgress={totalProgress} />
 
               <Divider>CONFIGURATION</Divider>
               <Typography variant='body2'>Set your current Castle Configuration.</Typography>
@@ -1057,6 +1135,34 @@ const Planner = () => {
                       ))}
                   </TextField>
                 </CustomBox>
+                <CustomBox>
+                  <Box sx={{ marginRight: '5px' }}>
+                    <Typography variant='body2' color='primary' align='right'>
+                      Charge Tier:
+                    </Typography>
+                  </Box>
+                  <TextField
+                    align='left'
+                    id='chargeTier-select'
+                    size='small'
+                    variant='outlined'
+                    select
+                    disabled={planInfo?.castle?.castle?.v > 39 ? false : true}
+                    value={planInfo?.castle?.chargeTier?.v ?? ''}
+                    sx={{ maxWidth: '70px' }}
+                    onChange={e => {
+                      handleCastleConfig(e, 'chargeTier')
+                    }}
+                  >
+                    {[...buildingLevel['chargeTier']]
+                      .filter(b => b.l >= planInfo?.castle?.chargeTier?.min && b.l <= planInfo?.castle?.chargeTier?.max)
+                      .map(option => (
+                        <MenuItem key={option.l} value={option.l}>
+                          {option.l}
+                        </MenuItem>
+                      ))}
+                  </TextField>
+                </CustomBox>
               </Box>
               <Divider>DEVELOPMENT</Divider>
               <Box sx={{ mt: 1, p: 1, display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: '1rem' }}>
@@ -1130,6 +1236,15 @@ const Planner = () => {
                             </Typography>
                           </RssBox>
                         </>
+                      </Box>
+                      <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+                        {getRssNeeded(30, 34, planInfo?.castle)?.castle[0]?.req?.map(req => {
+                          return (
+                            <Box key={`${req.b}-${req.l}`}>
+                              <Typography variant='caption'>{`[ ${req.b} ${req.l} ]`}</Typography>
+                            </Box>
+                          )
+                        })}
                       </Box>
 
                       <Typography variant='body2' color='primary' sx={{ mt: '6px' }}>
@@ -1329,6 +1444,15 @@ const Planner = () => {
                           </RssBox>
                         </>
                       </Box>
+                      <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+                        {getRssNeeded(34, 37, planInfo?.castle)?.castle[0]?.req?.map(req => {
+                          return (
+                            <Box key={`${req.b}-${req.l}`}>
+                              <Typography variant='caption'>{`[ ${req.b} ${req.l} ]`}</Typography>
+                            </Box>
+                          )
+                        })}
+                      </Box>
 
                       <Typography variant='body2' color='primary' sx={{ mt: '6px' }}>
                         Barracks 37 (Troops T12/XII):
@@ -1527,6 +1651,15 @@ const Planner = () => {
                           </RssBox>
                         </>
                       </Box>
+                      <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+                        {getRssNeeded(37, 40, planInfo?.castle)?.castle[0]?.req?.map(req => {
+                          return (
+                            <Box key={`${req.b}-${req.l}`}>
+                              <Typography variant='caption'>{`[ ${req.b} ${req.l} ]`}</Typography>
+                            </Box>
+                          )
+                        })}
+                      </Box>
 
                       <Typography variant='body2' color='primary' sx={{ mt: '6px' }}>
                         Barracks 40 (Troops T13/XIII):
@@ -1645,6 +1778,627 @@ const Planner = () => {
                             <Typography variant='body2' sx={{ marginLeft: '2px' }}>
                               {`${nFormatter(
                                 getRssNeeded(37, 40, planInfo?.castle)?.angels.reduce((acc, cur) => acc + cur.i, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                        </>
+                      </Box>
+                    </Box>
+                  </Box>
+                )}
+
+                {/* CASTLE 41 */}
+                {planInfo?.castle?.castle?.v < 42 && planInfo?.castle?.castle?.v >= 40 && (
+                  <Box sx={{ p: '1rem' }}>
+                    <Box>
+                      <Typography variant='body1' color='primary'>
+                        Requirements for Castle Lvl 41:
+                      </Typography>
+                    </Box>
+                    <Box>
+                      <Typography variant='body2' color='primary'>
+                        Castle 41:
+                      </Typography>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          flexWrap: 'wrap',
+                          gap: '1rem',
+                          alignItems: 'center'
+                        }}
+                      >
+                        <>
+                          <RssBox>
+                            <Icon icon='game-icons:crystal-growth' color='#22a0bf' fontSize={18} />
+
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${getRssNeeded(40, 41, planInfo?.castle)
+                                ?.castle.reduce((acc, cur) => acc + cur.a, 0)
+                                .toLocaleString()}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:wheat' color='#e7ba83' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(40, 41, planInfo?.castle)?.castle.reduce((acc, cur) => acc + cur.f, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+
+                          <RssBox>
+                            <Icon icon='game-icons:wood-pile' color='#c18439' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(40, 41, planInfo?.castle)?.castle.reduce((acc, cur) => acc + cur.w, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:stone-pile' color='#bdbdbd' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(40, 41, planInfo?.castle)?.castle.reduce((acc, cur) => acc + cur.s, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:metal-bar' color='#8f8881' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(40, 41, planInfo?.castle)?.castle.reduce((acc, cur) => acc + cur.i, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                        </>
+                      </Box>
+                      <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+                        {getRssNeeded(40, 41, planInfo?.castle)?.castle[0]?.req?.map(req => {
+                          return (
+                            <Box key={`${req.b}-${req.l}`}>
+                              <Typography variant='caption'>{`[ ${req.b} ${req.l} ]`}</Typography>
+                            </Box>
+                          )
+                        })}
+                      </Box>
+
+                      <Typography variant='body2' color='primary' sx={{ mt: '6px' }}>
+                        Barracks 41:
+                      </Typography>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          flexWrap: 'wrap',
+                          gap: '1rem',
+                          alignItems: 'center'
+                        }}
+                      >
+                        <>
+                          <RssBox>
+                            <Icon icon='game-icons:crystal-growth' color='#22a0bf' fontSize={18} />
+
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${getRssNeeded(40, 41, planInfo?.castle)
+                                ?.barracks.reduce((acc, cur) => acc + cur.a, 0)
+                                .toLocaleString()}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:wheat' color='#e7ba83' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(40, 41, planInfo?.castle)?.barracks.reduce((acc, cur) => acc + cur.f, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+
+                          <RssBox>
+                            <Icon icon='game-icons:wood-pile' color='#c18439' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(40, 41, planInfo?.castle)?.barracks.reduce((acc, cur) => acc + cur.w, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:stone-pile' color='#bdbdbd' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(40, 41, planInfo?.castle)?.barracks.reduce((acc, cur) => acc + cur.s, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:metal-bar' color='#8f8881' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(40, 41, planInfo?.castle)?.barracks.reduce((acc, cur) => acc + cur.i, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                        </>
+                      </Box>
+
+                      <Typography variant='body2' color='primary' sx={{ mt: '6px' }}>
+                        Angels (T13/XIII):
+                      </Typography>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          flexWrap: 'wrap',
+                          gap: '1rem',
+                          alignItems: 'center'
+                        }}
+                      >
+                        <>
+                          <RssBox>
+                            <Icon icon='game-icons:crystal-growth' color='#22a0bf' fontSize={18} />
+
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${getRssNeeded(40, 41, planInfo?.castle)
+                                ?.angels.reduce((acc, cur) => acc + cur.a, 0)
+                                .toLocaleString()}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:wheat' color='#e7ba83' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(40, 41, planInfo?.castle)?.angels.reduce((acc, cur) => acc + cur.f, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+
+                          <RssBox>
+                            <Icon icon='game-icons:wood-pile' color='#c18439' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(40, 41, planInfo?.castle)?.angels.reduce((acc, cur) => acc + cur.w, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:stone-pile' color='#bdbdbd' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(40, 41, planInfo?.castle)?.angels.reduce((acc, cur) => acc + cur.s, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:metal-bar' color='#8f8881' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(40, 41, planInfo?.castle)?.angels.reduce((acc, cur) => acc + cur.i, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                        </>
+                      </Box>
+                    </Box>
+                  </Box>
+                )}
+
+                {/* CASTLE 42 */}
+                {planInfo?.castle?.castle?.v < 43 && planInfo?.castle?.castle?.v >= 40 && (
+                  <Box sx={{ p: '1rem' }}>
+                    <Box>
+                      <Typography variant='body1' color='primary'>
+                        Requirements for Castle Lvl 42:
+                      </Typography>
+                    </Box>
+                    <Box>
+                      <Typography variant='body2' color='primary'>
+                        Castle 42:
+                      </Typography>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          flexWrap: 'wrap',
+                          gap: '1rem',
+                          alignItems: 'center'
+                        }}
+                      >
+                        <>
+                          <RssBox>
+                            <Icon icon='game-icons:crystal-growth' color='#22a0bf' fontSize={18} />
+
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${getRssNeeded(41, 42, planInfo?.castle)
+                                ?.castle.reduce((acc, cur) => acc + cur.a, 0)
+                                .toLocaleString()}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:wheat' color='#e7ba83' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(41, 42, planInfo?.castle)?.castle.reduce((acc, cur) => acc + cur.f, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+
+                          <RssBox>
+                            <Icon icon='game-icons:wood-pile' color='#c18439' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(41, 42, planInfo?.castle)?.castle.reduce((acc, cur) => acc + cur.w, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:stone-pile' color='#bdbdbd' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(41, 42, planInfo?.castle)?.castle.reduce((acc, cur) => acc + cur.s, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:metal-bar' color='#8f8881' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(41, 42, planInfo?.castle)?.castle.reduce((acc, cur) => acc + cur.i, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                        </>
+                      </Box>
+                      <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+                        {getRssNeeded(41, 42, planInfo?.castle)?.castle[0]?.req?.map(req => {
+                          return (
+                            <Box key={`${req.b}-${req.l}`}>
+                              <Typography variant='caption'>{`[ ${req.b} ${req.l} ]`}</Typography>
+                            </Box>
+                          )
+                        })}
+                      </Box>
+
+                      <Typography variant='body2' color='primary' sx={{ mt: '6px' }}>
+                        Barracks 42 (Troops T14/XIV - Frontline):
+                      </Typography>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          flexWrap: 'wrap',
+                          gap: '1rem',
+                          alignItems: 'center'
+                        }}
+                      >
+                        <>
+                          <RssBox>
+                            <Icon icon='game-icons:crystal-growth' color='#22a0bf' fontSize={18} />
+
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${getRssNeeded(41, 42, planInfo?.castle)
+                                ?.barracks.reduce((acc, cur) => acc + cur.a, 0)
+                                .toLocaleString()}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:wheat' color='#e7ba83' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(41, 42, planInfo?.castle)?.barracks.reduce((acc, cur) => acc + cur.f, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+
+                          <RssBox>
+                            <Icon icon='game-icons:wood-pile' color='#c18439' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(41, 42, planInfo?.castle)?.barracks.reduce((acc, cur) => acc + cur.w, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:stone-pile' color='#bdbdbd' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(41, 42, planInfo?.castle)?.barracks.reduce((acc, cur) => acc + cur.s, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:metal-bar' color='#8f8881' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(41, 42, planInfo?.castle)?.barracks.reduce((acc, cur) => acc + cur.i, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                        </>
+                      </Box>
+
+                      <Typography variant='body2' color='primary' sx={{ mt: '6px' }}>
+                        Angels (T13/XIII):
+                      </Typography>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          flexWrap: 'wrap',
+                          gap: '1rem',
+                          alignItems: 'center'
+                        }}
+                      >
+                        <>
+                          <RssBox>
+                            <Icon icon='game-icons:crystal-growth' color='#22a0bf' fontSize={18} />
+
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${getRssNeeded(41, 42, planInfo?.castle)
+                                ?.angels.reduce((acc, cur) => acc + cur.a, 0)
+                                .toLocaleString()}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:wheat' color='#e7ba83' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(41, 42, planInfo?.castle)?.angels.reduce((acc, cur) => acc + cur.f, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+
+                          <RssBox>
+                            <Icon icon='game-icons:wood-pile' color='#c18439' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(41, 42, planInfo?.castle)?.angels.reduce((acc, cur) => acc + cur.w, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:stone-pile' color='#bdbdbd' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(41, 42, planInfo?.castle)?.angels.reduce((acc, cur) => acc + cur.s, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:metal-bar' color='#8f8881' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(41, 42, planInfo?.castle)?.angels.reduce((acc, cur) => acc + cur.i, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                        </>
+                      </Box>
+                    </Box>
+                  </Box>
+                )}
+
+                {/* CASTLE 43 */}
+                {planInfo?.castle?.castle?.v < 44 && planInfo?.castle?.castle?.v >= 40 && (
+                  <Box sx={{ p: '1rem' }}>
+                    <Box>
+                      <Typography variant='body1' color='primary'>
+                        Requirements for Castle Lvl 43:
+                      </Typography>
+                    </Box>
+                    <Box>
+                      <Typography variant='body2' color='primary'>
+                        Castle 43:
+                      </Typography>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          flexWrap: 'wrap',
+                          gap: '1rem',
+                          alignItems: 'center'
+                        }}
+                      >
+                        <>
+                          <RssBox>
+                            <Icon icon='game-icons:crystal-growth' color='#22a0bf' fontSize={18} />
+
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${getRssNeeded(42, 43, planInfo?.castle)
+                                ?.castle.reduce((acc, cur) => acc + cur.a, 0)
+                                .toLocaleString()}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:wheat' color='#e7ba83' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(42, 43, planInfo?.castle)?.castle.reduce((acc, cur) => acc + cur.f, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+
+                          <RssBox>
+                            <Icon icon='game-icons:wood-pile' color='#c18439' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(42, 43, planInfo?.castle)?.castle.reduce((acc, cur) => acc + cur.w, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:stone-pile' color='#bdbdbd' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(42, 43, planInfo?.castle)?.castle.reduce((acc, cur) => acc + cur.s, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:metal-bar' color='#8f8881' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(42, 43, planInfo?.castle)?.castle.reduce((acc, cur) => acc + cur.i, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                        </>
+                      </Box>
+                      <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+                        {getRssNeeded(42, 43, planInfo?.castle)?.castle[0]?.req?.map(req => {
+                          return (
+                            <Box key={`${req.b}-${req.l}`}>
+                              <Typography variant='caption'>{`[ ${req.b} ${req.l} ]`}</Typography>
+                            </Box>
+                          )
+                        })}
+                      </Box>
+
+                      <Typography variant='body2' color='primary' sx={{ mt: '6px' }}>
+                        Barracks 43 (Troops T14/XIV - Backline):
+                      </Typography>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          flexWrap: 'wrap',
+                          gap: '1rem',
+                          alignItems: 'center'
+                        }}
+                      >
+                        <>
+                          <RssBox>
+                            <Icon icon='game-icons:crystal-growth' color='#22a0bf' fontSize={18} />
+
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${getRssNeeded(42, 43, planInfo?.castle)
+                                ?.barracks.reduce((acc, cur) => acc + cur.a, 0)
+                                .toLocaleString()}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:wheat' color='#e7ba83' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(42, 43, planInfo?.castle)?.barracks.reduce((acc, cur) => acc + cur.f, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+
+                          <RssBox>
+                            <Icon icon='game-icons:wood-pile' color='#c18439' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(42, 43, planInfo?.castle)?.barracks.reduce((acc, cur) => acc + cur.w, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:stone-pile' color='#bdbdbd' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(42, 43, planInfo?.castle)?.barracks.reduce((acc, cur) => acc + cur.s, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:metal-bar' color='#8f8881' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(42, 43, planInfo?.castle)?.barracks.reduce((acc, cur) => acc + cur.i, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                        </>
+                      </Box>
+
+                      <Typography variant='body2' color='primary' sx={{ mt: '6px' }}>
+                        Angels (T13/XIII):
+                      </Typography>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          flexWrap: 'wrap',
+                          gap: '1rem',
+                          alignItems: 'center'
+                        }}
+                      >
+                        <>
+                          <RssBox>
+                            <Icon icon='game-icons:crystal-growth' color='#22a0bf' fontSize={18} />
+
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${getRssNeeded(42, 43, planInfo?.castle)
+                                ?.angels.reduce((acc, cur) => acc + cur.a, 0)
+                                .toLocaleString()}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:wheat' color='#e7ba83' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(42, 43, planInfo?.castle)?.angels.reduce((acc, cur) => acc + cur.f, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+
+                          <RssBox>
+                            <Icon icon='game-icons:wood-pile' color='#c18439' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(42, 43, planInfo?.castle)?.angels.reduce((acc, cur) => acc + cur.w, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:stone-pile' color='#bdbdbd' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(42, 43, planInfo?.castle)?.angels.reduce((acc, cur) => acc + cur.s, 0),
+                                1
+                              )}  `}
+                            </Typography>
+                          </RssBox>
+                          <RssBox>
+                            <Icon icon='game-icons:metal-bar' color='#8f8881' fontSize={18} />
+                            <Typography variant='body2' sx={{ marginLeft: '2px' }}>
+                              {`${nFormatter(
+                                getRssNeeded(42, 43, planInfo?.castle)?.angels.reduce((acc, cur) => acc + cur.i, 0),
                                 1
                               )}  `}
                             </Typography>
@@ -2963,7 +3717,7 @@ const Planner = () => {
         </DialogActions>
       </Dialog>
 
-      {/* Dialog | AUTO FILL CASTLE DEPENDENCIES */}
+      {/* Dialog | DELETE DATA */}
       <Dialog
         fullWidth
         open={showDeleteDialog}
