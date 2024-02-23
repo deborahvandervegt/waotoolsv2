@@ -439,7 +439,11 @@ const Planner = () => {
       saved = JSON.parse(localStorage.getItem('planInfo'))
     }
 
-    if (saved) setPlanInfo(saved)
+    if (saved) {
+      const strictMode = saved.hasOwnProperty('strictMode') ? saved.strictMode : defaultInfo.strictMode
+      const castle = saved.hasOwnProperty('castle') ? saved.castle : defaultInfo.castle
+      setPlanInfo({ ...saved, strictMode, castle })
+    }
     setIsLoading(false)
   }, [])
 

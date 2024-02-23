@@ -30,12 +30,12 @@ const FooterContent = () => {
         <LinkStyled target='_blank' href='https://www.paypal.com/paypalme/oNaare'>
           Donate
         </LinkStyled>
-        <LinkStyled
+        {/* <LinkStyled
           target='_blank'
           href='https://docs.google.com/spreadsheets/d/1xm6xgMbUCUfuFLibFPYWBFKyitfCr20KPvIl7l-OtAo/edit#gid=1888561516'
         >
           Contribute
-        </LinkStyled>
+        </LinkStyled> */}
       </Box>
     </Box>
   )
