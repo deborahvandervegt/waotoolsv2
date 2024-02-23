@@ -105,7 +105,7 @@ const TipsNTricks = props => {
   }
 
   const handleShareLink = refTag => {
-    const link = `https://waotools/tipsandtricks/#${refTag}`
+    const link = `https://waotools.com/tipsandtricks/#${refTag}`
     navigator.clipboard.writeText(link)
 
     return toast.success('Link copied!')
