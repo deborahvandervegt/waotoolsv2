@@ -139,7 +139,7 @@ const AppBarContent = props => {
           <Clock />
           <Clock type='local' />
         </Box>
-        <LanguageDropdown settings={settings} saveSettings={saveSettings} />
+        {/* <LanguageDropdown settings={settings} saveSettings={saveSettings} /> */}
         <ModeToggler settings={settings} saveSettings={saveSettings} />
         {auth.user && (
           <>
