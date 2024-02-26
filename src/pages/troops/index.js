@@ -566,6 +566,7 @@ const Troops = () => {
                 <Typography align='center' variant='h6' color='primary' sx={{ paddingTop: '0.5em' }}>
                   TROOPS SETUP
                 </Typography>
+                <Divider>CONFIGURATION</Divider>
                 <Box
                   sx={{
                     display: 'flex',
@@ -597,6 +598,7 @@ const Troops = () => {
                     </Typography>
                   </Box>
                 </Box>
+                <Divider>SETUP</Divider>
                 <Box
                   sx={{
                     display: 'flex',
@@ -608,12 +610,13 @@ const Troops = () => {
                 >
                   {/* EVEN TIERS */}
                   <Paper
-                    elevation={12}
+                    variant='outlined'
                     sx={{
                       display: 'flex',
                       flexDirection: 'column',
                       justifyContent: 'space-between',
-                      padding: '0.5em'
+                      padding: '0.5em',
+                      marginBottom: '8px'
                     }}
                   >
                     <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
@@ -621,11 +624,11 @@ const Troops = () => {
                       <Typography align='center' color='primary' variant='h6'>
                         EVEN TIERS
                       </Typography>
-                      <div>
+                      <Box>
                         <Divider>
                           <Typography variant='caption'>FRONTLINE</Typography>
                         </Divider>
-                      </div>
+                      </Box>
                       <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                         <Box sx={{ padding: '0.3em' }}>
                           <TextField
@@ -779,15 +782,16 @@ const Troops = () => {
                       </Box>
                     </Box>
                   </Paper>
-                  <div style={{ marginLeft: '10px' }} />
+                  <Box style={{ marginLeft: '10px' }} />
                   {/* ODD TIERS */}
                   <Paper
-                    elevation={12}
+                    variant='outlined'
                     sx={{
                       display: 'flex',
                       flexDirection: 'column',
                       justifyContent: 'space-between',
-                      padding: '0.5em'
+                      padding: '0.5em',
+                      marginBottom: '8px'
                     }}
                   >
                     <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
@@ -795,11 +799,11 @@ const Troops = () => {
                       <Typography align='center' color='primary' variant='h6'>
                         ODD TIERS
                       </Typography>
-                      <div>
+                      <Box>
                         <Divider>
                           <Typography variant='caption'>FRONTLINE</Typography>
                         </Divider>
-                      </div>
+                      </Box>
                       <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                         <Box sx={{ padding: '0.3em' }}>
                           <TextField
@@ -998,7 +1002,7 @@ const Troops = () => {
                 {/* FORMATIONS SLOTS */}
                 <Box sx={{ display: 'flex', flexDirection: 'row', padding: '1rem' }}>
                   <Paper
-                    elevation={12}
+                    variant='outlined'
                     sx={{
                       display: 'flex',
                       flexDirection: 'column',
@@ -1080,7 +1084,7 @@ const Troops = () => {
                 {/* PREVIEW */}
                 <Box sx={{ display: 'flex', flexDirection: 'row', padding: '1rem' }}>
                   <Paper
-                    elevation={12}
+                    elevation={8}
                     sx={{
                       display: 'flex',
                       flexDirection: 'column',
@@ -1163,6 +1167,7 @@ const Troops = () => {
                 <Typography align='center' variant='h6' color='primary' sx={{ paddingTop: '0.3em' }}>
                   TROOPS LAYOUTS
                 </Typography>
+                <Divider>PRESETS</Divider>
                 <Box
                   sx={{
                     padding: '0.8em',
@@ -1271,7 +1276,7 @@ const Troops = () => {
                 {/* PREVIEW */}
                 <Box sx={{ display: 'flex', flexDirection: 'row', padding: '1rem' }}>
                   <Paper
-                    elevation={12}
+                    elevation={6}
                     sx={{
                       display: 'flex',
                       flexDirection: 'column',
