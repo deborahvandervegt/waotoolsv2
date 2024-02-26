@@ -18,6 +18,7 @@ import ShortcutsDropdown from 'src/@core/layouts/components/shared-components/Sh
 
 // ** Hook Import
 import { useAuth } from 'src/hooks/useAuth'
+import LinksDropdown from 'src/@core/layouts/components/shared-components/LinksDropdown'
 
 const Clock = dynamic(() => import('src/utils/Clock'), { ssr: false })
 
@@ -140,6 +141,7 @@ const AppBarContent = props => {
           <Clock type='local' />
         </Box>
         {/* <LanguageDropdown settings={settings} saveSettings={saveSettings} /> */}
+        <LinksDropdown />
         <ModeToggler settings={settings} saveSettings={saveSettings} />
         {auth.user && (
           <>

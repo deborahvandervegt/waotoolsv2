@@ -31,7 +31,8 @@ const MenuItemWrapper = ({ children, option }) => {
           display: 'flex',
           color: 'inherit',
           alignItems: 'center',
-          textDecoration: 'none'
+          textDecoration: 'none',
+          gap: '3px'
         }}
       >
         {children}
@@ -99,7 +100,7 @@ const OptionsMenu = props => {
               >
                 <MenuItemWrapper option={option}>
                   {option.icon ? option.icon : null}
-                  {option.text}
+                  {` ${option.text}`}
                 </MenuItemWrapper>
               </MenuItem>
             )
