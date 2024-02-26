@@ -158,8 +158,8 @@ export const mysticBuildingReq = [
   { building: 'intervene', lvl: 1, mcReq: 9 },
   { building: 'intervene', lvl: 2, mcReq: 9 },
   { building: 'intervene', lvl: 3, mcReq: 9 },
-  { building: 'intervene', lvl: 4, mcReq: 9 },
-  { building: 'intervene', lvl: 5, mcReq: 9 },
+  { building: 'intervene', lvl: 4, mcReq: 10 },
+  { building: 'intervene', lvl: 5, mcReq: 10 },
   { building: 'eliteCavalry', lvl: 1, mcReq: 6 },
   { building: 'eliteCavalry', lvl: 2, mcReq: 6 },
   { building: 'eliteCavalry', lvl: 3, mcReq: 6 },
@@ -178,8 +178,8 @@ export const mysticBuildingReq = [
   { building: 'wildInstict', lvl: 1, mcReq: 9 },
   { building: 'wildInstict', lvl: 2, mcReq: 9 },
   { building: 'wildInstict', lvl: 3, mcReq: 9 },
-  { building: 'wildInstict', lvl: 4, mcReq: 9 },
-  { building: 'wildInstict', lvl: 5, mcReq: 9 },
+  { building: 'wildInstict', lvl: 4, mcReq: 10 },
+  { building: 'wildInstict', lvl: 5, mcReq: 10 },
   { building: 'eliteArcher', lvl: 1, mcReq: 6 },
   { building: 'eliteArcher', lvl: 2, mcReq: 6 },
   { building: 'eliteArcher', lvl: 3, mcReq: 6 },
@@ -198,8 +198,8 @@ export const mysticBuildingReq = [
   { building: 'rainOfArrows', lvl: 1, mcReq: 9 },
   { building: 'rainOfArrows', lvl: 2, mcReq: 9 },
   { building: 'rainOfArrows', lvl: 3, mcReq: 9 },
-  { building: 'rainOfArrows', lvl: 4, mcReq: 9 },
-  { building: 'rainOfArrows', lvl: 5, mcReq: 9 },
+  { building: 'rainOfArrows', lvl: 4, mcReq: 10 },
+  { building: 'rainOfArrows', lvl: 5, mcReq: 10 },
   { building: 'eliteMages', lvl: 1, mcReq: 6 },
   { building: 'eliteMages', lvl: 2, mcReq: 6 },
   { building: 'eliteMages', lvl: 3, mcReq: 6 },
@@ -218,8 +218,8 @@ export const mysticBuildingReq = [
   { building: 'spell', lvl: 1, mcReq: 9 },
   { building: 'spell', lvl: 2, mcReq: 9 },
   { building: 'spell', lvl: 3, mcReq: 9 },
-  { building: 'spell', lvl: 4, mcReq: 9 },
-  { building: 'spell', lvl: 5, mcReq: 9 }
+  { building: 'spell', lvl: 4, mcReq: 10 },
+  { building: 'spell', lvl: 5, mcReq: 10 }
 ]
 
 export const mysticBuilding = [

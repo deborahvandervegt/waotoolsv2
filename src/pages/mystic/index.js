@@ -357,7 +357,7 @@ const Mystic = props => {
         <Card>
           <Grid container spacing={3} style={{ minWidth: '320px', padding: '1rem' }}>
             <Grid item xs={12} md={6} lg={8}>
-              <Paper elevation={12} sx={{ padding: '1rem' }}>
+              <Paper elevation={6} sx={{ padding: '1rem' }}>
                 <Divider light>{<Typography variant='caption'>USER CONFIGURATION</Typography>}</Divider>
                 <Box
                   key={'set-talents-limit'}
@@ -370,7 +370,12 @@ const Mystic = props => {
                     padding: '0.5em'
                   }}
                 >
-                  <Typography variant='body2' color='primary' align='right' sx={{ marginRight: '5px' }}>
+                  <Typography
+                    variant='body2'
+                    color='primary'
+                    align='right'
+                    sx={{ marginRight: '5px', marginBottom: '6px' }}
+                  >
                     Set Owned Mystic College Level:
                   </Typography>
 
@@ -529,7 +534,8 @@ const Mystic = props => {
                             </Box>
                           ) : (
                             <TabPanel sx={{ p: 0 }} value={activeTab}>
-                              <Card>
+                              <Divider>{<Typography variant='caption'>SKILLS</Typography>}</Divider>
+                              <>
                                 {mysticConfig.slotsInfo?.find(s => s.slot === mysticConfig.troopTabSelected)?.troop
                                   ?.length > 0 && (
                                   <Grid key={mysticConfig.troopObj.slot} item xs={12}>
@@ -546,8 +552,7 @@ const Mystic = props => {
                                       }}
                                     >
                                       <>
-                                        <Divider>{<Typography variant='caption'>SKILLS</Typography>}</Divider>
-                                        <Paper elevation={24}>
+                                        <Paper elevation={6} sx={{ minWidth: '350px' }}>
                                           {mysticConfig.troopObj?.troop?.length > 0 && (
                                             <>
                                               <Box
@@ -728,91 +733,84 @@ const Mystic = props => {
                                             </>
                                           )}
                                         </Paper>
+                                      </>
+                                    </Paper>
+                                    <Paper variant='outlined' sx={{ padding: '0.5em', marginTop: '10px' }}>
+                                      <TableContainer>
+                                        <Table aria-labelledby='tableTitle' size={'small'} aria-label='enhanced table'>
+                                          <TableBody>
+                                            {/* HEADER */}
+                                            <TableRow>
+                                              <TableCell align='center'>{`Azurite Used on ${mysticConfig.troopObj.troop.toUpperCase()} branch`}</TableCell>
+                                              <TableCell align='center'>{`Azurite Needed to Max ${mysticConfig.troopObj.troop.toUpperCase()} branch`}</TableCell>
+                                            </TableRow>
 
-                                        <Paper elevation={24} sx={{ padding: '0.5em', marginTop: '10px' }}>
-                                          <TableContainer>
-                                            <Table
-                                              aria-labelledby='tableTitle'
-                                              size={'small'}
-                                              aria-label='enhanced table'
-                                            >
-                                              <TableBody>
-                                                {/* HEADER */}
-                                                <TableRow>
-                                                  <TableCell align='center'>{`Azurite Used on ${mysticConfig.troopObj.troop.toUpperCase()} branch`}</TableCell>
-                                                  <TableCell align='center'>{`Azurite Needed to Max ${mysticConfig.troopObj.troop.toUpperCase()} branch`}</TableCell>
-                                                </TableRow>
-
-                                                {/* DETAILS */}
-                                                <TableRow>
-                                                  <TableCell align='center'>
-                                                    {
-                                                      <Typography
-                                                        variant='body2'
-                                                        color='textPrimary'
-                                                        style={{
-                                                          color: `${
-                                                            mysticConfig.troopObj?.ability.reduce(
-                                                              (accumulator, currentValue) =>
-                                                                accumulator + currentValue.a,
-                                                              0
-                                                            ) === treeAzuriteNeeded[mysticConfig.troopObj.troop]
-                                                              ? '#50a308'
-                                                              : ''
-                                                          }`
-                                                        }}
-                                                      >
-                                                        {mysticConfig.troopObj?.ability
-                                                          .reduce(
-                                                            (accumulator, currentValue) => accumulator + currentValue.a,
-                                                            0
-                                                          )
-                                                          ?.toLocaleString()}
-                                                        {mysticConfig.troopObj?.ability.reduce(
+                                            {/* DETAILS */}
+                                            <TableRow>
+                                              <TableCell align='center'>
+                                                {
+                                                  <Typography
+                                                    variant='body2'
+                                                    color='textPrimary'
+                                                    style={{
+                                                      color: `${
+                                                        mysticConfig.troopObj?.ability.reduce(
                                                           (accumulator, currentValue) => accumulator + currentValue.a,
                                                           0
                                                         ) === treeAzuriteNeeded[mysticConfig.troopObj.troop]
-                                                          ? ' - COMPLETED'
-                                                          : ''}
-                                                      </Typography>
-                                                    }
-                                                  </TableCell>
-                                                  <TableCell align='center'>
-                                                    {
-                                                      <Typography
-                                                        variant='body1'
-                                                        color='textPrimary'
-                                                        style={{
-                                                          color: `${
-                                                            mysticConfig.troopObj?.ability.reduce(
-                                                              (accumulator, currentValue) =>
-                                                                accumulator + currentValue.a,
-                                                              0
-                                                            ) < treeAzuriteNeeded[mysticConfig.troopObj.troop]
-                                                              ? '#ed2727'
-                                                              : ''
-                                                          }`
-                                                        }}
-                                                      >
-                                                        {(
-                                                          mysticConfig.troopObj?.ability.reduce(
-                                                            (accumulator, currentValue) => accumulator + currentValue.a,
-                                                            0
-                                                          ) - treeAzuriteNeeded[mysticConfig.troopObj.troop]
-                                                        )?.toLocaleString()}
-                                                      </Typography>
-                                                    }
-                                                  </TableCell>
-                                                </TableRow>
-                                              </TableBody>
-                                            </Table>
-                                          </TableContainer>
-                                        </Paper>
-                                      </>
+                                                          ? '#50a308'
+                                                          : ''
+                                                      }`
+                                                    }}
+                                                  >
+                                                    {mysticConfig.troopObj?.ability
+                                                      .reduce(
+                                                        (accumulator, currentValue) => accumulator + currentValue.a,
+                                                        0
+                                                      )
+                                                      ?.toLocaleString()}
+                                                    {mysticConfig.troopObj?.ability.reduce(
+                                                      (accumulator, currentValue) => accumulator + currentValue.a,
+                                                      0
+                                                    ) === treeAzuriteNeeded[mysticConfig.troopObj.troop]
+                                                      ? ' - COMPLETED'
+                                                      : ''}
+                                                  </Typography>
+                                                }
+                                              </TableCell>
+                                              <TableCell align='center'>
+                                                {
+                                                  <Typography
+                                                    variant='body1'
+                                                    color='textPrimary'
+                                                    style={{
+                                                      color: `${
+                                                        mysticConfig.troopObj?.ability.reduce(
+                                                          (accumulator, currentValue) => accumulator + currentValue.a,
+                                                          0
+                                                        ) < treeAzuriteNeeded[mysticConfig.troopObj.troop]
+                                                          ? '#ed2727'
+                                                          : ''
+                                                      }`
+                                                    }}
+                                                  >
+                                                    {(
+                                                      mysticConfig.troopObj?.ability.reduce(
+                                                        (accumulator, currentValue) => accumulator + currentValue.a,
+                                                        0
+                                                      ) - treeAzuriteNeeded[mysticConfig.troopObj.troop]
+                                                    )?.toLocaleString()}
+                                                  </Typography>
+                                                }
+                                              </TableCell>
+                                            </TableRow>
+                                          </TableBody>
+                                        </Table>
+                                      </TableContainer>
                                     </Paper>
                                     <Paper
                                       key={'second-header-totals-paper'}
-                                      elevation={24}
+                                      variant='outlined'
                                       sx={{
                                         padding: theme => `${theme.spacing(2)} !important`,
                                         display: 'flex',
@@ -821,23 +819,22 @@ const Mystic = props => {
                                         minHeight: '145px',
                                         minWidth: '115px',
                                         height: '100%',
-                                        justifyContent: 'center'
+                                        justifyContent: 'center',
+                                        marginTop: '10px'
                                       }}
                                     >
                                       {/* TABLE TOTALS */}
                                       <Box key={'totalDiv'}>
                                         <Box key={'totalDivSubHeader'}>
-                                          <Paper
+                                          <Box
                                             key={'thrid-header-totals-paper'}
-                                            elevation={24}
                                             sx={{
                                               padding: theme => `${theme.spacing(2)} !important`,
                                               display: 'flex',
                                               overflow: 'auto',
                                               flexDirection: 'column',
                                               minHeight: '145px',
-                                              minWidth: '115px',
-                                              height: '100%',
+                                              minWidth: '125px',
                                               justifyContent: 'center'
                                             }}
                                           >
@@ -1004,7 +1001,11 @@ const Mystic = props => {
                                             <Grid
                                               item
                                               xs={12}
-                                              style={{ display: 'flex', flexDirection: 'row', marginTop: '5px' }}
+                                              sx={{
+                                                display: 'flex',
+                                                flexDirection: 'row',
+                                                marginTop: '5px'
+                                              }}
                                             >
                                               <Grid item xs={5}>
                                                 <Paper style={{ marginLeft: '8px' }} square variant='outlined'>
@@ -1058,8 +1059,8 @@ const Mystic = props => {
                                                     >
                                                       <Grid item xs={5}>
                                                         <Paper
-                                                          style={{
-                                                            marginLeft: '8px',
+                                                          sx={{
+                                                            marginLeft: '6px',
                                                             display: 'flex',
                                                             flexDirection: 'row'
                                                           }}
@@ -1069,7 +1070,7 @@ const Mystic = props => {
                                                           <Typography
                                                             align='left'
                                                             sx={{
-                                                              marginLeft: '8px',
+                                                              marginLeft: '6px',
                                                               color: `${
                                                                 ability.level > 0 && ability.level >= s.maxLevel
                                                                   ? '#006e1e'
@@ -1087,7 +1088,7 @@ const Mystic = props => {
                                                         </Paper>
                                                       </Grid>
                                                       <Grid item xs={6}>
-                                                        <Paper style={{ marginLeft: '8px' }} elevation={0} square>
+                                                        <Paper sx={{ marginLeft: '6px' }} elevation={0} square>
                                                           <Typography
                                                             align='center'
                                                             sx={{
@@ -1128,13 +1129,13 @@ const Mystic = props => {
                                               })
                                             })}
                                             <Divider light />
-                                          </Paper>
+                                          </Box>
                                         </Box>
                                       </Box>
                                     </Paper>
                                   </Grid>
                                 )}
-                              </Card>
+                              </>
                             </TabPanel>
                           )}
                         </Grid>
@@ -1146,49 +1147,6 @@ const Mystic = props => {
             </Grid>
           </Grid>
         </Card>
-        {/* <Dialog fullWidth open={openInfo} onClose={handleDialogClose}>
-          <DialogTitle>{`Info`}</DialogTitle>
-          <DialogContent>
-            <form>
-              <FormControl>
-                <Typography variant='body2' color='textPrimary' align='justify' style={{ marginLeft: '10px' }}>
-                  {openInfoData?.message}
-                </Typography>
-                <Divider light />
-                <div style={{ marginBottom: '10px' }}></div>
-                <CardMedia
-                  image={`/images/azurite/${openInfoData?.info}.jpg`}
-                  title={openInfoData?.info}
-                  sx={{
-                    minHeight: '320px',
-                    maxWidth: '370px',
-                    backgroundPosition: 'center',
-                    backgroundSize: 'contain'
-                  }}
-                />
-                <div
-                  style={{
-                    height: '64px',
-                    backgroundPosition: 'center',
-                    backgroundSize: 'cover',
-                    filter: 'contrast(75%)',
-                    backgroundImage: `url('/img/azurite/${openInfoData?.info}.jpg}'`,
-                    position: 'absolute',
-                    top: '0px',
-                    width: '100%',
-                    zIndex: -2
-                  }}
-                />
-              </FormControl>
-            </form>
-          </DialogContent>
-
-          <DialogActions>
-            <Button onClick={handleDialogClose} color='primary'>
-              CLOSE
-            </Button>
-          </DialogActions>
-        </Dialog> */}
       </>
     </>
   )
