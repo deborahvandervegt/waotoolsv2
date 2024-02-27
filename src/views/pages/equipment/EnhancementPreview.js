@@ -210,13 +210,13 @@ const EnhancementPreview = props => {
                 <BoxContainer>
                   <BoxContainer sx={{ minWidth: '15px', marginLeft: '5px' }}>
                     <BarChart />
-                    <Typography variant='body1' color='primary' align='center' sx={{ marginLeft: '-2px' }}>
+                    <Typography variant='h5' color='primary' align='center'>
                       {`${slot?.eStat}${slot?.eStat?.length > 3 ? '' : '%'}`}
                     </Typography>
                   </BoxContainer>
-                  <BoxContainer sx={{ minWidth: '15px', marginLeft: '5px' }}>
+                  <BoxContainer sx={{ minWidth: '15px', marginLeft: '8px' }}>
                     <AttachMoney />
-                    <Typography variant='body1' color='primary' align='center' sx={{ marginLeft: '-5px' }}>
+                    <Typography variant='body1' color='primary' align='center'>
                       {`${round((slot?.obsidian / packPrice.qty) * packPrice.price, 0)?.toLocaleString()}+-`}
                     </Typography>
                   </BoxContainer>
@@ -225,15 +225,38 @@ const EnhancementPreview = props => {
             </BoxContainer>
 
             {slot?.eStat > 0 && <Divider flexItem sx={{ marginBottom: '5px', marginTop: '5px' }} />}
-
             <BoxContainer>
               {slot?.eStat > 0 && (
                 <>
                   <Typography variant='caption' color='primaryText' align='center' sx={{ marginLeft: '7px' }}>
-                    Obsidian needed to MAX:
+                    Obsidian needed for Next Level:
+                  </Typography>
+                  <Typography variant='body2' color='primary' align='center' sx={{ marginLeft: '7px' }}>
+                    {slot?.obsidianNext?.toLocaleString()}
+                  </Typography>
+                </>
+              )}
+            </BoxContainer>
+            <BoxContainer>
+              {slot?.eStat > 0 && (
+                <>
+                  <Typography variant='caption' color='primaryText' align='center' sx={{ marginLeft: '7px' }}>
+                    Obsidian needed from Lv1 to this Level:
                   </Typography>
                   <Typography variant='body2' color='primary' align='center' sx={{ marginLeft: '7px' }}>
                     {slot?.obsidian?.toLocaleString()}
+                  </Typography>
+                </>
+              )}
+            </BoxContainer>
+            <BoxContainer>
+              {slot?.eStat > 0 && (
+                <>
+                  <Typography variant='caption' color='primaryText' align='center' sx={{ marginLeft: '7px' }}>
+                    Obsidian needed from this Level to MAX:
+                  </Typography>
+                  <Typography variant='body2' color='primary' align='center' sx={{ marginLeft: '7px' }}>
+                    {slot?.obsidianMax?.toLocaleString()}
                   </Typography>
                 </>
               )}

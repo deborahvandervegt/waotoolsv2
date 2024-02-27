@@ -401,13 +401,27 @@ const Equipment = () => {
 
       const obsidianTemp = [...infoData.info]
 
-      const obsidianQty = obsidianTemp
+      const obsidianQty = [...obsidianTemp]
         .filter(o => o.level >= 1 && o.level <= level)
         ?.reduce((acc, cur) => acc + cur.quantity, 0)
 
+      const obsidianMax = [...obsidianTemp]
+        .filter(o => o.level > level && o.level <= 30)
+        ?.reduce((acc, cur) => acc + cur.quantity, 0)
+
+      const obsidianNext = [...obsidianTemp].find(o => o.level === level + 1)
+
       const newSlotsInfo = slotsInfo?.slots?.map(obj =>
         obj.key === selectedSlot.key
-          ? { ...slotObj, enhancement: eObj, eLevel: level, eStat: round(eStat, 1), obsidian: obsidianQty }
+          ? {
+              ...slotObj,
+              enhancement: eObj,
+              eLevel: level,
+              eStat: round(eStat, 1),
+              obsidian: obsidianQty,
+              obsidianMax,
+              obsidianNext: obsidianNext?.quantity ?? 0
+            }
           : obj
       )
 
@@ -1306,49 +1320,54 @@ const Equipment = () => {
                 </Box>
                 <Divider sx={{ marginBottom: '8px', marginTop: '8px' }}>CONFIGURATION</Divider>
 
-                <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                  {
-                    <Box>
-                      <Tooltip title={'Save Information'} arrow>
-                        <GreenButton
-                          color='primary'
-                          variant='contained'
-                          startIcon={<Save />}
-                          sx={{ marginRight: '5px' }}
-                          onClick={handleSaveData}
-                        >
-                          SAVE
-                        </GreenButton>
-                      </Tooltip>
-                      {slotsInfo?.slots?.map(s => (s?.equipment?.level > 0 ? 1 : 0)).reduce((a, v) => a + v) > 0 && (
-                        <Tooltip title={'Clear all information saved.'} arrow>
-                          <RedButton
-                            align='center'
-                            variant='contained'
-                            color='secondary'
-                            startIcon={<ClearAll />}
-                            sx={{ marginRight: '5px' }}
-                            onClick={handleClearDialogOpen}
-                          >
-                            clear all
-                          </RedButton>
-                        </Tooltip>
-                      )}
-                      {slotsInfo?.templateEnhancement?.length > 0 && (
-                        <Tooltip title={'Max All Enhancements Levels.'} arrow>
-                          <Button
-                            align='center'
-                            variant='contained'
-                            color='primary'
-                            startIcon={<AddToPhotos />}
-                            onClick={handleEnhancementMaxLevelFill}
-                          >
-                            Max All
-                          </Button>
-                        </Tooltip>
-                      )}
-                    </Box>
-                  }
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    flexWrap: 'wrap'
+                  }}
+                >
+                  <Tooltip title={'Save Information'} arrow>
+                    <GreenButton
+                      color='primary'
+                      variant='contained'
+                      startIcon={<Save />}
+                      sx={{ marginRight: '6px', marginBottom: '6px' }}
+                      onClick={handleSaveData}
+                    >
+                      SAVE
+                    </GreenButton>
+                  </Tooltip>
+                  {slotsInfo?.slots?.map(s => (s?.equipment?.level > 0 ? 1 : 0)).reduce((a, v) => a + v) > 0 && (
+                    <Tooltip title={'Clear all information saved.'} arrow>
+                      <RedButton
+                        align='center'
+                        variant='contained'
+                        color='secondary'
+                        startIcon={<ClearAll />}
+                        sx={{ marginRight: '6px', marginBottom: '6px' }}
+                        onClick={handleClearDialogOpen}
+                      >
+                        clear all
+                      </RedButton>
+                    </Tooltip>
+                  )}
+                  {slotsInfo?.templateEnhancement?.length > 0 && (
+                    <Tooltip title={'Max All Enhancements Levels.'} arrow>
+                      <Button
+                        align='center'
+                        variant='contained'
+                        color='primary'
+                        startIcon={<AddToPhotos />}
+                        sx={{ marginBottom: '6px' }}
+                        onClick={handleEnhancementMaxLevelFill}
+                      >
+                        Max All
+                      </Button>
+                    </Tooltip>
+                  )}
                 </Box>
 
                 <Divider sx={{ marginBottom: '8px', marginTop: '8px' }}>ENHANCEMENTS</Divider>
