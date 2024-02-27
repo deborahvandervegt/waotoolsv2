@@ -52,8 +52,8 @@ const defaultColumns = [
     )
   },
   {
-    flex: 0.01,
-    minWidth: 25,
+    flex: 0.02,
+    minWidth: 30,
     field: 'primaryRealm',
     headerName: 'Realm',
     renderCell: ({ row }) => (
@@ -65,7 +65,7 @@ const defaultColumns = [
             borderStyle: 'groove',
             borderColor: 'black',
             borderWidth: 'thin',
-            minWidth: '32px',
+            minWidth: '45px',
             paddingLeft: '2px',
             paddingRight: '2px'
           }}
@@ -88,28 +88,30 @@ const defaultColumns = [
       <>
         <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
           {row?.realmsMerged?.length > 0 ? (
-            row?.realmsMerged.map(r => {
-              return (
-                <Box
-                  key={`${row.primaryRealm} - ${r.realm}`}
-                  sx={{
-                    backgroundColor: r.color,
-                    borderStyle: 'groove',
-                    borderColor: 'black',
-                    borderWidth: 'thin',
-                    minWidth: '28px',
-                    paddingLeft: '2px',
-                    paddingRight: '2px',
-                    display: 'flex',
-                    justifyContent: 'center'
-                  }}
-                >
-                  <Typography align='center' variant='caption' color='black'>
-                    {r.realm}
-                  </Typography>
-                </Box>
-              )
-            })
+            row?.realmsMerged
+              .sort((a, b) => a.realm - b.realm)
+              .map(r => {
+                return (
+                  <Box
+                    key={`${row.primaryRealm} - ${r.realm}`}
+                    sx={{
+                      backgroundColor: r.color,
+                      borderStyle: 'groove',
+                      borderColor: 'black',
+                      borderWidth: 'thin',
+                      minWidth: '28px',
+                      paddingLeft: '2px',
+                      paddingRight: '2px',
+                      display: 'flex',
+                      justifyContent: 'center'
+                    }}
+                  >
+                    <Typography align='center' variant='caption' color='black'>
+                      {r.realm}
+                    </Typography>
+                  </Box>
+                )
+              })
           ) : (
             <Typography align='center' variant='body1'>
               {'None yet.'}
@@ -278,7 +280,7 @@ const Realms = () => {
         <Card>
           <Paper elevation={6} sx={{ padding: '1rem' }}>
             <Typography variant='body2' align='center'>
-              REALMS GLOBES - LAST UPDATE: 10 NOVEMBER 2023
+              REALMS GLOBES - LAST UPDATE: February 2, 2024.
             </Typography>
             <Divider sx={{ marginTop: '10px', marginBottom: '10px' }} />
             <Box key='wrapping-div' sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
@@ -346,7 +348,7 @@ const Realms = () => {
             </Box>
             <Divider sx={{ marginTop: '10px', marginBottom: '15px' }} />
             <Paper
-              elevation={12}
+              elevation={6}
               component='form'
               sx={{
                 padding: '2px 4px',
