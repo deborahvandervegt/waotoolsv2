@@ -863,6 +863,35 @@ const Planner = () => {
                   </Button>
                 </CustomBox>
               )}
+              {planInfo?.azuCalculator?.total === 0 && (
+                <CustomBox>
+                  <Box sx={{ marginRight: '5px' }}>
+                    <Typography variant='body2' color='primary' align='left'>
+                      Set Minimun Daily Azurite to know when you'll get the upgrades:
+                    </Typography>
+                  </Box>
+                  <Button
+                    size='small'
+                    variant='contained'
+                    onClick={e => {
+                      handleChange(e, 'azuriteCalc')
+                    }}
+                  >
+                    Azurite Calculator
+                  </Button>
+                </CustomBox>
+              )}
+
+              {planInfo?.azuCalculator?.total > 0 && (
+                <Box sx={{ marginRight: '5px', display: 'flex', alignItems: 'center' }}>
+                  <Typography variant='body2' color='primary' align='left'>
+                    Daily Azurite Output:
+                  </Typography>
+                  <Typography variant='h6' color='textPrimary' sx={{ marginLeft: '10px' }}>
+                    {planInfo?.azuCalculator?.total.toLocaleString()}
+                  </Typography>
+                </Box>
+              )}
 
               <Divider sx={{ mt: 3 }} />
               <Box sx={{ mt: 1, p: 1, display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: '1rem' }}>
@@ -1374,6 +1403,39 @@ const Planner = () => {
                           </RssBox>
                         </>
                       </Box>
+
+                      <Typography variant='body2' color='primary' sx={{ mt: '6px' }}>
+                        Date to get Azurite Needed for C34:
+                      </Typography>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          flexWrap: 'wrap',
+                          gap: '1rem',
+                          alignItems: 'center'
+                        }}
+                      >
+                        <>
+                          <RssBox>
+                            <Typography variant='body1'>
+                              {planInfo?.azuCalculator.total === 0
+                                ? '-'
+                                : `${moment()
+                                    .add(
+                                      Math.ceil(
+                                        getRssNeeded(30, 34, planInfo?.castle)?.castle.reduce(
+                                          (acc, cur) => acc + cur.a,
+                                          0
+                                        ) / planInfo?.azuCalculator.total
+                                      ),
+                                      'days'
+                                    )
+                                    .format('MMMM Do, YYYY')}`}
+                            </Typography>
+                          </RssBox>
+                        </>
+                      </Box>
                     </Box>
                   </Box>
                 )}
@@ -1577,6 +1639,39 @@ const Planner = () => {
                                 getRssNeeded(34, 37, planInfo?.castle)?.angels.reduce((acc, cur) => acc + cur.i, 0),
                                 1
                               )}  `}
+                            </Typography>
+                          </RssBox>
+                        </>
+                      </Box>
+
+                      <Typography variant='body2' color='primary' sx={{ mt: '6px' }}>
+                        Date to get Azurite Needed for C37:
+                      </Typography>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          flexWrap: 'wrap',
+                          gap: '1rem',
+                          alignItems: 'center'
+                        }}
+                      >
+                        <>
+                          <RssBox>
+                            <Typography variant='body1'>
+                              {planInfo?.azuCalculator.total === 0
+                                ? '-'
+                                : `${moment()
+                                    .add(
+                                      Math.ceil(
+                                        getRssNeeded(30, 37, planInfo?.castle)?.castle.reduce(
+                                          (acc, cur) => acc + cur.a,
+                                          0
+                                        ) / planInfo?.azuCalculator.total
+                                      ),
+                                      'days'
+                                    )
+                                    .format('MMMM Do, YYYY')}`}
                             </Typography>
                           </RssBox>
                         </>
@@ -1788,6 +1883,39 @@ const Planner = () => {
                           </RssBox>
                         </>
                       </Box>
+
+                      <Typography variant='body2' color='primary' sx={{ mt: '6px' }}>
+                        Date to get Azurite Needed for C40:
+                      </Typography>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          flexWrap: 'wrap',
+                          gap: '1rem',
+                          alignItems: 'center'
+                        }}
+                      >
+                        <>
+                          <RssBox>
+                            <Typography variant='body1'>
+                              {planInfo?.azuCalculator.total === 0
+                                ? '-'
+                                : `${moment()
+                                    .add(
+                                      Math.ceil(
+                                        getRssNeeded(30, 40, planInfo?.castle)?.castle.reduce(
+                                          (acc, cur) => acc + cur.a,
+                                          0
+                                        ) / planInfo?.azuCalculator.total
+                                      ),
+                                      'days'
+                                    )
+                                    .format('MMMM Do, YYYY')}`}
+                            </Typography>
+                          </RssBox>
+                        </>
+                      </Box>
                     </Box>
                   </Box>
                 )}
@@ -1991,6 +2119,38 @@ const Planner = () => {
                                 getRssNeeded(40, 41, planInfo?.castle)?.angels.reduce((acc, cur) => acc + cur.i, 0),
                                 1
                               )}  `}
+                            </Typography>
+                          </RssBox>
+                        </>
+                      </Box>
+                      <Typography variant='body2' color='primary' sx={{ mt: '6px' }}>
+                        Date to get Azurite Needed for C41:
+                      </Typography>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          flexWrap: 'wrap',
+                          gap: '1rem',
+                          alignItems: 'center'
+                        }}
+                      >
+                        <>
+                          <RssBox>
+                            <Typography variant='body1'>
+                              {planInfo?.azuCalculator.total === 0
+                                ? '-'
+                                : `${moment()
+                                    .add(
+                                      Math.ceil(
+                                        getRssNeeded(30, 41, planInfo?.castle)?.castle.reduce(
+                                          (acc, cur) => acc + cur.a,
+                                          0
+                                        ) / planInfo?.azuCalculator.total
+                                      ),
+                                      'days'
+                                    )
+                                    .format('MMMM Do, YYYY')}`}
                             </Typography>
                           </RssBox>
                         </>
@@ -2202,6 +2362,39 @@ const Planner = () => {
                           </RssBox>
                         </>
                       </Box>
+
+                      <Typography variant='body2' color='primary' sx={{ mt: '6px' }}>
+                        Date to get Azurite Needed for C42:
+                      </Typography>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          flexWrap: 'wrap',
+                          gap: '1rem',
+                          alignItems: 'center'
+                        }}
+                      >
+                        <>
+                          <RssBox>
+                            <Typography variant='body1'>
+                              {planInfo?.azuCalculator.total === 0
+                                ? '-'
+                                : `${moment()
+                                    .add(
+                                      Math.ceil(
+                                        getRssNeeded(30, 42, planInfo?.castle)?.castle.reduce(
+                                          (acc, cur) => acc + cur.a,
+                                          0
+                                        ) / planInfo?.azuCalculator.total
+                                      ),
+                                      'days'
+                                    )
+                                    .format('MMMM Do, YYYY')}`}
+                            </Typography>
+                          </RssBox>
+                        </>
+                      </Box>
                     </Box>
                   </Box>
                 )}
@@ -2405,6 +2598,39 @@ const Planner = () => {
                                 getRssNeeded(42, 43, planInfo?.castle)?.angels.reduce((acc, cur) => acc + cur.i, 0),
                                 1
                               )}  `}
+                            </Typography>
+                          </RssBox>
+                        </>
+                      </Box>
+
+                      <Typography variant='body2' color='primary' sx={{ mt: '6px' }}>
+                        Date to get Azurite Needed for C43:
+                      </Typography>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          flexWrap: 'wrap',
+                          gap: '1rem',
+                          alignItems: 'center'
+                        }}
+                      >
+                        <>
+                          <RssBox>
+                            <Typography variant='body1'>
+                              {planInfo?.azuCalculator.total === 0
+                                ? '-'
+                                : `${moment()
+                                    .add(
+                                      Math.ceil(
+                                        getRssNeeded(30, 43, planInfo?.castle)?.castle.reduce(
+                                          (acc, cur) => acc + cur.a,
+                                          0
+                                        ) / planInfo?.azuCalculator.total
+                                      ),
+                                      'days'
+                                    )
+                                    .format('MMMM Do, YYYY')}`}
                             </Typography>
                           </RssBox>
                         </>
