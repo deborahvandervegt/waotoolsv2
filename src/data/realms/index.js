@@ -46,26 +46,37 @@ export const mergeList = [
     top3: [],
     lastMerge: '12/05/2023'
   },
-  { primaryRealm: 151, realmsMerged: [91, 99, 100, 102, 104, 105, 150, 151, 162], top3: [], lastMerge: '23/07/2021' },
+  {
+    primaryRealm: 151,
+    realmsMerged: [
+      91, 99, 100, 102, 104, 105, 150, 151, 162, 30, 57, 84, 94, 101, 123, 125, 144, 145, 167, 168, 182, 193, 196, 210
+    ],
+    top3: [],
+    lastMerge: '02/02/2024',
+    merges: ['23/07/2021']
+  },
   {
     primaryRealm: 159,
     realmsMerged: [109, 119, 124, 131, 143, 148, 152, 158, 159, 173, 178, 184, 190, 199, 213, 229, 244, 246],
     top3: [],
     lastMerge: '16/09/2020'
   },
-  {
-    primaryRealm: 193,
-    realmsMerged: [30, 57, 84, 94, 101, 123, 125, 144, 145, 167, 168, 182, 193, 196, 210],
-    top3: [],
-    lastMerge: '11/12/2020'
-  },
+
+  // {
+  //   primaryRealm: 193,
+  //   realmsMerged: [30, 57, 84, 94, 101, 123, 125, 144, 145, 167, 168, 182, 193, 196, 210],
+  //   top3: [],
+  //   lastMerge: '11/12/2020'
+  // },
   {
     primaryRealm: 209,
-    realmsMerged: [115, 179, 181, 202, 209, 231, 250, 254, 270, 295, 297],
+    realmsMerged: [115, 179, 181, 202, 209, 231, 250, 254, 270, 295, 297, 183, 198, 200, 214, 215, 234, 242, 266, 268],
     top3: [],
-    lastMerge: '25/12/2020'
+    lastMerge: '02/02/2024',
+    merges: ['25/12/2020']
   },
-  { primaryRealm: 214, realmsMerged: [183, 198, 200, 214, 215, 234, 242, 266, 268], top3: [], lastMerge: '17/09/2020' },
+
+  // { primaryRealm: 214, realmsMerged: [183, 198, 200, 214, 215, 234, 242, 266, 268], top3: [], lastMerge: '17/09/2020' },
   {
     primaryRealm: 245,
     realmsMerged: [
@@ -126,13 +137,22 @@ export const mergeList = [
   },
 
   // { primaryRealm: 434, realmsMerged: [], top3: [], lastMerge: '02/09/2020' },
-  { primaryRealm: 438, realmsMerged: [291, 312, 331, 386, 404, 413, 424, 438, 487], top3: [], lastMerge: '18/09/2020' },
   {
-    primaryRealm: 440,
-    realmsMerged: [440, 455, 459, 475, 484, 493, 499, 510, 512, 522, 526, 535, 599],
+    primaryRealm: 438,
+    realmsMerged: [
+      291, 312, 331, 386, 404, 413, 424, 438, 487, 440, 455, 459, 475, 484, 493, 499, 510, 512, 522, 526, 535, 599
+    ],
     top3: [],
-    lastMerge: '02/04/2021'
+    lastMerge: '02/02/2024',
+    merges: ['18/09/2020']
   },
+
+  // {
+  //   primaryRealm: 440,
+  //   realmsMerged: [440, 455, 459, 475, 484, 493, 499, 510, 512, 522, 526, 535, 599],
+  //   top3: [],
+  //   lastMerge: '02/04/2021'
+  // },
   {
     primaryRealm: 489,
     realmsMerged: [
@@ -485,40 +505,64 @@ export const mergeList = [
   { primaryRealm: 1425, realmsMerged: [1418, 1425, 1429, 1427, 1431, 1437], top3: [], lastMerge: '13/10/2023' },
 
   // { primaryRealm: 1431, realmsMerged: [1427, 1431, 1437], top3: [], lastMerge: '24/06/2022' },
-  { primaryRealm: 1435, realmsMerged: [1435, 1439, 1443], top3: [], lastMerge: '08/07/2022' },
+  {
+    primaryRealm: 1435,
+    realmsMerged: [1435, 1439, 1443, 1447, 1450, 1454],
+    top3: [],
+    lastMerge: '02/02/2024',
+    merges: ['08/07/2022']
+  },
   {
     primaryRealm: 1448,
     realmsMerged: [1432, 1436, 1438, 1440, 1442, 1444, 1446, 1448, 1459],
     top3: [],
     lastMerge: '14/09/2022'
   },
-  { primaryRealm: 1449, realmsMerged: [1441, 1445, 1449], top3: [], lastMerge: '18/07/2022' },
-  { primaryRealm: 1450, realmsMerged: [1447, 1450, 1454], top3: [], lastMerge: '14/10/2022' },
-  { primaryRealm: 1452, realmsMerged: [1452, 1458, 1464], top3: [], lastMerge: '16/01/2023' },
+  {
+    primaryRealm: 1449,
+    realmsMerged: [1441, 1445, 1449, 1460, 1467, 1473],
+    top3: [],
+    lastMerge: '02/02/2024',
+    merges: ['18/07/2022']
+  },
+
+  // { primaryRealm: 1450, realmsMerged: [1447, 1450, 1454], top3: [], lastMerge: '14/10/2022' },
+  {
+    primaryRealm: 1452,
+    realmsMerged: [1452, 1458, 1464, 1456, 1462, 1471],
+    top3: [],
+    lastMerge: '02/02/2024',
+    merges: ['16/01/2023']
+  },
   {
     primaryRealm: 1455,
     realmsMerged: [1451, 1453, 1455, 1457, 1461, 1466, 1468, 1472, 1474],
     top3: [],
     lastMerge: '14/10/2022'
   },
-  { primaryRealm: 1460, realmsMerged: [1460, 1467, 1473], top3: [], lastMerge: '16/01/2023' },
-  { primaryRealm: 1462, realmsMerged: [1456, 1462, 1471], top3: [], lastMerge: '14/10/2022' },
+
+  // { primaryRealm: 1460, realmsMerged: [1460, 1467, 1473], top3: [], lastMerge: '16/01/2023' },
+  // { primaryRealm: 1462, realmsMerged: [1456, 1462, 1471], top3: [], lastMerge: '14/10/2022' },
   { primaryRealm: 1479, realmsMerged: [1475, 1477, 1479], top3: [], lastMerge: '13/02/2023' },
   { primaryRealm: 1482, realmsMerged: [1469, 1481, 1482], top3: [], lastMerge: '24/04/2023' },
   { primaryRealm: 1484, realmsMerged: [1484, 1488, 1496], top3: [], lastMerge: '24/04/2023' },
-  {
-    primaryRealm: 1485,
-    realmsMerged: [1463, 1465, 1470, 1476, 1478, 1480, 1483, 1485, 1487],
-    top3: [],
-    lastMerge: '21/11/2022'
-  },
+
+  // {
+  //   primaryRealm: 1485,
+  //   realmsMerged: [1463, 1465, 1470, 1476, 1478, 1480, 1483, 1485, 1487],
+  //   top3: [],
+  //   lastMerge: '21/11/2022'
+  // },
   { primaryRealm: 1486, realmsMerged: [1486, 1492, 1494], top3: [], lastMerge: '13/02/2023' },
   { primaryRealm: 1490, realmsMerged: [1490, 1499, 1501], top3: [], lastMerge: '24/04/2023' },
   {
     primaryRealm: 1495,
-    realmsMerged: [1489, 1491, 1493, 1495, 1498, 1500, 1502, 1507, 1512],
+    realmsMerged: [
+      1463, 1465, 1470, 1476, 1478, 1480, 1483, 1485, 1487, 1489, 1491, 1493, 1495, 1498, 1500, 1502, 1507, 1512
+    ],
     top3: [],
-    lastMerge: '16/01/2023'
+    lastMerge: '02/02/2024',
+    merges: ['16/01/2023']
   },
   { primaryRealm: 1497, realmsMerged: [1497, 1503, 1505], top3: [], lastMerge: '24/04/2023' },
   { primaryRealm: 1506, realmsMerged: [1506, 1508, 1516], top3: [], lastMerge: '13/02/2023' },
@@ -593,19 +637,22 @@ export const mergeList = [
   { primaryRealm: 1576, realmsMerged: [], top3: [], lastMerge: '' },
   { primaryRealm: 1577, realmsMerged: [], top3: [], lastMerge: '' },
   { primaryRealm: 1579, realmsMerged: [], top3: [], lastMerge: '' },
-  { primaryRealm: 1580, realmsMerged: [], top3: [], lastMerge: '' },
-  { primaryRealm: 1581, realmsMerged: [], top3: [], lastMerge: '' },
+  { primaryRealm: 1580, realmsMerged: [1580, 1584], top3: [], lastMerge: '02/02/2024', merges: [] },
+
+  // { primaryRealm: 1581, realmsMerged: [], top3: [], lastMerge: '' },
 
   // { primaryRealm: 1582, realmsMerged: [], top3: [], lastMerge: '' },
-  { primaryRealm: 1583, realmsMerged: [], top3: [], lastMerge: '' },
-  { primaryRealm: 1584, realmsMerged: [], top3: [], lastMerge: '' },
-  { primaryRealm: 1585, realmsMerged: [], top3: [], lastMerge: '' },
-  { primaryRealm: 1586, realmsMerged: [], top3: [], lastMerge: '' },
+  // { primaryRealm: 1583, realmsMerged: [], top3: [], lastMerge: '' },
+  // { primaryRealm: 1584, realmsMerged: [], top3: [], lastMerge: '' },
+  { primaryRealm: 1585, realmsMerged: [1583, 1585], top3: [], lastMerge: '02/02/2024', merges: [] },
+  { primaryRealm: 1586, realmsMerged: [1586, 1588], top3: [], lastMerge: '02/02/2024', merges: [] },
   { primaryRealm: 1587, realmsMerged: [1587, 1592], top3: [], lastMerge: '17/07/2023' },
-  { primaryRealm: 1588, realmsMerged: [], top3: [], lastMerge: '' },
-  { primaryRealm: 1589, realmsMerged: [], top3: [], lastMerge: '' },
-  { primaryRealm: 1590, realmsMerged: [], top3: [], lastMerge: '' },
-  { primaryRealm: 1591, realmsMerged: [], top3: [], lastMerge: '' },
+
+  // { primaryRealm: 1588, realmsMerged: [], top3: [], lastMerge: '' },
+  { primaryRealm: 1589, realmsMerged: [1581, 1589], top3: [], lastMerge: '02/02/2024', merges: [] },
+  { primaryRealm: 1590, realmsMerged: [1590, 1591], top3: [], lastMerge: '02/02/2024', merges: [] },
+
+  // { primaryRealm: 1591, realmsMerged: [], top3: [], lastMerge: '' },
 
   // { primaryRealm: 1592, realmsMerged: [], top3: [], lastMerge: '' },
   { primaryRealm: 1593, realmsMerged: [], top3: [], lastMerge: '' },
@@ -621,11 +668,18 @@ export const mergeList = [
   { primaryRealm: 1602, realmsMerged: [], top3: [], lastMerge: '' },
   { primaryRealm: 1603, realmsMerged: [], top3: [], lastMerge: '' },
   { primaryRealm: 1604, realmsMerged: [], top3: [], lastMerge: '' },
-  { primaryRealm: 1605, realmsMerged: [1601, 1605], top3: [], lastMerge: '14/08/2023' },
+
+  // { primaryRealm: 1605, realmsMerged: [1601, 1605], top3: [], lastMerge: '14/08/2023' },
   { primaryRealm: 1606, realmsMerged: [], top3: [], lastMerge: '' },
   { primaryRealm: 1607, realmsMerged: [], top3: [], lastMerge: '' },
   { primaryRealm: 1608, realmsMerged: [], top3: [], lastMerge: '' },
-  { primaryRealm: 1609, realmsMerged: [1609, 1613], top3: [], lastMerge: '13/10/2023' },
+  {
+    primaryRealm: 1609,
+    realmsMerged: [1601, 1605, 1609, 1613, 1619, 1623],
+    top3: [],
+    lastMerge: '02/02/2024',
+    merges: ['13/10/2023']
+  },
   { primaryRealm: 1610, realmsMerged: [], top3: [], lastMerge: '' },
   { primaryRealm: 1611, realmsMerged: [], top3: [], lastMerge: '' },
   { primaryRealm: 1612, realmsMerged: [], top3: [], lastMerge: '' },
@@ -641,7 +695,8 @@ export const mergeList = [
   { primaryRealm: 1620, realmsMerged: [], top3: [], lastMerge: '' },
   { primaryRealm: 1621, realmsMerged: [], top3: [], lastMerge: '' },
   { primaryRealm: 1622, realmsMerged: [], top3: [], lastMerge: '' },
-  { primaryRealm: 1623, realmsMerged: [1619, 1623], top3: [], lastMerge: '13/10/2023' },
+
+  // { primaryRealm: 1623, realmsMerged: [1619, 1623], top3: [], lastMerge: '13/10/2023' },
   { primaryRealm: 1624, realmsMerged: [], top3: [], lastMerge: '' },
   { primaryRealm: 1625, realmsMerged: [], top3: [], lastMerge: '' },
   { primaryRealm: 1626, realmsMerged: [], top3: [], lastMerge: '' },
@@ -651,7 +706,13 @@ export const mergeList = [
   { primaryRealm: 1629, realmsMerged: [], top3: [], lastMerge: '' },
   { primaryRealm: 1630, realmsMerged: [], top3: [], lastMerge: '' },
   { primaryRealm: 1631, realmsMerged: [], top3: [], lastMerge: '' },
-  { primaryRealm: 1632, realmsMerged: [1627, 1632], top3: [], lastMerge: '10/11/2023' },
+  {
+    primaryRealm: 1632,
+    realmsMerged: [1627, 1632, 1650, 1662],
+    top3: [],
+    lastMerge: '02/02/2024',
+    merges: ['10/11/2023']
+  },
   { primaryRealm: 1633, realmsMerged: [], top3: [], lastMerge: '' },
   { primaryRealm: 1634, realmsMerged: [], top3: [], lastMerge: '' },
   { primaryRealm: 1635, realmsMerged: [], top3: [], lastMerge: '' },
@@ -669,7 +730,8 @@ export const mergeList = [
   { primaryRealm: 1647, realmsMerged: [], top3: [], lastMerge: '' },
   { primaryRealm: 1648, realmsMerged: [], top3: [], lastMerge: '' },
   { primaryRealm: 1649, realmsMerged: [], top3: [], lastMerge: '' },
-  { primaryRealm: 1650, realmsMerged: [], top3: [], lastMerge: '' },
+
+  // { primaryRealm: 1650, realmsMerged: [], top3: [], lastMerge: '' },
   { primaryRealm: 1651, realmsMerged: [], top3: [], lastMerge: '' },
   { primaryRealm: 1652, realmsMerged: [], top3: [], lastMerge: '' },
   { primaryRealm: 1653, realmsMerged: [], top3: [], lastMerge: '' },
@@ -681,7 +743,8 @@ export const mergeList = [
   { primaryRealm: 1659, realmsMerged: [], top3: [], lastMerge: '' },
   { primaryRealm: 1660, realmsMerged: [], top3: [], lastMerge: '' },
   { primaryRealm: 1661, realmsMerged: [], top3: [], lastMerge: '' },
-  { primaryRealm: 1662, realmsMerged: [], top3: [], lastMerge: '' },
+
+  // { primaryRealm: 1662, realmsMerged: [], top3: [], lastMerge: '' },
   { primaryRealm: 1663, realmsMerged: [], top3: [], lastMerge: '' },
   { primaryRealm: 1664, realmsMerged: [], top3: [], lastMerge: '' },
   { primaryRealm: 1665, realmsMerged: [], top3: [], lastMerge: '' }
