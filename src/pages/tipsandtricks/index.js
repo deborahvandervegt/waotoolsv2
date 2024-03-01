@@ -1,5 +1,8 @@
 // ** React Imports
 import { useEffect, useState } from 'react'
+import { Icon } from '@iconify/react'
+import { useRouter } from 'next/router'
+import ReactPlayer from 'react-player'
 
 // ** MUI Imports
 import Card from '@mui/material/Card'
@@ -23,17 +26,9 @@ import {
   IconButton,
   InputBase,
   Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableRow,
   createTheme
 } from '@mui/material'
 import CustomHeader from 'src/@core/components/Header'
-import { Icon } from '@iconify/react'
-import { useRouter } from 'next/router'
-import ReactPlayer from 'react-player'
 
 const theme = createTheme()
 

@@ -9,6 +9,12 @@ const navigation = () => {
       path: '/'
     },
     {
+      title: 'Dashboard',
+      icon: 'ic:round-dashboard',
+      path: '/dashboard',
+      badgeContent: 'New'
+    },
+    {
       title: 'Planner',
       icon: 'arcticons:school-planner',
       path: '/planner'
@@ -16,7 +22,8 @@ const navigation = () => {
     {
       title: 'Troops',
       icon: 'game-icons:rally-the-troops',
-      path: '/troops'
+      path: '/troops',
+      badgeContent: 'New'
     },
     ,
     {
@@ -82,7 +89,8 @@ const navigation = () => {
     {
       title: 'Tips N Tricks',
       icon: 'game-icons:magick-trick',
-      path: '/tipsandtricks'
+      path: '/tipsandtricks',
+      badgeContent: 'New'
     },
     {
       title: 'Realms',
