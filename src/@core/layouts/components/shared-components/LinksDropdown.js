@@ -16,10 +16,28 @@ const options = [
     icon: <Icon icon='logos:paypal' color='primary' />
   },
   {
-    text: 'Contact',
+    text: 'Buy Me a Coffee',
+    href: 'https://www.buymeacoffee.com/onadev',
+    linkProps: { target: '_blank', rel: 'noopener' },
+    icon: <Icon icon='simple-icons:buymeacoffee' color='primary' />
+  },
+  {
+    text: 'Support My Work',
+    href: 'https://www.patreon.com/oNare',
+    linkProps: { target: '_blank', rel: 'noopener' },
+    icon: <Icon icon='logos:patreon' color='primary' />
+  },
+  {
+    text: 'Contact Me',
     href: 'https://onadev.net',
     linkProps: { target: '_blank', rel: 'noopener' },
     icon: <Icon icon='iconoir:developer' color='primary' />
+  },
+  {
+    text: 'WAOTools V1',
+    href: 'https://waotoolsv1.web.app/',
+    linkProps: { target: '_blank', rel: 'noopener' },
+    icon: <Icon icon='ph:number-one-duotone' color='primary' />
   },
 
   {

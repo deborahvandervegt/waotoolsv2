@@ -483,11 +483,10 @@ const Colossus = props => {
             </Grid>
             <Grid item xs={12} md={6} lg={8}>
               <Paper
-                elevation={12}
+                elevation={6}
                 sx={{
                   padding: theme.spacing(2),
                   display: 'flex',
-                  overflow: 'auto',
                   flexDirection: 'column',
                   minHeight: '145px',
                   minWidth: '115px',
@@ -505,8 +504,9 @@ const Colossus = props => {
                   const troopType = s?.troop
 
                   return (
-                    <Grid key={s.slot} item xs={12} md={12} lg={8} sm={12}>
+                    <Grid key={`slot-header-${s.slot}`} item xs={12} md={12} lg={8} sx={{ marginBottom: '10px' }}>
                       <Paper
+                        variant='outlined'
                         sx={{
                           padding: theme.spacing(2),
                           display: 'flex',
@@ -623,6 +623,7 @@ const Colossus = props => {
                               <Divider />
 
                               <Grid
+                                key={`slot-sub-header-${s.slot}`}
                                 item
                                 sx={{
                                   margin: theme.spacing(1),
@@ -644,7 +645,7 @@ const Colossus = props => {
                                   return (
                                     <>
                                       <Box
-                                        key={ability.key}
+                                        key={`${s.troop}_${ability.key}`}
                                         sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
                                       >
                                         <Tooltip title={abilityDesc?.desc} arrow>
