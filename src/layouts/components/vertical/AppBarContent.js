@@ -19,6 +19,7 @@ import ShortcutsDropdown from 'src/@core/layouts/components/shared-components/Sh
 // ** Hook Import
 import { useAuth } from 'src/hooks/useAuth'
 import LinksDropdown from 'src/@core/layouts/components/shared-components/LinksDropdown'
+import { useRouter } from 'next/router'
 
 const Clock = dynamic(() => import('src/utils/Clock'), { ssr: false })
 
@@ -124,6 +125,11 @@ const AppBarContent = props => {
 
   // ** Hook
   const auth = useAuth()
+  const router = useRouter()
+
+  const handleDashboard = () => {
+    router.push('/dashboard')
+  }
 
   return (
     <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -141,6 +147,9 @@ const AppBarContent = props => {
           <Clock type='local' />
         </Box>
         {/* <LanguageDropdown settings={settings} saveSettings={saveSettings} /> */}
+        <IconButton color='inherit' onClick={handleDashboard}>
+          <Icon icon='ic:round-dashboard' />
+        </IconButton>
         <LinksDropdown />
         <ModeToggler settings={settings} saveSettings={saveSettings} />
         {auth.user && (
