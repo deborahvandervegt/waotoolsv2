@@ -176,7 +176,7 @@ const DatabaseList = props => {
           <Divider />
 
           {chartData.length > 0 && openLink?.render && (
-            <Grid container spacing={3} sx={{ width: '100%' }}>
+            <Grid container spacing={3} sx={{ minWidth: '240px' }}>
               <Grid item key='header-accordions' xs={12}>
                 {chartData.map(chart => {
                   let totalQuantity = 0
@@ -209,7 +209,7 @@ const DatabaseList = props => {
                           defaultExpanded={openLink?.open && openLink?.tag === chart.key ? true : false}
                           id={chart.key}
                           square
-                          sx={{ width: '100%' }}
+                          sx={{ width: '100%', minWidth: '240px' }}
                         >
                           <AccordionSummary
                             expandIcon={<ExpandMore color='primary' />}
