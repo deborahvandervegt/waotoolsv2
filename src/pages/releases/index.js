@@ -1,35 +1,17 @@
-// ** React Imports
-import { useState } from 'react'
-
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
-import FormControl from '@mui/material/FormControl'
 import Grid from '@mui/material/Grid'
-import IconButton from '@mui/material/IconButton'
-import MenuItem from '@mui/material/MenuItem'
-import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-import { styled } from '@mui/material/styles'
 
 // ** Custom Imports
 import moment from 'moment'
 
 // ** Styled Components
-import { InfoOutlined } from '@mui/icons-material'
-import { Button, CardMedia, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Switch } from '@mui/material'
+import { Divider } from '@mui/material'
 import CustomHeader from 'src/@core/components/Header'
-import nRound from 'src/@core/utils/numberRound'
 import { releaseNotes } from 'src/data/general/releaseNotes'
 import { Icon } from '@iconify/react'
-
-const CustomBox = styled(Box)(({ theme }) => ({
-  marginTop: '4px',
-  display: 'flex',
-  justifyContent: 'flex-start',
-  alignItems: 'center',
-  flexDirection: 'row'
-}))
 
 const ReleaseNotes = props => {
   return (

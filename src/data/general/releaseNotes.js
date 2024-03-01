@@ -4,6 +4,23 @@ export const releaseNotes = {
 
   releases: [
     {
+      version: '2.1.6',
+      date: '2024-03-01',
+      quote: 'Waiting for a merge',
+      new: [
+        'Added Dashboard module.',
+        'Sharing links for Database module.',
+        'Updated realms merges list.',
+        'Date to get Each castle Level in Planner Castle tab'
+      ],
+      improvements: [
+        'Some minor visual improvements for mobile.',
+        'Contributor page updated.',
+        'Colossus, Beast and Hich College style updated.'
+      ],
+      bugs: ['Some minor bugs were fixed.', 'Fixed lv30 image for Weapong Equipment.']
+    },
+    {
       version: '2.1.5',
       date: '2024-02-23',
       quote: 'We will send you compensation: 100k food, 4x 1h Speeds. THANK YOU FOR PLAYING OUR GAME.',
@@ -14,8 +31,12 @@ export const releaseNotes = {
         'Changed 404 page.',
         'Added missing date in Azurite module.'
       ],
-      improvements: ['Bug Fixes 🐛', 'Some minor bugs were fixed.', 'Missing level for Equipment presets.'],
-      bugs: ['Angel Limit not showing in Accessory Enhancements.', 'EW Preset Enhancement showing RI enhance in Boots.']
+      improvements: [
+        'Some minor visual improvements for mobile.',
+        'Contributor page updated.',
+        'Colossus, Beast and Hich College style updated.'
+      ],
+      bugs: ['Some minor bugs were fixed.', 'Fixed lv30 image for Weapong Equipment.']
     },
     {
       version: '2.1.4',

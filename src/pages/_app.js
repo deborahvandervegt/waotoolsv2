@@ -116,7 +116,7 @@ const App = props => {
 
     const waitingForLoading = setTimeout(() => {
       handleLoading()
-    }, 500)
+    }, 2000)
 
     return () => clearTimeout(waitingForLoading)
   }, [])
