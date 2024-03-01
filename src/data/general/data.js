@@ -2,6 +2,7 @@ export const infoData = [
   {
     slot: 1,
     key: 'obsidian',
+    need: 'Obsidian',
     desc: 'Enhancement (Obsidian) Level',
     info: [
       { level: 1, quantity: 25 },
@@ -38,7 +39,8 @@ export const infoData = [
   },
   {
     slot: 2,
-    key: 'Gold Tattoos',
+    key: 'gold-tattoos',
+    need: 'Tattoos',
     desc: 'Gold Totem Skill (Tattoos) Level',
     info: [
       { level: 1, quantity: 15 },
@@ -75,7 +77,8 @@ export const infoData = [
   },
   {
     slot: 2.5,
-    key: 'Purple Tattoos',
+    key: 'purple-tattoos',
+    need: 'Tattoos',
     desc: 'Purple Totem Skill (Tattoos) Level',
     info: [
       { level: 1, quantity: 45 },
@@ -112,7 +115,8 @@ export const infoData = [
   },
   {
     slot: 2.5,
-    key: 'Blue Tattoos',
+    key: 'blue-tattoos',
+    need: 'Tattoos',
     desc: 'Blue Totem Skill (Tattoos) Level',
     info: [
       { level: 1, quantity: 150 },
@@ -129,7 +133,8 @@ export const infoData = [
   },
   {
     slot: 3,
-    key: 'vip svip levels',
+    key: 'vip-levels',
+    need: 'VIP Points',
     desc: 'VIP / SVIP Level',
     info: [
       { level: 2, quantity: 380 },
@@ -154,6 +159,7 @@ export const infoData = [
   {
     slot: 4,
     key: 'emblems',
+    need: 'Emblem Shards',
     desc: 'Emblem Level',
     info: [
       { level: 2, quantity: 2 },
@@ -189,7 +195,8 @@ export const infoData = [
   },
   {
     slot: 5,
-    key: 'XP',
+    key: 'beast-skill',
+    need: 'Experience',
     desc: 'Beast Passive Skill',
     info: [
       { level: 2, quantity: 150 },
@@ -225,7 +232,8 @@ export const infoData = [
   },
   {
     slot: 6,
-    key: 'beaxt exp',
+    key: 'beaxt-exp',
+    need: 'Experience Pills',
     desc: 'Beast Experience',
     info: [
       { level: 2, quantity: 1600 },
@@ -266,7 +274,8 @@ export const infoData = [
   },
   {
     slot: 7,
-    key: 'Blue Artifact Exp',
+    key: 'blue-artifact-exp',
+    need: 'Experience',
     desc: 'Blue Artifact Experience',
     info: [
       { level: 1, quantity: 0 },
@@ -303,7 +312,8 @@ export const infoData = [
   },
   {
     slot: 8,
-    key: 'Purple Artifact Exp',
+    key: 'purple-artifact-exp',
+    need: 'Experience',
     desc: 'Purple Artifact Experience',
     info: [
       { level: 1, quantity: 0 },
@@ -350,7 +360,8 @@ export const infoData = [
   },
   {
     slot: 9,
-    key: 'Gold Artifact Exp',
+    key: 'gold-artifact-exp',
+    need: 'Experience',
     desc: 'Gold Artifact Experience',
     info: [
       { level: 1, quantity: 0 },
@@ -407,7 +418,8 @@ export const infoData = [
   },
   {
     slot: 10,
-    key: 'lord exp',
+    key: 'lord-exp',
+    need: 'Lord Exp',
     desc: 'Lord Level',
     info: [
       { level: 1, quantity: 0, info: '0 Skill Points' },
@@ -484,7 +496,8 @@ export const infoData = [
   },
   {
     slot: 11,
-    key: 'Glory Swords',
+    key: 'hall-war',
+    need: 'Glory Swords',
     desc: 'Hall of War Level',
     info: [
       { level: 1, quantity: 2, info: 'Rally Size: 50,000' },
@@ -531,7 +544,8 @@ export const infoData = [
   },
   {
     slot: 12,
-    key: 'Crystals',
+    key: 'colossus-crystals',
+    need: 'Crystals',
     desc: 'Colossus Crystal',
     info: [
       { level: 1, quantity: 5 },
@@ -563,7 +577,8 @@ export const infoData = [
   },
   {
     slot: 13,
-    key: 'Relics',
+    key: 'colossus-relics',
+    need: 'Relics',
     desc: 'Colossus Relic',
     info: [
       { level: 5, quantity: 15 },
@@ -574,7 +589,8 @@ export const infoData = [
   },
   {
     slot: 14,
-    key: 'merit',
+    key: 'merit-ranks',
+    need: 'Merit',
     desc: 'Merit Ranks',
     info: [
       { level: 'Sargeant', quantity: 200, info: 'Wounded %: 1.50' },
@@ -622,7 +638,8 @@ export const infoData = [
   },
   {
     slot: 15,
-    key: 'Skin Shards',
+    key: 'beast-skin-dark',
+    need: 'Shards',
     desc: 'Dark Beast Skin',
     info: [
       { level: 1, quantity: 80, info: 'Critical Strike Dmg Red: 2.2% + Angel Limit: 300' },
@@ -645,7 +662,8 @@ export const infoData = [
   },
   {
     slot: 16,
-    key: 'Pony Exp',
+    key: 'pony-event-exp',
+    need: 'Experience',
     desc: 'Pony Levels',
     info: [
       { level: 1, quantity: 0, info: '' },
@@ -705,7 +723,8 @@ export const infoData = [
   },
   {
     slot: 17,
-    key: 'Star Power',
+    key: 'force-array-levels',
+    need: 'Star Power',
     desc: 'Artifact Array Levels',
     info: [
       { level: 1, quantity: 200, info: '' },
@@ -727,7 +746,8 @@ export const infoData = [
   },
   {
     slot: 18,
-    key: 'Star source',
+    key: 'star-source',
+    need: 'Star Source',
     desc: 'Star Palace / Zodiac Levels',
     info: [
       { level: 1, quantity: 3000, info: '' },
@@ -749,7 +769,8 @@ export const infoData = [
   },
   {
     slot: 19,
-    key: 'Star Power',
+    key: 'force-red-skill',
+    need: 'Star Power',
     desc: 'Red Force Artifact Levels',
     info: [
       { level: 1, quantity: 2000, info: 'Artifact 3 Stars Needed' },
@@ -759,7 +780,8 @@ export const infoData = [
   },
   {
     slot: 20,
-    key: 'Star Power',
+    key: 'crown-red-skill',
+    need: 'Star Power',
     desc: 'Red Crown Artifact Levels',
     info: [
       { level: 1, quantity: 2500, info: 'Artifact 3 Stars Needed' },
@@ -769,7 +791,8 @@ export const infoData = [
   },
   {
     slot: 21,
-    key: 'Shards',
+    key: 'gold-artifact-shards',
+    need: 'Shards',
     desc: 'Gold Artifacts Shards',
     info: [
       { level: '1', quantity: 20, info: '20' },
@@ -788,6 +811,23 @@ export const infoData = [
       { level: '5 Rank 3', quantity: 140, info: '' },
       { level: '5 Rank 4', quantity: 140, info: '' },
       { level: '6', quantity: 140, info: '700' }
+    ]
+  },
+  {
+    slot: 22,
+    key: 'angel-limit',
+    need: 'Limit ',
+    desc: 'Angel Limit',
+    info: [
+      { level: 'Enhancement - Belt', quantity: 4025, info: '' },
+      { level: 'Enhancement - Accessory', quantity: 4025, info: '' },
+      { level: 'Gear - Sage Belt', quantity: 2600, info: '' },
+      { level: 'Gear - Royal Crown', quantity: 2200, info: '' },
+      { level: 'Angel Sword 6*', quantity: 5800, info: '' },
+      { level: 'Guardian Temple - Lv8+', quantity: 70000, info: '' },
+      { level: 'Guardian Temple - lv12+', quantity: 15000, info: '' },
+      { level: 'Emblem - Guard Lv30', quantity: 38500, info: '' },
+      { level: 'Beast Skin - Dark Star', quantity: 1400, info: '' }
     ]
   }
 ]
