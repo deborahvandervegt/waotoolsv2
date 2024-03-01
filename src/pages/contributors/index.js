@@ -1,3 +1,6 @@
+// ** React Imports
+import { forwardRef, useState } from 'react'
+
 // ** MUI Imports
 import Grid from '@mui/material/Grid'
 
@@ -5,9 +8,25 @@ import Grid from '@mui/material/Grid'
 import { contributorsList } from 'src/data/general/contributors'
 
 // ** Styled Component Import
-import { Box, Button, Divider, Link, Paper, Typography } from '@mui/material'
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  Divider,
+  Fade,
+  IconButton,
+  Link,
+  Paper,
+  Typography
+} from '@mui/material'
 import { styled } from '@mui/system'
 import { Icon } from '@iconify/react'
+
+const Transition = forwardRef(function Transition(props, ref) {
+  return <Fade ref={ref} {...props} />
+})
 
 const PurpleButton = styled(Button)(({ theme }) => ({
   color: theme.palette.getContrastText('#0278AE'),
@@ -23,6 +42,27 @@ const urls = {
   paypal: 'https://www.paypal.com/paypalme/oNaare'
 }
 
+const options = [
+  {
+    text: 'Support The Project',
+    href: 'https://www.paypal.com/paypalme/oNaare',
+    linkProps: { target: '_blank', rel: 'noopener' },
+    icon: <Icon icon='logos:paypal' color='primary' />
+  },
+  {
+    text: 'Buy Me a Coffee',
+    href: 'https://www.buymeacoffee.com/onadev',
+    linkProps: { target: '_blank', rel: 'noopener' },
+    icon: <Icon icon='simple-icons:buymeacoffee' color='primary' />
+  },
+  {
+    text: 'Support The Project',
+    href: 'https://www.patreon.com/oNare',
+    linkProps: { target: '_blank', rel: 'noopener' },
+    icon: <Icon icon='logos:patreon' color='primary' />
+  }
+]
+
 const ContributorsDetails = props => {
   const icon = {
     supporters: <Icon icon='solar:cup-star-bold' fontSize={30} style={{ color: 'grey' }} />,
@@ -32,7 +72,7 @@ const ContributorsDetails = props => {
 
   return (
     <>
-      <Paper elevation={12} sx={{ padding: '1.5rem' }}>
+      <Paper elevation={6} sx={{ padding: '1rem' }}>
         <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
           {icon[props.title.toLowerCase()]}
 
@@ -48,14 +88,22 @@ const ContributorsDetails = props => {
         >
           {props.data?.map(ct => {
             return (
-              <Grid key={ct.name} item xs={6} lg={3} md={4}>
-                <Box sx={{ marginRight: '3px', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                  <Typography variant='body2'>{ct.name}</Typography>
+              <Grid key={ct.name} item xs={12} lg={3} md={4}>
+                <Box
+                  sx={{
+                    marginRight: '3px',
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
+                >
+                  <Typography variant='body1'>{ct.name}</Typography>
                   <Typography variant='caption' sx={{ ml: '6px', mr: '6px' }}>
                     {ct.realm}
                   </Typography>
                   {ct.type === 'VIP supporter' || ct.type === 'VIP contributor' ? (
-                    <Icon icon='flat-color-icons:vip' fontSize={30} sx={{ ml: '6px' }} />
+                    <Icon icon='flat-color-icons:vip' fontSize={25} sx={{ ml: '6px' }} />
                   ) : (
                     ''
                   )}
@@ -70,6 +118,9 @@ const ContributorsDetails = props => {
 }
 
 const Contributors = () => {
+  // ** Hooks
+  const [openCoffee, setOpenCoffee] = useState(false)
+
   return (
     <Grid container spacing={6} columns={8}>
       <Grid key='welcome-header' item xs={12}>
@@ -91,10 +142,12 @@ const Contributors = () => {
               this website and project, go and buy us some coffee {<Icon icon='iconoir:coffee-cup' />} here:
             </Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column', marginTop: '5px', marginBottom: '5px' }}>
-              <PurpleButton variant='contained' startIcon={<Icon icon='game-icons:coffee-cup' />}>
-                <Link target='_blank' rel='noopener' style={{ color: 'white' }} component='a' href={urls.paypal}>
-                  BUY US SOME COFFEES
-                </Link>
+              <PurpleButton
+                variant='contained'
+                startIcon={<Icon icon='game-icons:coffee-cup' />}
+                onClick={() => setOpenCoffee(true)}
+              >
+                BUY ME SOME COFFEES
               </PurpleButton>
             </Box>
             <Typography variant='caption'>
@@ -136,6 +189,77 @@ const Contributors = () => {
           </Grid>
         </Paper>
       </Grid>
+
+      {/* Dialog | Support */}
+      <Dialog
+        open={openCoffee}
+        maxWidth='md'
+        scroll='body'
+        onClose={e => {
+          setOpenCoffee(false)
+        }}
+        TransitionComponent={Transition}
+      >
+        <DialogContent
+          sx={{
+            position: 'relative',
+            pb: theme => `${theme.spacing(5)} !important`,
+            px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
+            pt: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(5)} !important`]
+          }}
+        >
+          <IconButton
+            size='small'
+            onClick={e => {
+              setOpenCoffee(false)
+            }}
+            sx={{ position: 'absolute', right: '1rem', top: '1rem' }}
+          >
+            <Icon icon='mdi:close' />
+          </IconButton>
+          <Box sx={{ mb: 4, textAlign: 'center' }}>
+            <Typography variant='h5' sx={{ mb: 3 }}>
+              Buy me some coffees!
+            </Typography>
+            <Typography variant='body2'>
+              The work I do coding this website is for your use and everyone playing War and Order. Your support is
+              vital to continue delivering these amazing updates!
+            </Typography>
+            <Divider sx={{ my: 5 }} />
+
+            {options.map((option, index) => {
+              return (
+                <>
+                  <Box
+                    key={index}
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      my: 3
+                    }}
+                  >
+                    {option.icon}
+                    <Typography variant='body1' sx={{ ml: 2 }}>
+                      <Link target='_blank' rel='noopener' component='a' href={option.href}>
+                        {option.text}
+                      </Link>
+                    </Typography>
+                  </Box>
+                </>
+              )
+            })}
+          </Box>
+        </DialogContent>
+        <Divider />
+
+        <DialogActions>
+          <Button color='primary' onClick={e => setOpenCoffee(false)}>
+            CLOSE
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Grid>
   )
 }
