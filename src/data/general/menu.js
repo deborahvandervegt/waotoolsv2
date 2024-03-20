@@ -33,6 +33,14 @@ export const menuList = [
     subModule: [{ name: '- Building List' }, { name: '- Building Path Recommendation' }]
   },
   {
+    status: 'new',
+    text: 'shields',
+    desc: 'Shields',
+    src: '/images/cards/pose_f9.png',
+    icon: 'material-symbols:security',
+    subModule: [{ name: '- Cross Realm Shield Tracker' }]
+  },
+  {
     status: 'finished',
     text: 'speeds',
     desc: 'Speeds',
