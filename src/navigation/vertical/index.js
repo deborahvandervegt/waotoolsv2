@@ -47,6 +47,12 @@ const navigation = () => {
       path: '/building'
     },
     {
+      title: 'Shields',
+      icon: 'material-symbols:security',
+      path: '/shields',
+      badgeContent: 'New'
+    },
+    {
       title: 'Speeds',
       icon: 'material-symbols:speed-outline',
       path: '/speeds'
