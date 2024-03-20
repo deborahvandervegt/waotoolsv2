@@ -93,7 +93,7 @@ function LinearProgressWithLabel(props) {
         <LinearProgress color='success' variant='determinate' {...props} />
       </Box>
       <Box sx={{ minWidth: 35 }}>
-        <Typography variant='body2' color='text.secondary'>{`${Math.round(props.value)}%`}</Typography>
+        <Typography variant='body2' sx={{ color: '#ffffffcf' }}>{`${Math.round(props.value)}%`}</Typography>
       </Box>
     </Box>
   )
@@ -467,7 +467,7 @@ const HighCollege = () => {
             </Snackbar>
             <Grid container spacing={2} sx={{ padding: '0.5em' }}>
               <Grid item xs={12} sx={{ display: 'flex' }}>
-                <Paper elevation={24} sx={{ maxWidth: '550px' }}>
+                <Paper elevation={6} sx={{ maxWidth: '550px' }}>
                   <Divider light>{<Typography variant='caption'>USER CONFIGURATION</Typography>}</Divider>
 
                   <Box
@@ -1330,10 +1330,10 @@ const HighCollege = () => {
               <Box sx={{ flexGrow: 1 }} />
 
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', alignContent: 'center' }}>
-                <Typography variant='caption' style={{ marginTop: '3px' }}>
+                <Typography variant='caption' style={{ marginTop: '3px', color: '#ffffffcf' }}>
                   Available
                 </Typography>
-                <Typography variant='body1' align='right' style={{ minWidth: '' }}>
+                <Typography variant='body1' align='right' sx={{ color: '#ffffffcf' }}>
                   {`${
                     collegeInfo.userTalents > 0
                       ? (collegeInfo.userTalents - totalPoints).toLocaleString()
@@ -1389,13 +1389,13 @@ const HighCollege = () => {
               />
 
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', alignContent: 'center' }}>
-                <Typography variant='caption' style={{ marginTop: '3px' }}>
+                <Typography variant='caption' style={{ marginTop: '3px', color: '#ffffffcf' }}>
                   Used / Total
                 </Typography>
-                <Typography variant='body2' color='textPrimary'>
+                <Typography variant='body2' sx={{ color: '#ffffffcf' }}>
                   {totalPoints.toLocaleString()} / {totalAvailablePoints.toLocaleString()}
                 </Typography>
-                <Typography variant='body2' color='textPrimary'>
+                <Typography variant='body2' sx={{ color: '#ffffffcf' }}>
                   ${Math.round((totalPoints / 80) * 5).toLocaleString()}
                 </Typography>
               </div>
@@ -1417,7 +1417,6 @@ const HighCollege = () => {
 
         <Grid item xs={12}>
           <Grid container spacing={6}>
-            <Grid item xs={12}></Grid>
             <Grid item xs={12} sx={{ pt: theme => `${theme.spacing(4)} !important` }}>
               {tabContentList[activeTab]}
             </Grid>

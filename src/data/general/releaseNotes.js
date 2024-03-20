@@ -4,6 +4,56 @@ export const releaseNotes = {
 
   releases: [
     {
+      version: '2.1.6',
+      date: '2024-03-01',
+      quote: 'Waiting for a merge',
+      new: [
+        'Added Dashboard module.',
+        'Sharing links for Database module.',
+        'Updated realms merges list.',
+        'Date to get Each castle Level in Planner Castle tab'
+      ],
+      improvements: [
+        'Some minor visual improvements for mobile.',
+        'Contributor page updated.',
+        'Colossus, Beast and Hich College style updated.'
+      ],
+      bugs: ['Some minor bugs were fixed.', 'Fixed lv30 image for Weapong Equipment.']
+    },
+    {
+      version: '2.1.5',
+      date: '2024-02-23',
+      quote: 'We will send you compensation: 100k food, 4x 1h Speeds. THANK YOU FOR PLAYING OUR GAME.',
+      new: [
+        'Planner v3 upgraded.',
+        'Added Castle tab for Planner.',
+        'Undead layout add on Troops module.',
+        'Changed 404 page.',
+        'Added missing date in Azurite module.'
+      ],
+      improvements: [
+        'Some minor visual improvements for mobile.',
+        'Contributor page updated.',
+        'Colossus, Beast and Hich College style updated.'
+      ],
+      bugs: ['Some minor bugs were fixed.', 'Fixed lv30 image for Weapong Equipment.']
+    },
+    {
+      version: '2.1.4',
+      date: '2024-02-13',
+      quote: 'Onare, what is the EW trick? (The guy who has 3 years playing)',
+      new: [
+        'Added Tips N Tricks module.',
+        'Added Elite War layouts in Troops module.',
+        'Added sharing option for Troops layouts. '
+      ],
+      improvements: [
+        'Some minor visual improvements for mobile.',
+        'Remove Checkboxs for Realm Merges, Building and Artifacts tables.'
+      ],
+      bugs: ['Angel Limit not showing in Accessory Enhancements.', 'EW Preset Enhancement showing RI enhance in Boots.']
+    },
+    {
       version: '2.1.3',
       date: '2024-02-07',
       quote: "Anyone SOS? (The ones who don't want to drop the shield) My Royal Challenge hit.",

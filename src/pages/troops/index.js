@@ -1,33 +1,33 @@
 // ** React Imports
-import { forwardRef, useEffect, useState } from 'react';
+import { forwardRef, useEffect, useState } from 'react'
 
 // ** Next Import
 
 // ** MUI Imports
-import MuiTabList from '@mui/lab/TabList';
-import Alert from '@mui/material/Alert';
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import Grid from '@mui/material/Grid';
-import IconButton from '@mui/material/IconButton';
-import MenuItem from '@mui/material/MenuItem';
-import TextField from '@mui/material/TextField';
-import Tooltip from '@mui/material/Tooltip';
-import Typography from '@mui/material/Typography';
-import { createTheme, styled } from '@mui/material/styles';
+import MuiTabList from '@mui/lab/TabList'
+import Alert from '@mui/material/Alert'
+import Box from '@mui/material/Box'
+import Card from '@mui/material/Card'
+import Grid from '@mui/material/Grid'
+import IconButton from '@mui/material/IconButton'
+import MenuItem from '@mui/material/MenuItem'
+import TextField from '@mui/material/TextField'
+import Tooltip from '@mui/material/Tooltip'
+import Typography from '@mui/material/Typography'
+import { createTheme, styled } from '@mui/material/styles'
 
 // ** Icon Imports
-import Icon from 'src/@core/components/icon';
+import Icon from 'src/@core/components/icon'
 
 // ** Third Party Imports
-import toast from 'react-hot-toast';
+import toast from 'react-hot-toast'
 
 // ** Custom Components Imports
-import { troopsTemplates } from 'src/data/troops';
+import { troopsTemplates } from 'src/data/troops'
 
 // ** Styled Components
-import { InfoOutlined } from '@mui/icons-material';
-import { TabContext, TabPanel } from '@mui/lab';
+import { InfoOutlined } from '@mui/icons-material'
+import { TabContext, TabPanel } from '@mui/lab'
 import {
   Avatar,
   Badge,
@@ -41,8 +41,9 @@ import {
   Paper,
   Tab,
   useMediaQuery
-} from '@mui/material';
-import CustomHeader from 'src/@core/components/Header';
+} from '@mui/material'
+import CustomHeader from 'src/@core/components/Header'
+import { useRouter } from 'next/router'
 
 // ** Styled component for the link in the dataTable
 const theme = createTheme()
@@ -211,12 +212,13 @@ const defaultTroopsInfo = {
 const layoutConfig = {
   activities: [
     { k: 'anubis', desc: 'Anubis' },
+    { k: 'box', desc: 'BOX' },
+    { k: 'ew', desc: 'Elite War' },
     { k: 'fiend', desc: 'Fiend Trial' },
-    { k: 'undead', desc: 'Undead' },
     { k: 'sos', desc: 'SOS' },
     { k: 'sa', desc: 'Speed Attack' },
     { k: 'lodes', desc: 'Star Ruins' },
-    { k: 'box', desc: 'BOX' }
+    { k: 'undead', desc: 'Undead' }
   ],
   templates: [...troopsTemplates]
 }
@@ -315,6 +317,7 @@ function getTotalTroops(setup) {
 /* eslint-enable */
 const Troops = () => {
   // ** State
+  const router = useRouter()
   const [activeTab, setActiveTab] = useState('setup')
   const [isLoading, setIsLoading] = useState(true)
   const hideText = useMediaQuery(theme => theme.breakpoints.down('sm'))
@@ -333,6 +336,16 @@ const Troops = () => {
       // Perform localStorage action
       saved = JSON.parse(localStorage.getItem('troopsInfo'))
     }
+    const { query } = router
+    if (query) {
+      if (query?.act && query?.setup) {
+        const checkIfExists = troopsTemplates?.find(tt => tt.act === query.act && tt.setup === query.setup)
+        if (checkIfExists) {
+          setActiveTab('layout')
+          handleFormationChange(query.act, query.setup)
+        }
+      }
+    }
 
     if (saved) setTroopsInfo(saved)
     setIsLoading(false)
@@ -341,6 +354,13 @@ const Troops = () => {
   const formations = generateFormations({ ...troopsInfo.setup })
   const formationPreview = generateFormations({ ...selectedLayout.preview })
   const usedTroops = getTotalTroops(troopsInfo.setup)
+
+  const handleShareLink = params => {
+    const link = `https://waotools.com/troops?act=${params.act}&setup=${params.setup}`
+    navigator.clipboard.writeText(link)
+
+    return toast.success('Link copied!')
+  }
 
   const handleSaveData = e => {
     setShowSaveSlots(true)
@@ -365,6 +385,18 @@ const Troops = () => {
     setSelectedSlot({ slot: 0, name: '' })
 
     return toast.success('Data successfully stored in the browser!')
+  }
+
+  const handleFormationChange = (activity, setup) => {
+    const template = layoutConfig.templates.find(t => t.act === activity && t.setup === setup)
+
+    setSelectedLayout({
+      act: activity,
+      setup: setup,
+      desc: template?.desc,
+      preview: template
+    })
+    setTroopsInfo({ ...troopsInfo, setup: template })
   }
 
   const handleChange = (event, value) => {
@@ -534,6 +566,7 @@ const Troops = () => {
                 <Typography align='center' variant='h6' color='primary' sx={{ paddingTop: '0.5em' }}>
                   TROOPS SETUP
                 </Typography>
+                <Divider>CONFIGURATION</Divider>
                 <Box
                   sx={{
                     display: 'flex',
@@ -565,6 +598,7 @@ const Troops = () => {
                     </Typography>
                   </Box>
                 </Box>
+                <Divider>SETUP</Divider>
                 <Box
                   sx={{
                     display: 'flex',
@@ -576,12 +610,13 @@ const Troops = () => {
                 >
                   {/* EVEN TIERS */}
                   <Paper
-                    elevation={12}
+                    variant='outlined'
                     sx={{
                       display: 'flex',
                       flexDirection: 'column',
                       justifyContent: 'space-between',
-                      padding: '0.5em'
+                      padding: '0.5em',
+                      marginBottom: '8px'
                     }}
                   >
                     <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
@@ -589,11 +624,11 @@ const Troops = () => {
                       <Typography align='center' color='primary' variant='h6'>
                         EVEN TIERS
                       </Typography>
-                      <div>
+                      <Box>
                         <Divider>
                           <Typography variant='caption'>FRONTLINE</Typography>
                         </Divider>
-                      </div>
+                      </Box>
                       <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                         <Box sx={{ padding: '0.3em' }}>
                           <TextField
@@ -747,15 +782,16 @@ const Troops = () => {
                       </Box>
                     </Box>
                   </Paper>
-                  <div style={{ marginLeft: '10px' }} />
+                  <Box style={{ marginLeft: '10px' }} />
                   {/* ODD TIERS */}
                   <Paper
-                    elevation={12}
+                    variant='outlined'
                     sx={{
                       display: 'flex',
                       flexDirection: 'column',
                       justifyContent: 'space-between',
-                      padding: '0.5em'
+                      padding: '0.5em',
+                      marginBottom: '8px'
                     }}
                   >
                     <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
@@ -763,11 +799,11 @@ const Troops = () => {
                       <Typography align='center' color='primary' variant='h6'>
                         ODD TIERS
                       </Typography>
-                      <div>
+                      <Box>
                         <Divider>
                           <Typography variant='caption'>FRONTLINE</Typography>
                         </Divider>
-                      </div>
+                      </Box>
                       <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                         <Box sx={{ padding: '0.3em' }}>
                           <TextField
@@ -966,7 +1002,7 @@ const Troops = () => {
                 {/* FORMATIONS SLOTS */}
                 <Box sx={{ display: 'flex', flexDirection: 'row', padding: '1rem' }}>
                   <Paper
-                    elevation={12}
+                    variant='outlined'
                     sx={{
                       display: 'flex',
                       flexDirection: 'column',
@@ -989,7 +1025,7 @@ const Troops = () => {
 
                       <Divider sx={{ mt: 2, mb: 3 }} />
                       <Box
-                        key={'slots-header'}
+                        key={'slots-header-box'}
                         sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' }}
                       >
                         {troopsInfo.slots?.map(slot => {
@@ -998,10 +1034,7 @@ const Troops = () => {
 
                           return (
                             <>
-                              <Box
-                                key={`${slotNumber}-load-formation`}
-                                sx={{ display: 'flex', alignItems: 'center' }}
-                              >
+                              <Box key={`${slotNumber}-load-formation`} sx={{ display: 'flex', alignItems: 'center' }}>
                                 <Box
                                   key={`${slotNumber}-load-formation-det`}
                                   sx={{
@@ -1051,7 +1084,7 @@ const Troops = () => {
                 {/* PREVIEW */}
                 <Box sx={{ display: 'flex', flexDirection: 'row', padding: '1rem' }}>
                   <Paper
-                    elevation={12}
+                    elevation={8}
                     sx={{
                       display: 'flex',
                       flexDirection: 'column',
@@ -1134,6 +1167,7 @@ const Troops = () => {
                 <Typography align='center' variant='h6' color='primary' sx={{ paddingTop: '0.3em' }}>
                   TROOPS LAYOUTS
                 </Typography>
+                <Divider>PRESETS</Divider>
                 <Box
                   sx={{
                     padding: '0.8em',
@@ -1181,17 +1215,7 @@ const Troops = () => {
                       sx={{ minWidth: '220px', mt: 4 }}
                       value={selectedLayout.setup}
                       onChange={e => {
-                        const template = layoutConfig.templates.find(
-                          t => t.act === selectedLayout.act && t.setup === e.target.value
-                        )
-
-                        setSelectedLayout({
-                          ...selectedLayout,
-                          setup: e.target.value,
-                          desc: template?.desc,
-                          preview: template
-                        })
-                        setTroopsInfo({ ...troopsInfo, setup: template })
+                        handleFormationChange(selectedLayout?.act, e.target.value)
                       }}
                     >
                       {[...layoutConfig.templates]
@@ -1228,11 +1252,31 @@ const Troops = () => {
                 <Typography align='center' variant='h6' color='primary' sx={{ paddingTop: '0.5em' }}>
                   LAYOUT PREVIEW
                 </Typography>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
+                >
+                  <IconButton
+                    aria-label='share-trick'
+                    color='primary'
+                    sx={{ fontSize: '20px' }}
+                    onClick={e => handleShareLink(selectedLayout)}
+                  >
+                    <Icon icon='fluent:share-24-filled' />
+                  </IconButton>
+                  <Typography variant='caption' color='primary'>
+                    Share Formation
+                  </Typography>
+                </Box>
 
                 {/* PREVIEW */}
                 <Box sx={{ display: 'flex', flexDirection: 'row', padding: '1rem' }}>
                   <Paper
-                    elevation={12}
+                    elevation={6}
                     sx={{
                       display: 'flex',
                       flexDirection: 'column',
@@ -1248,6 +1292,7 @@ const Troops = () => {
                           ? `${selectedLayout.desc} [${selectedLayout.act.toUpperCase()}]`
                           : ''}
                       </Typography>
+
                       <Typography align='center' variant='caption'>
                         Army Size: {usedTroops?.toLocaleString()}
                       </Typography>
@@ -1316,16 +1361,20 @@ const Troops = () => {
             <Divider />
             <Grid container spacing={6} sx={{ padding: '1rem' }}>
               <Grid item xs={12} sm={6}>
-                <Alert severity="warning">
+                <Alert severity='warning'>
                   {`After each modification (add, edit or delete) please, use the `}
-                    {
-                      <span role='img' aria-labelledby='floppy-disk'>
-                        {`💾`}
-                      </span>
-                    }{' '}
+                  {
+                    <span role='img' aria-labelledby='floppy-disk'>
+                      {`💾`}
+                    </span>
+                  }{' '}
                   {`button before refreshing or leaving the page.`}
                 </Alert>
-                <Box sx={{ marginTop: '10px' }}>
+
+                <Alert severity='info' sx={{ marginTop: '6px' }}>
+                  {`EVEN is used for even tiers: II,IV,VI,VIII,X,XII,XII - 2,4,6,8,10,12,14. ODD is used for odd tiers: I,III,V,VII,IX,XI,XIII - 1,3,5,7,9,11,13.`}
+                </Alert>
+                <Box sx={{ marginTop: '6px' }}>
                   <GreenButton
                     variant='contained'
                     startIcon={<Icon icon='ic:baseline-save' />}

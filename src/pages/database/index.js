@@ -15,6 +15,7 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  Box,
   Divider,
   IconButton,
   InputBase,
@@ -27,20 +28,50 @@ import {
   createTheme
 } from '@mui/material'
 import CustomHeader from 'src/@core/components/Header'
+import { useRouter } from 'next/router'
+import { Icon } from '@iconify/react'
+import toast from 'react-hot-toast'
 
 const theme = createTheme()
 
 const DatabaseList = props => {
+  // ** Hooks
+  const router = useRouter()
+
   const [chartData, setChartData] = useState([
     ...infoData.sort((a, b) => (a.desc > b.desc ? 1 : b.desc > a.desc ? -1 : 0))
   ])
   const [search, setSearch] = useState({ found: true, search: '' })
+  const [openLink, setOpenLink] = useState({ open: false, tag: '', render: false })
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {}, 1500)
 
     return () => clearTimeout(timeoutId)
   }, [search])
+
+  useEffect(() => {
+    const url = router?.asPath
+    if (url) {
+      const newTag = url?.split('/')[2]?.replace('#', '')
+      const checkIfExists = infoData?.find(i => i.key === newTag)
+
+      if (checkIfExists) {
+        setOpenLink({ open: true, tag: newTag, render: true })
+
+        const newInfo = { ...checkIfExists }
+
+        const loadExistingUrl = [...infoData.sort((a, b) => (a.title > b.title ? 1 : b.title > a.title ? -1 : 0))].map(
+          info => (info.key === newTag ? newInfo : info)
+        )
+
+        setChartData(loadExistingUrl)
+        router.push(`#${newTag}`)
+      } else {
+        return setOpenLink({ open: false, tag: '', render: true })
+      }
+    }
+  }, [])
 
   const handleFilterSearch = input => {
     const searchString = input.target.value
@@ -71,16 +102,30 @@ const DatabaseList = props => {
     }
   }
 
+  const handleShareLink = refTag => {
+    const link = `https://waotools.com/database/#${refTag}`
+
+    navigator.clipboard.writeText(link)
+
+    return toast.success('Link copied!')
+  }
+
   return (
     <>
       <>
         <Card>
-        <CustomHeader icon='database' title='DATABASE' />
-            <Divider />
-          <Grid container spacing={3} style={{ minWidth: '320px', padding: '1rem' }}>
-            <Grid item xs={12} md={6} lg={8}>
+          <CustomHeader icon='database' title='DATABASE' />
+          <Divider />
+          <Grid
+            container
+            spacing={3}
+            sx={{
+              padding: '1rem'
+            }}
+          >
+            <Grid item xs={12}>
               <Paper
-                elevation={12}
+                elevation={5}
                 component='form'
                 sx={{
                   padding: '2px 4px',
@@ -88,8 +133,7 @@ const DatabaseList = props => {
                   alignItems: 'center',
                   width: '250px',
                   marginBottom: '10px',
-                  border: '1px solid rgb(49 113 235 / 39%)',
-                  boxShadow: 'none'
+                  border: '1px solid rgb(49 113 235 / 39%)'
                 }}
               >
                 <InputBase
@@ -129,99 +173,126 @@ const DatabaseList = props => {
               )}
             </Grid>
           </Grid>
-          {chartData.length > 0 && (
-            <Grid container spacing={3} style={{ minWidth: '240px' }}>
-              <Grid item key='header-accordions' xs={12} md={12} lg={12}>
+          <Divider />
+
+          {chartData.length > 0 && openLink?.render && (
+            <Grid container spacing={3} sx={{ minWidth: '240px' }}>
+              <Grid item key='header-accordions' xs={12}>
                 {chartData.map(chart => {
                   let totalQuantity = 0
                   const chartName = chart.desc
                   const info = chart.info
 
                   return (
-                    <>
-                      <Accordion square style={{ minWidth: '240px' }}>
-                        <AccordionSummary
-                          expandIcon={<ExpandMore color='primary' />}
-                          aria-controls='normal-content'
-                          id={`normal-header-${chart.slot}`}
-                          style={{ minWidth: '240px' }}
+                    <Box key={chart.key}>
+                      <Divider />
+                      <Box
+                        sx={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start', alignItems: 'center' }}
+                      >
+                        <Box>
+                          <IconButton
+                            aria-label='share-trick'
+                            color='primary'
+                            sx={{
+                              fontSize: '20px',
+                              marginRight: '6px',
+                              alignContent: 'center',
+                              alignItems: 'center',
+                              display: 'flex'
+                            }}
+                            onClick={e => handleShareLink(chart.key)}
+                          >
+                            <Icon icon='fluent:share-24-filled' />
+                          </IconButton>
+                        </Box>
+                        <Accordion
+                          defaultExpanded={openLink?.open && openLink?.tag === chart.key ? true : false}
+                          id={chart.key}
+                          square
+                          sx={{ width: '100%', minWidth: '240px' }}
                         >
-                          <Typography color='primary'>{chartName}</Typography>
-                          <Divider />
-                        </AccordionSummary>
-                        <AccordionDetails style={{ minWidth: '240px' }}>
-                          {
-                            <div style={{ minWidth: '240px' }}>
-                              <TableContainer>
-                                <Table
-                                  key={`${chart.slot}-${chart.key}`}
-                                  aria-labelledby='tableTitle'
-                                  size={'small'}
-                                  aria-label='enhanced table'
-                                >
-                                  <TableBody style={{ minWidth: '240px' }}>
-                                    {/* HEADER */}
-                                    <TableRow>
-                                      <TableCell align='center'>{`Level`}</TableCell>
-                                      <TableCell align='center'>{`${chart.key} needed`}</TableCell>
-                                      <TableCell align='center'>{`Total Needed From Lv0`}</TableCell>
-                                      <TableCell align='center'>{`Extra Info`}</TableCell>
-                                    </TableRow>
+                          <AccordionSummary
+                            expandIcon={<ExpandMore color='primary' />}
+                            aria-controls='normal-content'
+                            id={`normal-header-${chart.slot}`}
+                          >
+                            <Typography color='primary'>{chartName}</Typography>
+                            <Divider />
+                          </AccordionSummary>
+                          <AccordionDetails>
+                            {
+                              <Box>
+                                <TableContainer>
+                                  <Table
+                                    key={`${chart.slot}-${chart.key}`}
+                                    aria-labelledby='tableTitle'
+                                    size={'small'}
+                                    aria-label='enhanced table'
+                                  >
+                                    <TableBody>
+                                      {/* HEADER */}
+                                      <TableRow>
+                                        <TableCell align='center'>{`Level`}</TableCell>
+                                        <TableCell align='center'>{`${chart.need} needed`}</TableCell>
+                                        <TableCell align='center'>{`Total Needed From Lv0`}</TableCell>
+                                        <TableCell align='center'>{`Extra Info`}</TableCell>
+                                      </TableRow>
 
-                                    {/* DETAILS */}
-                                    {info.map(row => {
-                                      totalQuantity =
-                                        totalQuantity +
-                                        (typeof row.quantity === 'number' ? row.quantity : row.extraQuantity)
+                                      {/* DETAILS */}
+                                      {info.map(row => {
+                                        totalQuantity =
+                                          totalQuantity +
+                                          (typeof row.quantity === 'number' ? row.quantity : row.extraQuantity)
 
-                                      return (
-                                        <>
-                                          <TableRow>
-                                            <TableCell align='center'>
-                                              {
-                                                <Typography variant='body2' color='textPrimary'>
-                                                  {row.level}
-                                                </Typography>
-                                              }
-                                            </TableCell>
-                                            <TableCell align='center'>
-                                              {
-                                                <Typography variant='body2' color='textPrimary'>
-                                                  {row.quantity.toLocaleString()}
-                                                </Typography>
-                                              }
-                                            </TableCell>
-                                            <TableCell align='center'>
-                                              {
-                                                <Typography variant='body2' color='textPrimary'>
-                                                  {typeof totalQuantity === 'number'
-                                                    ? totalQuantity.toLocaleString()
-                                                    : ''}
-                                                </Typography>
-                                              }
-                                            </TableCell>
-
-                                            {row?.info && (
+                                        return (
+                                          <>
+                                            <TableRow>
                                               <TableCell align='center'>
                                                 {
                                                   <Typography variant='body2' color='textPrimary'>
-                                                    {row.info}
+                                                    {row.level}
                                                   </Typography>
                                                 }
                                               </TableCell>
-                                            )}
-                                          </TableRow>
-                                        </>
-                                      )
-                                    })}
-                                  </TableBody>
-                                </Table>
-                              </TableContainer>
-                            </div>
-                          }
-                        </AccordionDetails>
-                      </Accordion>
-                    </>
+                                              <TableCell align='center'>
+                                                {
+                                                  <Typography variant='body2' color='textPrimary'>
+                                                    {row.quantity.toLocaleString()}
+                                                  </Typography>
+                                                }
+                                              </TableCell>
+                                              <TableCell align='center'>
+                                                {
+                                                  <Typography variant='body2' color='textPrimary'>
+                                                    {typeof totalQuantity === 'number'
+                                                      ? totalQuantity.toLocaleString()
+                                                      : ''}
+                                                  </Typography>
+                                                }
+                                              </TableCell>
+
+                                              {row?.info && (
+                                                <TableCell align='center'>
+                                                  {
+                                                    <Typography variant='body2' color='textPrimary'>
+                                                      {row.info}
+                                                    </Typography>
+                                                  }
+                                                </TableCell>
+                                              )}
+                                            </TableRow>
+                                          </>
+                                        )
+                                      })}
+                                    </TableBody>
+                                  </Table>
+                                </TableContainer>
+                              </Box>
+                            }
+                          </AccordionDetails>
+                        </Accordion>
+                      </Box>
+                    </Box>
                   )
                 })}
               </Grid>

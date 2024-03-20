@@ -33,5 +33,9 @@ export const contributorsList = [
   { name: '༻Sepж༺ ', realm: '1396', desc: '', type: 'contributor' },
   { name: 'Slave', realm: '1490', desc: 'HOK', type: 'supporter' },
   { name: 'Aren', realm: '1101', desc: 'MFL', type: 'supporter' },
-  { name: 'Nudes_For_RSS', realm: '1330', desc: 'PUB', type: 'VIP supporter' }
+  { name: 'Nudes_For_RSS', realm: '1330', desc: 'PUB', type: 'VIP supporter' },
+  { name: 'Harley Quinn', realm: '106', desc: 'K06', type: 'contributor' },
+  { name: 'Julie', realm: '68', desc: '', type: 'contributor' },
+  { name: 'Laylight', realm: '1347', desc: 'KKE', type: 'contributor' },
+  { name: 'pi', realm: '1014', desc: '', type: 'supporter' }
 ]

@@ -111,7 +111,7 @@ function LinearProgressWithLabel(props) {
         <LinearProgress color='success' variant='determinate' {...props} />
       </Box>
       <Box sx={{ minWidth: 35 }}>
-        <Typography variant='body2' color='text.secondary'>{`${Math.round(props.value)}%`}</Typography>
+        <Typography variant='body2' sx={{ color: '#ffffffcf' }}>{`${Math.round(props.value)}%`}</Typography>
       </Box>
     </Box>
   )
@@ -1472,7 +1472,7 @@ const Beast = () => {
                 <Typography variant='caption' style={{ marginTop: '3px' }}>
                   Available
                 </Typography>
-                <Typography variant='body1' align='right' style={{ minWidth: '' }}>
+                <Typography variant='body1' align='right' sx={{ color: '#ffffffcf' }}>
                   {`${
                     beastInfo.userTalents > 0
                       ? (beastInfo.userTalents - totalPoints).toLocaleString()
@@ -1531,10 +1531,10 @@ const Beast = () => {
                 <Typography variant='caption' style={{ marginTop: '3px' }}>
                   Used / Total
                 </Typography>
-                <Typography variant='body2' color='textPrimary'>
+                <Typography variant='body2' sx={{ color: '#ffffffcf' }}>
                   {totalPoints.toLocaleString()} / {totalAvailablePoints.toLocaleString()}
                 </Typography>
-                <Typography variant='body2' color='textPrimary'>
+                <Typography variant='body2' sx={{ color: '#ffffffcf' }}>
                   ${Math.round((totalPoints / 80) * 5).toLocaleString()}
                 </Typography>
               </div>

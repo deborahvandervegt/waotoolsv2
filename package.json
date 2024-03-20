@@ -72,6 +72,7 @@
     "react-hot-toast": "2.4.1",
     "react-i18next": "12.2.2",
     "react-perfect-scrollbar": "1.5.8",
+    "react-player": "^2.14.1",
     "react-popper": "2.3.0",
     "react-redux": "8.0.5",
     "recharts": "2.5.0",
