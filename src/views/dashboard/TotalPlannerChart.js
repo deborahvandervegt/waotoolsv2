@@ -1,15 +1,13 @@
 // ** MUI Imports
 import Card from '@mui/material/Card'
-import { useTheme } from '@mui/material/styles'
-import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
+import Typography from '@mui/material/Typography'
+import { useTheme } from '@mui/material/styles'
 
 // ** Custom Components Imports
-import ReactApexcharts from 'src/@core/components/react-apexcharts'
-import { useEffect, useState } from 'react'
 import { Box, Button } from '@mui/material'
 import { useRouter } from 'next/navigation'
-import { highCollegeOptions } from 'src/data/college'
+import { useEffect, useState } from 'react'
 
 const defaultInfo = {
   itemList: [],
@@ -90,7 +88,7 @@ const TotalPlannerChart = () => {
     <Card>
       <CardContent>
         <Typography variant='h6' align='center' sx={{ mb: 2.5 }}>
-          High College
+          Planner
         </Typography>
         <Typography variant='body1' sx={{ mt: 3, textAlign: 'center', color: 'text.primary' }}>
           Next Building: {planInfo.itemList[0]?.desc}
