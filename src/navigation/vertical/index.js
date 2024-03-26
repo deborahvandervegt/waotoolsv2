@@ -46,12 +46,12 @@ const navigation = () => {
       icon: 'emojione-monotone:construction',
       path: '/building'
     },
-    {
-      title: 'Shields',
-      icon: 'material-symbols:security',
-      path: '/shields',
-      badgeContent: 'New'
-    },
+    // {
+    //   title: 'Shields',
+    //   icon: 'material-symbols:security',
+    //   path: '/shields',
+    //   badgeContent: 'New'
+    // },
     {
       title: 'Speeds',
       icon: 'material-symbols:speed-outline',
