@@ -33,7 +33,7 @@ export const menuList = [
     subModule: [{ name: '- Building List' }, { name: '- Building Path Recommendation' }]
   },
   {
-    status: 'new',
+    status: 'development',
     text: 'shields',
     desc: 'Shields',
     src: '/images/cards/pose_f9.png',
