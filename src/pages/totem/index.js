@@ -692,7 +692,7 @@ const Totems = () => {
 
                           return (
                             <Grid key={slot.quality} item xs={6} lg={4}>
-                              <Paper elevation={24} sx={{ border: `2px solid ${totemColors[slot.quality].bg}` }}>
+                              <Paper elevation={12} sx={{ border: `2px solid ${totemColors[slot.quality].bg}` }}>
                                 <Box
                                   key={slot.quality}
                                   sx={{
@@ -953,7 +953,7 @@ const Totems = () => {
             <Box sx={{ marginBottom: '10px' }} />
             <Grid container spacing={3}>
               <Grid item xs={12}>
-                <Paper elevation={24} sx={{ padding: '0.5rem' }}>
+                <Paper elevation={12} sx={{ padding: '0.5rem' }}>
                   <Typography variant='h6' color='primary' align='center'>
                     {'STATS COMPARISON CHART'}
                   </Typography>
@@ -961,7 +961,7 @@ const Totems = () => {
 
                   {generalItemList?.length > 0 && (
                     <>
-                      <Paper elevation={24}>
+                      <Paper elevation={12}>
                         <Box>
                           <TableContainer>
                             <Table aria-labelledby='tableTitle' size={'small'} aria-label='enhanced table'>
@@ -1119,7 +1119,7 @@ const Totems = () => {
             </Snackbar>
             <Grid container spacing={2} sx={{ padding: '0.5em' }}>
               <Grid item xs={12}>
-                <Paper elevation={24}>
+                <Paper elevation={12}>
                   <Typography
                     align='center'
                     variant='h6'
@@ -1135,7 +1135,7 @@ const Totems = () => {
 
                     return (
                       <>
-                        <Paper sx={{ border: `2px solid ${totemColors[totem.quality].bg}` }}>
+                        <Paper sx={{ border: `2px solid ${totemColors[totem.quality].bg}`, m: '16px' }}>
                           <Box
                             sx={{ display: 'flex', justifyContent: 'center', flexDirection: 'row', marginTop: '8px' }}
                           >

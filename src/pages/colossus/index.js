@@ -282,7 +282,7 @@ const Colossus = props => {
           <Grid container spacing={3} style={{ padding: '1rem' }}>
             <Grid item xs={12} md={8} lg={8} sm={12}>
               <Paper
-                elevation={12}
+                elevation={6}
                 sx={{
                   padding: theme.spacing(2),
                   display: 'flex',

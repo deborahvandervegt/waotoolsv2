@@ -124,7 +124,7 @@ const Contributors = () => {
   return (
     <Grid container spacing={6} columns={8}>
       <Grid key='welcome-header' item xs={12}>
-        <Paper elevation={12} sx={{ padding: '1.5rem', paddingLeft: '2.5rem' }}>
+        <Paper elevation={6} sx={{ padding: '1.5rem', paddingLeft: '2.5rem' }}>
           <Box
             sx={{
               display: 'flex',
@@ -163,7 +163,7 @@ const Contributors = () => {
           </Box>
         </Paper>
 
-        <Paper elevation={12} sx={{ padding: '1.5rem', marginTop: '15px' }}>
+        <Paper elevation={6} sx={{ padding: '1.5rem', marginTop: '15px' }}>
           <Grid container spacing={4}>
             <Grid item xs={12}>
               {/* Developers */}

@@ -20,6 +20,12 @@ const navigation = () => {
       path: '/planner'
     },
     {
+      title: 'Packs',
+      icon: 'emojione-monotone:money-with-wings',
+      path: '/packs',
+      badgeContent: 'New'
+    },
+    {
       title: 'Troops',
       icon: 'game-icons:rally-the-troops',
       path: '/troops',

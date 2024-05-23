@@ -37,5 +37,6 @@ export const contributorsList = [
   { name: 'Harley Quinn', realm: '106', desc: 'K06', type: 'contributor' },
   { name: 'Julie', realm: '68', desc: '', type: 'contributor' },
   { name: 'Laylight', realm: '1347', desc: 'KKE', type: 'contributor' },
-  { name: 'pi', realm: '1014', desc: '', type: 'supporter' }
+  { name: 'pi', realm: '1014', desc: '', type: 'supporter' },
+  { name: 'Shadowlight', realm: '1360', desc: 'APX', type: 'supporter' }
 ]

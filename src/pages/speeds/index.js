@@ -310,7 +310,7 @@ const Speeds = props => {
           </Snackbar>
           <Grid container spacing={3} style={{ minWidth: '320px', padding: '1rem' }}>
             <Grid item xs={12} md={6} lg={8}>
-              <Paper elevation={12} sx={{ padding: '1rem' }}>
+              <Paper elevation={6} sx={{ padding: '1rem' }}>
                 <Divider>{<Typography variant='caption'>1 - USER CONFIGURATION</Typography>}</Divider>
                 <CustomBox>
                   <Typography variant='body1' color='textPrimary' sx={{ marginRight: '5px' }}>

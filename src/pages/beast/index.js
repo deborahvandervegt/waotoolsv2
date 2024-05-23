@@ -593,7 +593,7 @@ const Beast = () => {
             </Snackbar>
             <Grid container spacing={2} sx={{ padding: '0.5em' }}>
               <Grid item xs={12} sx={{ display: 'flex' }}>
-                <Paper elevation={24}>
+                <Paper elevation={1}>
                   <Typography
                     align='center'
                     variant='h6'
@@ -729,7 +729,7 @@ const Beast = () => {
                               <Grid key={`${opt.row}-col1_empty`} item xs={3} sm={3}></Grid>
                               <Grid key={`${opt.row}-col1`} item xs={6} sm={6} sx={{ padding: '0.5rem' }}>
                                 <Paper
-                                  elevation={24}
+                                  elevation={12}
                                   sx={{
                                     display: 'flex',
                                     flexDirection: 'row',
@@ -974,7 +974,7 @@ const Beast = () => {
                               {/* LEFT */}
                               <Grid key={`${opt.row}-col1`} item xs={6} lg={5} md={5} sm={6} sx={{ padding: '0.5rem' }}>
                                 <Paper
-                                  elevation={24}
+                                  elevation={12}
                                   sx={{
                                     display: 'flex',
                                     flexDirection: 'row',
@@ -1189,7 +1189,7 @@ const Beast = () => {
                               {/* RIGHT */}
                               <Grid key={`${opt.row}-col2`} item xs={6} lg={5} md={5} sm={6} sx={{ padding: '0.5rem' }}>
                                 <Paper
-                                  elevation={24}
+                                  elevation={12}
                                   sx={{
                                     display: 'flex',
                                     flexDirection: 'row',
@@ -1562,7 +1562,7 @@ const Beast = () => {
             </Snackbar>
             <Grid container spacing={2} sx={{ padding: '0.5em' }}>
               <Grid item xs={12}>
-                <Paper elevation={24}>
+                <Paper elevation={12}>
                   <Typography
                     align='center'
                     variant='h6'
@@ -1614,7 +1614,7 @@ const Beast = () => {
                         <>
                           <Grid item xs={12} md={3} lg={3} sm={12} sx={{ padding: '1.5em' }}>
                             <Paper
-                              elevation={24}
+                              elevation={12}
                               sx={{
                                 display: 'flex',
                                 flexDirection: 'column',

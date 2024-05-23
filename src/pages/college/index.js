@@ -583,7 +583,7 @@ const HighCollege = () => {
                               <Grid key={`${opt.row}-col1_empty`} item xs={3} sm={3}></Grid>
                               <Grid key={`${opt.row}-col1`} item xs={6} sm={6} sx={{ padding: '0.5rem' }}>
                                 <Paper
-                                  elevation={24}
+                                  elevation={12}
                                   sx={{
                                     display: 'flex',
                                     flexDirection: 'row',
@@ -831,7 +831,7 @@ const HighCollege = () => {
                               {/* LEFT */}
                               <Grid key={`${opt.row}-col1`} item xs={6} lg={5} md={5} sm={6} sx={{ padding: '0.5rem' }}>
                                 <Paper
-                                  elevation={24}
+                                  elevation={12}
                                   sx={{
                                     display: 'flex',
                                     flexDirection: 'row',
@@ -1048,7 +1048,7 @@ const HighCollege = () => {
                               {/* RIGHT */}
                               <Grid key={`${opt.row}-col2`} item xs={6} lg={5} md={5} sm={6} sx={{ padding: '0.5rem' }}>
                                 <Paper
-                                  elevation={24}
+                                  elevation={12}
                                   sx={{
                                     display: 'flex',
                                     flexDirection: 'row',

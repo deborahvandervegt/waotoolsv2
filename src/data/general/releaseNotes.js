@@ -4,6 +4,14 @@ export const releaseNotes = {
 
   releases: [
     {
+      version: '2.1.7',
+      date: '2024-05-23',
+      quote: '2 months later... Still waiting for a merge',
+      new: ['Added Packs module.'],
+      improvements: ['Some minor visual improvements for mobile.', 'Card shadows updated.'],
+      bugs: ['Some minor bugs were fixed.', 'Title duplication in dashboard.']
+    },
+    {
       version: '2.1.6',
       date: '2024-03-01',
       quote: 'Waiting for a merge',

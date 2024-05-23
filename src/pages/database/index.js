@@ -125,7 +125,7 @@ const DatabaseList = props => {
           >
             <Grid item xs={12}>
               <Paper
-                elevation={5}
+                elevation={6}
                 component='form'
                 sx={{
                   padding: '2px 4px',

@@ -122,7 +122,7 @@ const TipsNTricks = props => {
           <Grid container spacing={3} sx={{ padding: '1rem' }}>
             <Grid item xs={12} md={6} lg={8}>
               <Paper
-                elevation={5}
+                elevation={6}
                 sx={{
                   padding: '2px 4px',
                   display: 'flex',

@@ -145,7 +145,7 @@ const Building = () => {
       <>
         <Card>
           <Paper
-            elevation={12}
+            elevation={6}
             component='form'
             sx={{
               padding: '2px 4px',
