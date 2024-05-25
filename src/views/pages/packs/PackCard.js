@@ -1,26 +1,36 @@
 import { Icon } from '@iconify/react'
 import { FilterNoneOutlined, LibraryAddCheckRounded } from '@mui/icons-material'
 import { Avatar, Box, Card, CardContent, Checkbox, Chip, Grid, Typography } from '@mui/material'
+import { useTheme } from '@mui/system'
 import { nFormatter } from 'src/@core/utils/numberFormatter'
 import { round } from 'src/utils/round'
 
+const colors = {
+  selected: { border: '#003c0dd1', background: { dark: '#003c0dd1', light: '#edfff1d1' } },
+  normal: { border: '#7a7a7a6e', background: { dark: '', light: '' } },
+  priority: { border: '#0278AE', background: { dark: '#002b3e85', light: '#8fd6f761' } }
+}
+
 const PackCardDetails = props => {
   const { pack, onCheck, onCheckList, userData } = props
-
   let cardColor, cardBackground
+  const theme = useTheme()
 
   const userChecked = [...userData?.items]?.filter(p => p.packId === pack.packId)?.length
   const packItems = pack?.packDet?.length
   const packItem = pack?.packDet[0]?.items[0]?.i
 
-  cardColor = userChecked === packItems ? '#4dddb2' : '#7a7a7a6e'
-  cardBackground = userChecked === packItems ? '#edfff1d1' : ''
+  cardColor = userChecked === packItems ? colors.selected?.border : colors.normal?.border
+  cardBackground =
+    userChecked === packItems
+      ? colors.selected?.background[theme.palette.mode]
+      : colors.normal?.background[theme.palette.mode]
 
   if (packItem) {
     const checkIfPriority = userData?.conf?.priority?.find(pr => pr.key === packItem)
     if (checkIfPriority) {
-      cardColor = '#0278AE'
-      cardBackground = '#8fd6f761'
+      cardColor = colors.priority?.border
+      cardBackground = colors.priority?.background[theme.palette.mode]
     }
   }
 

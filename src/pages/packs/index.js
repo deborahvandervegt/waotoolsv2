@@ -53,6 +53,7 @@ import moment from 'moment'
 import { ClearAll, Save, Search } from '@mui/icons-material'
 import toast from 'react-hot-toast'
 import PackUserList from 'src/views/pages/packs/PackUserList'
+import { useTheme } from '@mui/system'
 
 // ** Styled component
 const GreenButton = styled(Button)(({ theme }) => ({
@@ -112,6 +113,13 @@ const tabConf = {
   calculator: { icon: 'material-symbols:calculate-rounded' },
   artifactsList: { icon: 'pepicons-print:list' }
 }
+
+const colors = {
+  selected: { border: '#003c0dd1', background: { dark: '#003c0dd1', light: '#edfff1d1' } },
+  normal: { border: '#7a7a7a6e', background: { dark: '', light: '' } },
+  priority: { border: '#0278AE', background: { dark: '#002b3e85', light: '#8fd6f761' } }
+}
+
 const weekDay = moment.utc().day()
 
 const defaultUserData = {
@@ -195,6 +203,7 @@ const Packs = () => {
   const [search, setSearch] = useState({ found: true, search: null, cleared: false })
   const [openClearDialog, setOpenClearDialog] = useState(false)
   const [showItems, setShowItems] = useState(false)
+  const theme = useTheme()
 
   const [userData, setUserData] = useState(() => {
     const saved = localStorage.getItem('packsUserData')
@@ -555,7 +564,7 @@ const Packs = () => {
                 </Paper>
                 <SaveClear />
               </Box>
-              <Box sx={{ display: 'flex', alignItems: 'center', m: '8px' }}>
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', m: '8px' }}>
                 <Typography>Legend:</Typography>
                 <Box sx={{ border: 'solid 2px #cf9900e0', borderRadius: '8px', width: '100px', m: 1 }}>
                   <Typography variant='caption' sx={{ p: 1 }}>
@@ -564,11 +573,11 @@ const Packs = () => {
                 </Box>
                 <Box
                   sx={{
-                    border: 'solid 2px #0278AE',
+                    border: `solid 2px ${colors.priority?.border}`,
                     borderRadius: '8px',
                     minWidth: '50px',
                     m: 1,
-                    background: '#8fd6f761'
+                    background: colors.priority?.background[theme.palette.mode]
                   }}
                 >
                   <Typography variant='caption' align='center' sx={{ p: 1 }}>
@@ -577,11 +586,11 @@ const Packs = () => {
                 </Box>
                 <Box
                   sx={{
-                    border: 'solid 2px #4dddb2',
+                    border: `solid 2px ${colors.selected?.border}`,
                     borderRadius: '8px',
                     minWidth: '50px',
                     m: 1,
-                    background: '#edfff1d1'
+                    background: colors.selected?.background[theme.palette.mode]
                   }}
                 >
                   <Typography variant='caption' sx={{ p: 1 }}>

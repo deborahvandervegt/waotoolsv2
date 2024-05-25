@@ -110,7 +110,7 @@ export const menuList = [
     subModule: [{ name: '- Enhancement Lvls (Obsidian)' }, { name: '- VIP/SVIP Levels' }, { name: '- More Levels...' }]
   },
   {
-    status: 'development',
+    status: 'finished',
     text: 'packs',
     desc: 'Packs',
     src: '/images/cards/pose_f9.png',
