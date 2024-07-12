@@ -18,6 +18,7 @@ import Customizer from 'src/@core/components/customizer'
 import Navigation from './components/vertical/navigation'
 import Footer from './components/shared-components/footer'
 import ScrollToTop from 'src/@core/components/scroll-to-top'
+import { Alert, AlertTitle } from '@mui/material'
 
 const VerticalLayoutWrapper = styled('div')({
   height: '100%',
@@ -67,6 +68,7 @@ const VerticalLayout = props => {
       <VerticalLayoutWrapper className='layout-wrapper'>
         {/* Navigation Menu */}
         {/* {navHidden && !(navHidden && settings.lastLayout === 'horizontal') ? null : ( */}
+
         <Navigation
           navWidth={navWidth}
           navVisible={navVisible}
@@ -89,6 +91,14 @@ const VerticalLayout = props => {
           className='layout-content-wrapper'
           sx={{ ...(contentHeightFixed && { maxHeight: '100vh' }) }}
         >
+          {/* <Box sx={{ p: 4 }}>
+            <Alert severity='info'>
+              <AlertTitle>Notice:</AlertTitle>
+              WAO Gamers Unite on this June 1, 2024 to demand game fixes and bring strategy back to WAO. Let's fight
+              together for a fun game experience. Stop buying packs and using paid items. Together, WE CAN MAKE A
+              DIFFERENCE AND MAKE THIS GAME BETTER FOR ALL PLAYERS! If you read this Camel, contact @Magneto1040
+            </Alert>
+          </Box> */}
           {/* AppBar Component */}
           <AppBar
             toggleNavVisibility={toggleNavVisibility}

@@ -38,5 +38,6 @@ export const contributorsList = [
   { name: 'Julie', realm: '68', desc: '', type: 'contributor' },
   { name: 'Laylight', realm: '1347', desc: 'KKE', type: 'contributor' },
   { name: 'pi', realm: '1014', desc: '', type: 'supporter' },
-  { name: 'Shadowlight', realm: '1360', desc: 'APX', type: 'supporter' }
+  { name: 'Shadowlight', realm: '1360', desc: 'APX', type: 'supporter' },
+  { name: 'bReal', realm: '1590', desc: 'CoC', type: 'supporter' }
 ]
