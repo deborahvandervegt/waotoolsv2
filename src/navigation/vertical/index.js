@@ -22,8 +22,7 @@ const navigation = () => {
     {
       title: 'Troops',
       icon: 'game-icons:rally-the-troops',
-      path: '/troops',
-      badgeContent: 'New'
+      path: '/troops'
     },
     ,
     {
@@ -46,12 +45,12 @@ const navigation = () => {
       icon: 'emojione-monotone:construction',
       path: '/building'
     },
-    // {
-    //   title: 'Shields',
-    //   icon: 'material-symbols:security',
-    //   path: '/shields',
-    //   badgeContent: 'New'
-    // },
+    {
+      title: 'Shields',
+      icon: 'material-symbols:security',
+      path: '/shields',
+      badgeContent: 'New'
+    },
     {
       title: 'Speeds',
       icon: 'material-symbols:speed-outline',
@@ -95,8 +94,7 @@ const navigation = () => {
     {
       title: 'Tips N Tricks',
       icon: 'game-icons:magick-trick',
-      path: '/tipsandtricks',
-      badgeContent: 'New'
+      path: '/tipsandtricks'
     },
     {
       title: 'Realms',

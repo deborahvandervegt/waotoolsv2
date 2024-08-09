@@ -1,15 +1,22 @@
 export const menuList = [
   {
+    status: 'new',
+    text: 'dashboard',
+    desc: 'Dashboard',
+    src: '/images/cards/pose_f9.png',
+    icon: 'ic:round-dashboard',
+    subModule: [{ name: '- Overview of your castle and your details' }]
+  },
+  {
     status: 'finished',
     text: 'planner',
     desc: 'Planner',
     src: '/images/cards/pose_f9.png',
     icon: 'arcticons:school-planner',
-    subModule: [{ name: '- Building and Technology planner with Azurite Calculator integrated' }],
-    color: 'primary'
+    subModule: [{ name: '- Building and Technology planner with Azurite Calculator integrated' }]
   },
   {
-    status: 'new',
+    status: 'finished',
     text: 'troops',
     desc: 'Troops Setup',
     src: '/images/cards/pose_f9.png',
@@ -33,7 +40,7 @@ export const menuList = [
     subModule: [{ name: '- Building List' }, { name: '- Building Path Recommendation' }]
   },
   {
-    status: 'finished',
+    status: 'new',
     text: 'shields',
     desc: 'Shields',
     src: '/images/cards/pose_f9.png',
@@ -110,7 +117,7 @@ export const menuList = [
     subModule: [{ name: '- Enhancement Lvls (Obsidian)' }, { name: '- VIP/SVIP Levels' }, { name: '- More Levels...' }]
   },
   {
-    status: 'development',
+    status: 'new',
     text: 'packs',
     desc: 'Packs',
     src: '/images/cards/pose_f9.png',
@@ -138,7 +145,7 @@ export const menuList = [
     subModule: [{ name: '- Equipment Simulator' }, { name: '- Enhancement Simulator' }, { name: '- Equipment List' }]
   },
   {
-    status: 'new',
+    status: 'finished',
     text: 'tipsandtricks',
     desc: 'Tips N Tricks',
     src: '/images/cards/pose_f9.png',
