@@ -24,13 +24,13 @@ export const packs = [
     desc: 'Recruitment Speed Up 1h',
     category: ['speed', ' recruit'],
     packDet: [
-      { l: 1, p: 2.99, items: [{ i: 'speed-r-1h', qty: 30, g: 600 }] },
-      { l: 2, p: 4.99, items: [{ i: 'speed-r-1h', qty: 45, g: 1000 }] },
-      { l: 3, p: 9.99, items: [{ i: 'speed-r-1h', qty: 75, g: 2000 }] },
-      { l: 4, p: 14.99, items: [{ i: 'speed-r-1h', qty: 95, g: 3000 }] },
-      { l: 5, p: 19.99, items: [{ i: 'speed-r-1h', qty: 115, g: 4000 }] },
-      { l: 6, p: 29.99, items: [{ i: 'speed-r-1h', qty: 152, g: 6000 }] },
-      { l: 7, p: 49.99, items: [{ i: 'speed-r-1h', qty: 225, g: 10000 }] }
+      { l: 1, p: 2.99, items: [{ i: 'speed-r-1h', qty: 38, g: 600 }] },
+      { l: 2, p: 4.99, items: [{ i: 'speed-r-1h', qty: 54, g: 1000 }] },
+      { l: 3, p: 9.99, items: [{ i: 'speed-r-1h', qty: 94, g: 2000 }] },
+      { l: 4, p: 14.99, items: [{ i: 'speed-r-1h', qty: 120, g: 3000 }] },
+      { l: 5, p: 19.99, items: [{ i: 'speed-r-1h', qty: 140, g: 4000 }] },
+      { l: 6, p: 29.99, items: [{ i: 'speed-r-1h', qty: 184, g: 6000 }] },
+      { l: 7, p: 49.99, items: [{ i: 'speed-r-1h', qty: 274, g: 10000 }] }
     ]
   },
   {
@@ -106,8 +106,7 @@ export const packs = [
       { l: 3, p: 6.99, items: [{ i: 'art-gold-custom-frag', qty: 4, g: 1400 }] },
       { l: 4, p: 9.99, items: [{ i: 'art-gold-custom-frag', qty: 6, g: 2000 }] },
       { l: 5, p: 19.99, items: [{ i: 'art-gold-custom-frag', qty: 9, g: 4000 }] },
-      { l: 6, p: 29.99, items: [{ i: 'art-gold-custom-frag', qty: 13, g: 6000 }] },
-      { l: 3, p: 6.99, items: [{ i: 'art-gold-custom-frag', qty: 4, g: 1400 }] }
+      { l: 6, p: 29.99, items: [{ i: 'art-gold-custom-frag', qty: 13, g: 6000 }] }
     ]
   },
   {
@@ -290,10 +289,12 @@ export const packs = [
     desc: 'Recruit Troops Speed 1h',
     category: ['speed', ' recruit'],
     packDet: [
-      { l: 1, p: 2.99, items: [{ i: 'speed-r-1h', qty: 32, g: 600 }] },
-      { l: 2, p: 4.99, items: [{ i: 'speed-r-1h', qty: 48, g: 1000 }] },
-      { l: 3, p: 9.99, items: [{ i: 'speed-r-1h', qty: 80, g: 2000 }] },
-      { l: 4, p: 14.99, items: [{ i: 'speed-r-1h', qty: 100, g: 3000 }] }
+      { l: 1, p: 2.99, items: [{ i: 'speed-r-1h', qty: 40, g: 600 }] },
+      { l: 2, p: 4.99, items: [{ i: 'speed-r-1h', qty: 60, g: 1000 }] },
+      { l: 3, p: 9.99, items: [{ i: 'speed-r-1h', qty: 100, g: 2000 }] },
+      { l: 4, p: 14.99, items: [{ i: 'speed-r-1h', qty: 124, g: 3000 }] },
+      { l: 5, p: 29.99, items: [{ i: 'speed-r-1h', qty: 220, g: 6000 }] },
+      { l: 6, p: 59.99, items: [{ i: 'speed-r-1h', qty: 364, g: 12000 }] }
     ]
   },
   {
@@ -304,10 +305,10 @@ export const packs = [
     desc: 'Recruit Troops Speed 1h',
     category: ['speed', ' recruit'],
     packDet: [
-      { l: 1, p: 1.99, items: [{ i: 'speed-r-1h', qty: 25, g: 400 }] },
-      { l: 2, p: 3.99, items: [{ i: 'speed-r-1h', qty: 42, g: 800 }] },
-      { l: 3, p: 6.99, items: [{ i: 'speed-r-1h', qty: 60, g: 1400 }] },
-      { l: 4, p: 14.99, items: [{ i: 'speed-r-1h', qty: 105, g: 3000 }] }
+      { l: 1, p: 1.99, items: [{ i: 'speed-r-1h', qty: 30, g: 400 }] },
+      { l: 2, p: 3.99, items: [{ i: 'speed-r-1h', qty: 52, g: 800 }] },
+      { l: 3, p: 6.99, items: [{ i: 'speed-r-1h', qty: 96, g: 1400 }] },
+      { l: 4, p: 14.99, items: [{ i: 'speed-r-1h', qty: 134, g: 3000 }] }
     ]
   },
   {
@@ -658,7 +659,7 @@ export const packs = [
       { l: 4, p: 29.99, items: [{ i: 'titan-raw-1k', qty: 36, g: 6000 }] },
       { l: 5, p: 49.99, items: [{ i: 'titan-raw-1k', qty: 56, g: 10000 }] },
       { l: 6, p: 99.99, items: [{ i: 'titan-raw-1k', qty: 100, g: 20000 }] },
-      { l: 7, p: 99.99, items: [{ i: 'titan-raw', qty: 100, g: 20000 }] }
+      { l: 7, p: 99.99, items: [{ i: 'titan-raw-1k', qty: 100, g: 20000 }] }
     ]
   },
   {
@@ -799,12 +800,12 @@ export const packs = [
     desc: 'Beast grown - Beast xp',
     category: ['beast', ' beast exp'],
     packDet: [
-      { l: 1, p: 3.99, items: [{ i: 'beast-exp', qty: 4, g: 800 }] },
-      { l: 2, p: 8.99, items: [{ i: 'beast-exp', qty: 10, g: 1800 }] },
-      { l: 3, p: 19.99, items: [{ i: 'beast-exp', qty: 20, g: 4000 }] },
-      { l: 4, p: 29.99, items: [{ i: 'beast-exp', qty: 24, g: 6000 }] },
-      { l: 5, p: 49.99, items: [{ i: 'beast-exp', qty: 34, g: 10000 }] },
-      { l: 6, p: 99.99, items: [{ i: 'beast-exp', qty: 60, g: 20000 }] }
+      { l: 1, p: 3.99, items: [{ i: 'beast-exp', qty: 4800, g: 800 }] },
+      { l: 2, p: 8.99, items: [{ i: 'beast-exp', qty: 10000, g: 1800 }] },
+      { l: 3, p: 19.99, items: [{ i: 'beast-exp', qty: 20000, g: 4000 }] },
+      { l: 4, p: 29.99, items: [{ i: 'beast-exp', qty: 24000, g: 6000 }] },
+      { l: 5, p: 49.99, items: [{ i: 'beast-exp', qty: 34000, g: 10000 }] },
+      { l: 6, p: 99.99, items: [{ i: 'beast-exp', qty: 60000, g: 20000 }] }
     ]
   },
   {
@@ -846,12 +847,12 @@ export const packs = [
     desc: 'Equipment materials',
     category: ['equipment', ' chest', ' blue'],
     packDet: [
-      { l: 1, p: 4.99, items: [{ i: 'mat-chest-b', qty: 17, g: 1000 }] },
-      { l: 2, p: 9.99, items: [{ i: 'mat-chest-b', qty: 30, g: 2000 }] },
-      { l: 3, p: 19.99, items: [{ i: 'mat-chest-b', qty: 51, g: 4000 }] },
-      { l: 4, p: 29.99, items: [{ i: 'mat-chest-b', qty: 63, g: 6000 }] },
-      { l: 5, p: 49.99, items: [{ i: 'mat-chest-b', qty: 74, g: 10000 }] },
-      { l: 6, p: 99.99, items: [{ i: 'mat-chest-b', qty: 100, g: 20000 }] }
+      { l: 1, p: 4.99, items: [{ i: 'mat-chest-b', qty: 10, g: 1000 }] },
+      { l: 2, p: 9.99, items: [{ i: 'mat-chest-b', qty: 18, g: 2000 }] },
+      { l: 3, p: 19.99, items: [{ i: 'mat-chest-b', qty: 30, g: 4000 }] },
+      { l: 4, p: 29.99, items: [{ i: 'mat-chest-b', qty: 36, g: 6000 }] },
+      { l: 5, p: 49.99, items: [{ i: 'mat-chest-b', qty: 42, g: 10000 }] },
+      { l: 6, p: 99.99, items: [{ i: 'mat-chest-b', qty: 60, g: 20000 }] }
     ]
   },
   {
@@ -1003,7 +1004,7 @@ export const packs = [
     wday: ['mo', 'th'],
     tab: 'biweekly',
     loc: 'limited',
-    desc: 'Orange Totem Skill',
+    desc: 'Purple Totem Skill',
     category: ['totem', ' tattoo', ' purple'],
     packDet: [
       { l: 1, p: 3.99, items: [{ i: 'tattoo-purple', qty: 25, g: 800 }] },
@@ -1212,6 +1213,7 @@ export const packs = [
     packDet: [
       { l: 1, p: 1.99, items: [{ i: 'art-gold-custom-frag', qty: 1, g: 400 }] },
       { l: 2, p: 4.99, items: [{ i: 'art-gold-custom-frag', qty: 3, g: 1000 }] },
+      { l: 3, p: 6.99, items: [{ i: 'art-gold-custom-frag', qty: 4, g: 1400 }] },
       { l: 4, p: 9.99, items: [{ i: 'art-gold-custom-frag', qty: 6, g: 2000 }] },
       { l: 5, p: 19.99, items: [{ i: 'art-gold-custom-frag', qty: 9, g: 4000 }] }
     ]
@@ -1224,13 +1226,117 @@ export const packs = [
     desc: 'Lucky specials - Beast element',
     category: ['beast', ' beast-element'],
     packDet: [
-      { l: 1, p: 4.99, items: [{ i: 'beast-element', qty: 140, g: 1000 }] },
-      { l: 2, p: 9.99, items: [{ i: 'beast-element', qty: 230, g: 2000 }] },
-      { l: 3, p: 19.99, items: [{ i: 'beast-element', qty: 380, g: 4000 }] },
-      { l: 4, p: 29.99, items: [{ i: 'beast-element', qty: 470, g: 6000 }] },
-      { l: 5, p: 49.99, items: [{ i: 'beast-element', qty: 660, g: 10000 }] },
-      { l: 6, p: 99.99, items: [{ i: 'beast-element', qty: 1150, g: 20000 }] },
-      { l: 7, p: 99.99, items: [{ i: 'beast-element', qty: 1150, g: 20000 }] }
+      { l: 1, p: 4.99, items: [{ i: 'beast-element', qty: 100, g: 1000 }] },
+      { l: 2, p: 9.99, items: [{ i: 'beast-element', qty: 180, g: 2000 }] },
+      { l: 3, p: 19.99, items: [{ i: 'beast-element', qty: 320, g: 4000 }] },
+      { l: 4, p: 29.99, items: [{ i: 'beast-element', qty: 400, g: 6000 }] },
+      { l: 5, p: 49.99, items: [{ i: 'beast-element', qty: 560, g: 10000 }] },
+      { l: 6, p: 99.99, items: [{ i: 'beast-element', qty: 900, g: 20000 }] }
+    ]
+  },
+  {
+    packId: 81,
+    wday: ['week'],
+    tab: 'weekly',
+    loc: 'limited',
+    desc: 'Victory Horn',
+    category: ['artifact', 'gold', 'leavateinn'],
+    packDet: [
+      { l: 1, p: 1.99, items: [{ i: 'laev-frag', qty: 1, g: 400 }] },
+      { l: 2, p: 4.99, items: [{ i: 'laev-frag', qty: 2, g: 1000 }] },
+      { l: 3, p: 10.99, items: [{ i: 'laev-frag', qty: 4, g: 2000 }] },
+      { l: 4, p: 14.99, items: [{ i: 'laev-frag', qty: 6, g: 3000 }] },
+      { l: 5, p: 19.99, items: [{ i: 'laev-frag', qty: 7, g: 4000 }] },
+      { l: 6, p: 49.99, items: [{ i: 'laev-frag', qty: 14, g: 10000 }] }
+    ]
+  },
+  {
+    packId: 82,
+    wday: ['month'],
+    tab: 'monthly',
+    loc: 'limited',
+    desc: 'Starlight Stone',
+    category: ['zodiac', 'starlight'],
+    packDet: [
+      { l: 1, p: 2.99, items: [{ i: 'zodiac-star', qty: 12000, g: 600 }] },
+      { l: 2, p: 4.99, items: [{ i: 'zodiac-star', qty: 18000, g: 1000 }] },
+      { l: 3, p: 10.99, items: [{ i: 'zodiac-star', qty: 31000, g: 2000 }] },
+      { l: 4, p: 14.99, items: [{ i: 'zodiac-star', qty: 40000, g: 3000 }] },
+      { l: 5, p: 29.99, items: [{ i: 'zodiac-star', qty: 70000, g: 6000 }] }
+    ]
+  },
+  {
+    packId: 83,
+    wday: ['month'],
+    tab: 'monthly',
+    loc: 'limited',
+    desc: 'Polycrystalline',
+    category: ['zodiac', 'polycrystalline'],
+    packDet: [
+      { l: 1, p: 3.99, items: [{ i: 'zodiac-poly', qty: 12, g: 800 }] },
+      { l: 2, p: 6.99, items: [{ i: 'zodiac-poly', qty: 19, g: 1400 }] },
+      { l: 3, p: 10.99, items: [{ i: 'zodiac-poly', qty: 25, g: 2000 }] },
+      { l: 4, p: 19.99, items: [{ i: 'zodiac-poly', qty: 42, g: 4000 }] },
+      { l: 5, p: 29.99, items: [{ i: 'zodiac-poly', qty: 55, g: 6000 }] }
+    ]
+  },
+  {
+    packId: 84,
+    wday: ['month'],
+    tab: 'monthly',
+    loc: 'limited',
+    desc: 'Fire Elf - Phoenix Ashes',
+    category: ['beast', 'phoenix'],
+    packDet: [
+      { l: 1, p: 4.99, items: [{ i: 'phoenix', qty: 16, g: 1000 }] },
+      { l: 2, p: 9.99, items: [{ i: 'phoenix', qty: 27, g: 2000 }] },
+      { l: 3, p: 19.99, items: [{ i: 'phoenix', qty: 45, g: 4000 }] }
+    ]
+  },
+  {
+    packId: 85,
+    wday: ['week'],
+    tab: 'biweekly',
+    loc: 'regular',
+    desc: 'Ancient relic',
+    category: ['ancient-relic'],
+    packDet: [
+      { l: 1, p: 4.99, items: [{ i: 'ancient-relic', qty: 16, g: 1000 }] },
+      { l: 2, p: 10.99, items: [{ i: 'ancient-relic', qty: 28, g: 2000 }] },
+      { l: 3, p: 19.99, items: [{ i: 'ancient-relic', qty: 48, g: 4000 }] },
+      { l: 4, p: 29.99, items: [{ i: 'ancient-relic', qty: 60, g: 6000 }] }
+    ]
+  },
+  {
+    packId: 86,
+    wday: ['week'],
+    tab: 'biweekly',
+    loc: 'regular',
+    desc: 'Titan cristal (colossus)',
+    category: ['colossus', 'crystal'],
+    packDet: [
+      { l: 1, p: 4.99, items: [{ i: 'crystal-colossus', qty: 160, g: 100 }] },
+      { l: 2, p: 10.99, items: [{ i: 'crystal-colossus', qty: 290, g: 2000 }] },
+      { l: 3, p: 19.99, items: [{ i: 'crystal-colossus', qty: 490, g: 4000 }] },
+      { l: 4, p: 29.99, items: [{ i: 'crystal-colossus', qty: 610, g: 6000 }] },
+      { l: 5, p: 49.99, items: [{ i: 'crystal-colossus', qty: 850, g: 10000 }] },
+      { l: 6, p: 99.99, items: [{ i: 'crystal-colossus', qty: 1350, g: 20000 }] }
+    ]
+  },
+  {
+    packId: 87,
+    wday: ['mo'],
+    tab: 'daily',
+    loc: 'limited',
+    desc: 'Beast Talent - Beast Element',
+    category: ['beast', 'beast-element'],
+    packDet: [
+      { l: 1, p: 4.99, items: [{ i: 'beast-element', qty: 100, g: 1000 }] },
+      { l: 2, p: 10.99, items: [{ i: 'beast-element', qty: 180, g: 2000 }] },
+      { l: 3, p: 19.99, items: [{ i: 'beast-element', qty: 320, g: 4000 }] },
+      { l: 4, p: 29.99, items: [{ i: 'beast-element', qty: 400, g: 6000 }] },
+      { l: 5, p: 49.99, items: [{ i: 'beast-element', qty: 560, g: 10000 }] },
+      { l: 6, p: 99.99, items: [{ i: 'beast-element', qty: 900, g: 20000 }] }
     ]
   }
 ]

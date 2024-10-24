@@ -610,7 +610,7 @@ const Packs = () => {
                 xs={12}
                 sm={12}
                 md={6}
-                lg={3}
+                lg={4}
               >
                 <CardPackDetails
                   pack={pack}
